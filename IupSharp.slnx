@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="IupSharp/IupSharp.csproj" />
+  <Project Path="IupSharpTest/IupSharpTest.csproj" Id="e8b7b666-d3af-42d4-9ce7-0e7bded418b3" />
+</Solution>
