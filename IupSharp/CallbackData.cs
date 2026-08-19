@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -174,4 +175,253 @@ namespace IupSharp
         }
     }
     public delegate void KeyCBCallback(KeyCBData d);
+
+
+    /// <summary>
+    /// Data for the canvas Action callback, generated when the canvas needs to be
+    /// redrawn.
+    /// </summary>
+    public class CanvasActionData : CallbackData
+    {
+        /// <summary>
+        /// Thumb position in the horizontal scrollbar. This is the old float-format
+        /// parameter; read the canvas PosX property for the full double precision
+        /// value.
+        /// </summary>
+        public readonly float PosX;
+
+        /// <summary>
+        /// Thumb position in the vertical scrollbar. This is the old float-format
+        /// parameter; read the canvas PosY property for the full double precision
+        /// value.
+        /// </summary>
+        public readonly float PosY;
+
+        public CanvasActionData(Control sender, float posx, float posy) : base(sender)
+        {
+            this.PosX = posx;
+            this.PosY = posy;
+        }
+    }
+    public delegate void CanvasActionCallback(CanvasActionData d);
+
+
+    /// <summary>Data for the ScrollCB callback.</summary>
+    public class ScrollCBData : CallbackData
+    {
+        /// <summary>The operation performed on the scrollbar.</summary>
+        public readonly ScrollOperation Operation;
+
+        /// <summary>Thumb position in the horizontal scrollbar, as float.</summary>
+        public readonly float PosX;
+
+        /// <summary>Thumb position in the vertical scrollbar, as float.</summary>
+        public readonly float PosY;
+
+        /// <summary>True if the operation was on the vertical scrollbar.</summary>
+        public bool IsVertical => Operation <= ScrollOperation.DragV;
+
+        public ScrollCBData(Control sender, int op, float posx, float posy) : base(sender)
+        {
+            this.Operation = (ScrollOperation)op;
+            this.PosX = posx;
+            this.PosY = posy;
+        }
+    }
+    public delegate void ScrollCBCallback(ScrollCBData d);
+
+
+    /// <summary>Data for the canvas FocusCB callback.</summary>
+    public class FocusCBData : CallbackData
+    {
+        /// <summary>True if the canvas is gaining the focus, false if losing it.</summary>
+        public readonly bool HasFocus;
+
+        public FocusCBData(Control sender, int focus) : base(sender)
+        {
+            this.HasFocus = focus != 0;
+        }
+    }
+    public delegate void FocusCBCallback(FocusCBData d);
+
+
+    /// <summary>Data for the KeyPressCB callback.</summary>
+    public class KeyPressCBData : CallbackData
+    {
+        /// <summary>The key, including modifier flags.</summary>
+        public readonly Key Key;
+
+        /// <summary>True if the key was pressed, false if released.</summary>
+        public readonly bool Pressed;
+
+        public KeyPressCBData(Control sender, int key, int press) : base(sender)
+        {
+            this.Key = (Key)key;
+            this.Pressed = press != 0;
+        }
+    }
+    public delegate void KeyPressCBCallback(KeyPressCBData d);
+
+
+    /// <summary>Data for the WheelCB callback.</summary>
+    public class WheelCBData : CallbackData
+    {
+        /// <summary>
+        /// Wheel rotation. Positive is away from the user, negative is toward. Usually
+        /// 1 or -1 per notch, but a high-resolution wheel may report fractions.
+        /// </summary>
+        public readonly float Delta;
+
+        /// <summary>Mouse x position in pixels, relative to the top-left of the canvas.</summary>
+        public readonly int X;
+
+        /// <summary>Mouse y position in pixels, relative to the top-left of the canvas.</summary>
+        public readonly int Y;
+
+        /// <summary>The modifier and button status string.</summary>
+        public readonly string Status;
+
+        public WheelCBData(Control sender, float delta, int x, int y, string status) : base(sender)
+        {
+            this.Delta = delta;
+            this.X = x;
+            this.Y = y;
+            this.Status = status;
+        }
+    }
+    public delegate void WheelCBCallback(WheelCBData d);
+
+
+    /// <summary>Data for the TouchCB callback.</summary>
+    public class TouchCBData : CallbackData
+    {
+        /// <summary>Identifies the touch point.</summary>
+        public readonly int Id;
+
+        /// <summary>Position in pixels, relative to the top-left of the canvas.</summary>
+        public readonly int X;
+
+        /// <summary>Position in pixels, relative to the top-left of the canvas.</summary>
+        public readonly int Y;
+
+        /// <summary>The touch point state.</summary>
+        public readonly TouchState State;
+
+        /// <summary>True if this is the primary touch point.</summary>
+        public readonly bool IsPrimary;
+
+        /// <summary>The raw state string as reported by IUP.</summary>
+        public readonly string RawState;
+
+        public TouchCBData(Control sender, int id, int x, int y, string state) : base(sender)
+        {
+            this.Id = id;
+            this.X = x;
+            this.Y = y;
+            this.RawState = state;
+
+            // IUP appends "-PRIMARY" to the state of the primary point.
+            this.IsPrimary = state != null && state.EndsWith("-PRIMARY", StringComparison.Ordinal);
+
+            string s = state;
+            if (IsPrimary)
+                s = state.Substring(0, state.Length - "-PRIMARY".Length);
+
+            this.State = s switch
+            {
+                "DOWN" => TouchState.Down,
+                "MOVE" => TouchState.Move,
+                "UP" => TouchState.Up,
+                _ => TouchState.Unknown
+            };
+        }
+    }
+    public delegate void TouchCBCallback(TouchCBData d);
+
+
+    /// <summary>A single point reported by the MultiTouchCB callback.</summary>
+    public readonly struct TouchPoint
+    {
+        /// <summary>Identifies the touch point.</summary>
+        public readonly int Id;
+        /// <summary>Position in pixels, relative to the top-left of the canvas.</summary>
+        public readonly int X;
+        /// <summary>Position in pixels, relative to the top-left of the canvas.</summary>
+        public readonly int Y;
+        /// <summary>The touch point state.</summary>
+        public readonly TouchState State;
+
+        public TouchPoint(int id, int x, int y, TouchState state)
+        {
+            Id = id;
+            X = x;
+            Y = y;
+            State = state;
+        }
+    }
+
+    /// <summary>Data for the MultiTouchCB callback.</summary>
+    public class MultiTouchCBData : CallbackData
+    {
+        /// <summary>
+        /// The touch points. Copied out of the native arrays during construction, so
+        /// this stays valid after the callback returns.
+        /// </summary>
+        public readonly TouchPoint[] Points;
+
+        public MultiTouchCBData(Control sender, int count, IntPtr pid, IntPtr px, IntPtr py, IntPtr pstate)
+            : base(sender)
+        {
+            if (count <= 0 || pid == IntPtr.Zero || px == IntPtr.Zero ||
+                py == IntPtr.Zero || pstate == IntPtr.Zero)
+            {
+                Points = Array.Empty<TouchPoint>();
+                return;
+            }
+
+            // The native arrays are owned by IUP and only valid for the duration of
+            // the call, so copy them before the callback returns.
+            int[] ids = new int[count];
+            int[] xs = new int[count];
+            int[] ys = new int[count];
+            int[] states = new int[count];
+
+            Marshal.Copy(pid, ids, 0, count);
+            Marshal.Copy(px, xs, 0, count);
+            Marshal.Copy(py, ys, 0, count);
+            Marshal.Copy(pstate, states, 0, count);
+
+            Points = new TouchPoint[count];
+            for (int i = 0; i < count; i++)
+            {
+                // States arrive as the character codes 'D', 'U' and 'M'.
+                TouchState st = states[i] switch
+                {
+                    'D' => TouchState.Down,
+                    'U' => TouchState.Up,
+                    'M' => TouchState.Move,
+                    _ => TouchState.Unknown
+                };
+                Points[i] = new TouchPoint(ids[i], xs[i], ys[i], st);
+            }
+        }
+    }
+    public delegate void MultiTouchCBCallback(MultiTouchCBData d);
+
+
+    /// <summary>Data for the WomCB audio device callback.</summary>
+    public class WomCBData : CallbackData
+    {
+        /// <summary>
+        /// The device state: 0 when the device is opened, 1 when a buffer finishes
+        /// playing, 2 when the device is closed.
+        /// </summary>
+        public readonly int State;
+
+        public WomCBData(Control sender, int state) : base(sender)
+        {
+            this.State = state;
+        }
+    }
+    public delegate void WomCBCallback(WomCBData d);
 }

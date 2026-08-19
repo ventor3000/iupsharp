@@ -122,6 +122,109 @@ namespace IupSharp
         AlreadyOpen=1
     }
 
+    /// <summary>Which scrollbars a canvas has.</summary>
+    public enum ScrollBars
+    {
+        /// <summary>No scrollbars.</summary>
+        No,
+        /// <summary>Horizontal scrollbar only.</summary>
+        Horizontal,
+        /// <summary>Vertical scrollbar only.</summary>
+        Vertical,
+        /// <summary>Both scrollbars.</summary>
+        Both
+    }
+
+    /// <summary>
+    /// The operation performed on a scrollbar, as reported by ScrollCB. Values match
+    /// the IUP_SB* enumeration in iup.h.
+    /// </summary>
+    public enum ScrollOperation
+    {
+        /// <summary>Vertical: line up.</summary>
+        Up = 0,
+        /// <summary>Vertical: line down.</summary>
+        Down = 1,
+        /// <summary>Vertical: page up.</summary>
+        PageUp = 2,
+        /// <summary>Vertical: page down.</summary>
+        PageDown = 3,
+        /// <summary>Vertical: position changed.</summary>
+        PosV = 4,
+        /// <summary>Vertical: thumb dragged.</summary>
+        DragV = 5,
+        /// <summary>Horizontal: column left.</summary>
+        Left = 6,
+        /// <summary>Horizontal: column right.</summary>
+        Right = 7,
+        /// <summary>Horizontal: page left.</summary>
+        PageLeft = 8,
+        /// <summary>Horizontal: page right.</summary>
+        PageRight = 9,
+        /// <summary>Horizontal: position changed.</summary>
+        PosH = 10,
+        /// <summary>Horizontal: thumb dragged.</summary>
+        DragH = 11
+    }
+
+    /// <summary>State of a single touch point.</summary>
+    public enum TouchState
+    {
+        /// <summary>Unrecognised state.</summary>
+        Unknown,
+        /// <summary>The point was pressed.</summary>
+        Down,
+        /// <summary>The point moved.</summary>
+        Move,
+        /// <summary>The point was released.</summary>
+        Up
+    }
+
+    /// <summary>
+    /// Value returned from a callback to tell IUP how to proceed. Values match the
+    /// callback return constants in iup.h.
+    ///
+    /// <para>Not every value is meaningful in every callback. Default is always
+    /// accepted; the others are only honoured where the specific callback documents
+    /// them, and are ignored elsewhere. Check the callback's documentation before
+    /// using anything other than Default.</para>
+    /// </summary>
+    public enum CallbackResult
+    {
+        /// <summary>
+        /// Proceed normally. This is the default for every callback and is always a
+        /// valid answer.
+        /// </summary>
+        Default = -2,
+
+        /// <summary>
+        /// Discard the event, so the control does not process it.
+        ///
+        /// <para>In KAny and KeyPressCB this stops the key reaching the control - the
+        /// documented way to keep the arrow keys from moving focus away from a canvas.
+        /// In CloseCB it cancels the close and keeps the dialog open. In ResizeCB it
+        /// prevents the layout being recalculated. In a Text or List ACTION it rejects
+        /// the character or selection.</para>
+        /// </summary>
+        Ignore = -1,
+
+        /// <summary>
+        /// Close the current dialog and end the main loop, as though ExitLoop had been
+        /// called. Honoured by most callbacks, including button actions, CloseCB,
+        /// HelpCB, TrayClickCB, TouchCB and MultiTouchCB.
+        /// </summary>
+        Close = -3,
+
+        /// <summary>
+        /// Pass the event on to the next element, letting it be processed further up
+        /// the hierarchy. Used mainly by KAny, where it forwards the key to the parent
+        /// so a dialog can handle keys on behalf of its children.
+        ///
+        /// <para>Not valid in CloseCB - use Ignore there to cancel a close.</para>
+        /// </summary>
+        Continue = -4
+    }
+
     /// <summary>
     /// IUP keyboard codes, as reported by the KAny callback and used by the Key
     /// attribute of menu items. Generated from iupkey.h of IUP 3.32.

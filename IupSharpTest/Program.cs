@@ -5,33 +5,41 @@ namespace IupSharpTest
 {
     internal class Program
     {
-        
 
+        static Canvas can;
         static void Main(string[] args)
         {
             Iup.Open();
 
             Button btn;
+            
 
-            Dialog dlg = new Dialog(
+            using Dialog dlg = new Dialog(
                 new VBox(
-                    btn=new Button("My button") { Expand = Expand.Horizontal, Action = ButtonAction, BgColor = Color.CornflowerBlue,FgColor=Color.Red },
-                    new Toggle("My toggle") { Action = ToggleAction }
+                    btn = new Button("My button") { Expand = Expand.Horizontal, Action = ButtonAction, BgColor = Color.CornflowerBlue, FgColor = Color.Red },
+                    new Toggle("My toggle") { Action = ToggleAction },
+                    can=new Canvas() { RasterSize=(200,200), BgColor = Color.Black,Action=RedrawCanvas },
+                    new Label("The end")
                 )
-                { }
-
             )
-            { CloseCB = ClosaCall,KAny=DialogKey };
+            { CloseCB = ClosaCall,KAny=DialogKey,Shrink=false};
 
             var col = btn.FgColor;
 
             btn.FgColor = Color.Empty;
+            
 
             dlg.Popup();
 
-            dlg.Destroy();
+            
 
             Iup.Close();
+        }
+
+        private static void RedrawCanvas(CanvasActionData d)
+        {
+            int debug = 0;
+            string ss = can.DrawDriver;
         }
 
         private static void DialogKey(KeyCBData d)
@@ -50,7 +58,7 @@ namespace IupSharpTest
 
         private static void ButtonAction(CallbackData d)
         {
-            Iup.MessageError("Error!");
+            Iup.MessageError("test");
         }
 
         private static void ToggleAction(ToggleActionData d)
