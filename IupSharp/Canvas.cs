@@ -70,9 +70,16 @@ namespace IupSharp
             get { IupNative.GetIntInt(Handle, "DRAWSIZE", out int w, out int h); return (w, h); }
         }
 
+
         /// <summary>
-        /// Gets the name of the draw driver in use by the IupDraw API. Can be X11
-        /// (Motif), GDK or Cairo (GTK), or D2D, GDI+ or GDI (Windows).
+        /// Gets the name of the draw driver in use by the IupDraw API: GDI, D2D,
+        /// GDI+, X11, GDK or CAIRO.
+        ///
+        /// <para>Returns null until the first drawing session has started. The driver
+        /// is created lazily by IupDrawBegin, so this is empty on a freshly created
+        /// canvas and remains empty even inside the Action callback if no Draw
+        /// session has been opened. Read it from inside a Draw session, or via
+        /// Draw.Driver.</para>
         /// (read only) (since 3.25)
         /// </summary>
         public string DrawDriver => GetAttribute("DRAWDRIVER");

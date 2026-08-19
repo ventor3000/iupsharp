@@ -2510,5 +2510,173 @@ namespace IupSharp
                     $"IUP called from thread {Environment.CurrentManagedThreadId}; " +
                     $"only thread {UiThreadId} (the one that called Iup.Open) may call IUP.");
         }
+
+
+        #region IUPDRAW
+
+        // ---- Control ----
+
+        [DllImport(Lib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "IupDrawBegin")]
+        private static extern void IupDrawBegin_native(Ihandle ih);
+
+        public static void IupDrawBegin(Ihandle ih)
+        {
+            CheckThread();
+            IupDrawBegin_native(ih);
+        }
+
+        [DllImport(Lib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "IupDrawEnd")]
+        private static extern void IupDrawEnd_native(Ihandle ih);
+
+        public static void IupDrawEnd(Ihandle ih)
+        {
+            CheckThread();
+            IupDrawEnd_native(ih);
+        }
+
+        [DllImport(Lib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "IupDrawSetClipRect")]
+        private static extern void IupDrawSetClipRect_native(Ihandle ih, int x1, int y1, int x2, int y2);
+
+        public static void IupDrawSetClipRect(Ihandle ih, int x1, int y1, int x2, int y2)
+        {
+            CheckThread();
+            IupDrawSetClipRect_native(ih, x1, y1, x2, y2);
+        }
+
+        [DllImport(Lib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "IupDrawGetClipRect")]
+        private static extern void IupDrawGetClipRect_native(Ihandle ih, out int x1, out int y1, out int x2, out int y2);
+
+        public static void IupDrawGetClipRect(Ihandle ih, out int x1, out int y1, out int x2, out int y2)
+        {
+            CheckThread();
+            IupDrawGetClipRect_native(ih, out x1, out y1, out x2, out y2);
+        }
+
+        [DllImport(Lib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "IupDrawResetClip")]
+        private static extern void IupDrawResetClip_native(Ihandle ih);
+
+        public static void IupDrawResetClip(Ihandle ih)
+        {
+            CheckThread();
+            IupDrawResetClip_native(ih);
+        }
+
+        // ---- Primitives ----
+
+        [DllImport(Lib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "IupDrawParentBackground")]
+        private static extern void IupDrawParentBackground_native(Ihandle ih);
+
+        public static void IupDrawParentBackground(Ihandle ih)
+        {
+            CheckThread();
+            IupDrawParentBackground_native(ih);
+        }
+
+        [DllImport(Lib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "IupDrawLine")]
+        private static extern void IupDrawLine_native(Ihandle ih, int x1, int y1, int x2, int y2);
+
+        public static void IupDrawLine(Ihandle ih, int x1, int y1, int x2, int y2)
+        {
+            CheckThread();
+            IupDrawLine_native(ih, x1, y1, x2, y2);
+        }
+
+        [DllImport(Lib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "IupDrawRectangle")]
+        private static extern void IupDrawRectangle_native(Ihandle ih, int x1, int y1, int x2, int y2);
+
+        public static void IupDrawRectangle(Ihandle ih, int x1, int y1, int x2, int y2)
+        {
+            CheckThread();
+            IupDrawRectangle_native(ih, x1, y1, x2, y2);
+        }
+
+        [DllImport(Lib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "IupDrawArc")]
+        private static extern void IupDrawArc_native(Ihandle ih, int x1, int y1, int x2, int y2, double a1, double a2);
+
+        public static void IupDrawArc(Ihandle ih, int x1, int y1, int x2, int y2, double a1, double a2)
+        {
+            CheckThread();
+            IupDrawArc_native(ih, x1, y1, x2, y2, a1, a2);
+        }
+
+        [DllImport(Lib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "IupDrawPolygon")]
+        private static extern void IupDrawPolygon_native(Ihandle ih, int[] points, int count);
+
+        public static void IupDrawPolygon(Ihandle ih, int[] points, int count)
+        {
+            CheckThread();
+            IupDrawPolygon_native(ih, points, count);
+        }
+
+        [DllImport(Lib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "IupDrawText")]
+        private static extern void IupDrawText_native(Ihandle ih,
+            [MarshalAs(UnmanagedType.LPUTF8Str)] string str, int len, int x, int y, int w, int h);
+
+        public static void IupDrawText(Ihandle ih, string str, int len, int x, int y, int w, int h)
+        {
+            CheckThread();
+            IupDrawText_native(ih, str, len, x, y, w, h);
+        }
+
+        [DllImport(Lib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "IupDrawImage")]
+        private static extern void IupDrawImage_native(Ihandle ih,
+            [MarshalAs(UnmanagedType.LPUTF8Str)] string name, int x, int y, int w, int h);
+
+        public static void IupDrawImage(Ihandle ih, string name, int x, int y, int w, int h)
+        {
+            CheckThread();
+            IupDrawImage_native(ih, name, x, y, w, h);
+        }
+
+        [DllImport(Lib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "IupDrawSelectRect")]
+        private static extern void IupDrawSelectRect_native(Ihandle ih, int x1, int y1, int x2, int y2);
+
+        public static void IupDrawSelectRect(Ihandle ih, int x1, int y1, int x2, int y2)
+        {
+            CheckThread();
+            IupDrawSelectRect_native(ih, x1, y1, x2, y2);
+        }
+
+        [DllImport(Lib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "IupDrawFocusRect")]
+        private static extern void IupDrawFocusRect_native(Ihandle ih, int x1, int y1, int x2, int y2);
+
+        public static void IupDrawFocusRect(Ihandle ih, int x1, int y1, int x2, int y2)
+        {
+            CheckThread();
+            IupDrawFocusRect_native(ih, x1, y1, x2, y2);
+        }
+
+        // ---- Information ----
+
+        [DllImport(Lib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "IupDrawGetSize")]
+        private static extern void IupDrawGetSize_native(Ihandle ih, out int w, out int h);
+
+        public static void IupDrawGetSize(Ihandle ih, out int w, out int h)
+        {
+            CheckThread();
+            IupDrawGetSize_native(ih, out w, out h);
+        }
+
+        [DllImport(Lib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "IupDrawGetTextSize")]
+        private static extern void IupDrawGetTextSize_native(Ihandle ih,
+            [MarshalAs(UnmanagedType.LPUTF8Str)] string str, int len, out int w, out int h);
+
+        public static void IupDrawGetTextSize(Ihandle ih, string str, int len, out int w, out int h)
+        {
+            CheckThread();
+            IupDrawGetTextSize_native(ih, str, len, out w, out h);
+        }
+
+        [DllImport(Lib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "IupDrawGetImageInfo")]
+        private static extern void IupDrawGetImageInfo_native(
+            [MarshalAs(UnmanagedType.LPUTF8Str)] string name, out int w, out int h, out int bpp);
+
+        public static void IupDrawGetImageInfo(string name, out int w, out int h, out int bpp)
+        {
+            CheckThread();
+            IupDrawGetImageInfo_native(name, out w, out h, out bpp);
+        }
+
+        #endregion
     }
 }

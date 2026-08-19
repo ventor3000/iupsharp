@@ -38,8 +38,21 @@ namespace IupSharpTest
 
         private static void RedrawCanvas(CanvasActionData d)
         {
-            int debug = 0;
-            string ss = can.DrawDriver;
+            using (Draw draw = new Draw(can))
+            {
+
+                var tt = can.DrawDriver;
+
+                string ss = draw.Driver;
+
+                draw.Color = Color.Red;
+                draw.LineWidth = 5; 
+                draw.Line(100, 100, 200, 200);
+                draw.Color = Color.Yellow;
+                draw.Font = "Times, -50";
+                draw.Text("Hello!", 150, 200);
+            }
+
         }
 
         private static void DialogKey(KeyCBData d)
