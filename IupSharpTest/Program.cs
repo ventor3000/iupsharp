@@ -26,6 +26,8 @@ namespace IupSharpTest
             dlg.Popup();
 
             dlg.Destroy();
+
+            Iup.Close();
         }
 
         private static void DialogKey(KeyCBData d)

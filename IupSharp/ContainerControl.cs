@@ -6,6 +6,10 @@
         {
         }
 
-        public virtual void Append(Control child) => IupNative.IupAppend(Handle, child.Handle);
+        public virtual void Append(Control child)
+        {
+            CheckAlive();
+            IupNative.IupAppend(Handle, child.Handle);
+        }
     }
 }

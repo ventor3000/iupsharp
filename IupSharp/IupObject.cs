@@ -115,8 +115,12 @@ namespace IupSharp
             IupNative.SetCallback(Handle, cbname, cb);
         }
 
-        protected Icallback GetCallback(string name, Icallback func) => IupNative.GetCallback(Handle, name);
-
+        protected Icallback GetCallback(string name, Icallback func)
+        {
+            CheckAlive();
+            return IupNative.GetCallback(Handle, name);
+        }
+        
 
         #region CALLBACKS
 

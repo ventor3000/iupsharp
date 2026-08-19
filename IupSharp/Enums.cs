@@ -54,13 +54,7 @@ namespace IupSharp
         Vertical,
     }
 
-    public enum OpenResult
-    {
-        NoError,
-        Error,
-        AlreadyOpen
-    }
-
+   
     /// <summary>Position of an element in the Z order relative to its siblings.</summary>
     public enum ZOrder
     {
@@ -119,6 +113,13 @@ namespace IupSharp
     {
         Horizontal,
         Vertical
+    }
+
+    public enum OpenResult
+    {
+        NoError=0,
+        Error=-1,
+        AlreadyOpen=1
     }
 
     /// <summary>
