@@ -450,12 +450,12 @@ namespace IupSharp
             {
                 var cb = new CanvasActionData(this, posx, posy);
                 _action?.Invoke(cb);
-                return cb.Result;
+                return (int)cb.Result;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in Action callback: {ex}");
-                return IupNative.IUP_DEFAULT;
+                return (int)CallbackResult.Default;
             }
         }
 
@@ -481,12 +481,12 @@ namespace IupSharp
             {
                 var cb = new ButtonCBData(this, but, pressed, x, y, status);
                 _buttonCB?.Invoke(cb);
-                return cb.Result;
+                return (int)cb.Result;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in ButtonCB callback: {ex}");
-                return IupNative.IUP_DEFAULT;
+                return (int)CallbackResult.Default;
             }
         }
 
@@ -511,12 +511,12 @@ namespace IupSharp
             {
                 var cb = new MotionCBData(this, x, y, status);
                 _motionCB?.Invoke(cb);
-                return cb.Result;
+                return (int)cb.Result;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in MotionCB callback: {ex}");
-                return IupNative.IUP_DEFAULT;
+                return (int)CallbackResult.Default;
             }
         }
 
@@ -543,12 +543,12 @@ namespace IupSharp
             {
                 var cb = new ResizeCBData(this, width, height);
                 _resizeCB?.Invoke(cb);
-                return cb.Result;
+                return (int)cb.Result;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in ResizeCB callback: {ex}");
-                return IupNative.IUP_DEFAULT;
+                return (int)CallbackResult.Default;
             }
         }
 
@@ -579,12 +579,12 @@ namespace IupSharp
             {
                 var cb = new ScrollCBData(this, op, posx, posy);
                 _scrollCB?.Invoke(cb);
-                return cb.Result;
+                return (int)cb.Result;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in ScrollCB callback: {ex}");
-                return IupNative.IUP_DEFAULT;
+                return (int)CallbackResult.Default;
             }
         }
 
@@ -610,12 +610,12 @@ namespace IupSharp
             {
                 var cb = new FocusCBData(this, focus);
                 _focusCB?.Invoke(cb);
-                return cb.Result;
+                return (int)cb.Result;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in FocusCB callback: {ex}");
-                return IupNative.IUP_DEFAULT;
+                return (int)CallbackResult.Default;
             }
         }
 
@@ -646,12 +646,12 @@ namespace IupSharp
             {
                 var cb = new KeyPressCBData(this, c, press);
                 _keyPressCB?.Invoke(cb);
-                return cb.Result;
+                return (int)cb.Result;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in KeyPressCB callback: {ex}");
-                return IupNative.IUP_DEFAULT;
+                return (int)CallbackResult.Default;
             }
         }
 
@@ -676,12 +676,12 @@ namespace IupSharp
             {
                 var cb = new WheelCBData(this, delta, x, y, status);
                 _wheelCB?.Invoke(cb);
-                return cb.Result;
+                return (int)cb.Result;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in WheelCB callback: {ex}");
-                return IupNative.IUP_DEFAULT;
+                return (int)CallbackResult.Default;
             }
         }
 
@@ -709,12 +709,12 @@ namespace IupSharp
             {
                 var cb = new DropFilesCBData(this, filename, num, x, y);
                 _dropFilesCB?.Invoke(cb);
-                return cb.Result;
+                return (int)cb.Result;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in DropFilesCB callback: {ex}");
-                return IupNative.IUP_DEFAULT;
+                return (int)CallbackResult.Default;
             }
         }
 
@@ -742,12 +742,12 @@ namespace IupSharp
             {
                 var cb = new TouchCBData(this, id, x, y, state);
                 _touchCB?.Invoke(cb);
-                return cb.Result;
+                return (int)cb.Result;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in TouchCB callback: {ex}");
-                return IupNative.IUP_DEFAULT;
+                return (int)CallbackResult.Default;
             }
         }
 
@@ -775,12 +775,12 @@ namespace IupSharp
             {
                 var cb = new MultiTouchCBData(this, count, pid, px, py, pstate);
                 _multiTouchCB?.Invoke(cb);
-                return cb.Result;
+                return (int)cb.Result;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in MultiTouchCB callback: {ex}");
-                return IupNative.IUP_DEFAULT;
+                return (int)CallbackResult.Default;
             }
         }
 
@@ -806,12 +806,12 @@ namespace IupSharp
             {
                 var cb = new WomCBData(this, state);
                 _womCB?.Invoke(cb);
-                return cb.Result;
+                return (int)cb.Result;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in WomCB callback: {ex}");
-                return IupNative.IUP_DEFAULT;
+                return (int)CallbackResult.Default;
             }
         }
 

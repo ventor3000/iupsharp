@@ -306,12 +306,12 @@ namespace IupSharp
             {
                 var cb = new ToggleActionData(this, status);
                 _action?.Invoke(cb);
-                return cb.Result;
+                return (int)cb.Result;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in Action callback: {ex}");
-                return IupNative.IUP_DEFAULT;
+                return (int)CallbackResult.Default;
             }
         }
 
@@ -339,12 +339,12 @@ namespace IupSharp
             {
                 var cb = new CallbackData(this);
                 _valueChangedCB?.Invoke(cb);
-                return cb.Result;
+                return (int)cb.Result;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in ValueChangedCB callback: {ex}");
-                return IupNative.IUP_DEFAULT;
+                return (int)CallbackResult.Default;
             }
         }
 

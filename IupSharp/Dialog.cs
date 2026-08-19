@@ -50,6 +50,8 @@ namespace IupSharp
     {
         private Control _child;
 
+        const string _destroyMessage = "IUPSHARP_DESTROY";
+
         /// <summary>
         /// Creates a new Dialog containing the specified child.
         /// </summary>
@@ -250,6 +252,8 @@ namespace IupSharp
             get => Utils.MapAttrib(GetAttribute("PLACEMENT"), _placements);
             set => SetAttribute("PLACEMENT", Utils.MapEnum(value, _placements));
         }
+
+        public bool DestroyOnClose { get; set; } = false;
 
         #endregion
 
@@ -557,6 +561,15 @@ namespace IupSharp
 
         #endregion
 
+        protected override bool OnPostMessage(string text, int value, double number, IntPtr pointer)
+        {
+            if (text == _destroyMessage) { 
+                Destroy(); 
+                return true; 
+            }
+            return base.OnPostMessage(text, value, number, pointer);
+        }
+
         #region CALLBACKS
 
         private Callback _closeCB;
@@ -579,19 +592,25 @@ namespace IupSharp
         }
         private int CloseCBInternal(nint ih)
         {
+            CallbackResult result;
+
             try
             {
                 var cb = new CallbackData(this);
                 _closeCB?.Invoke(cb);
-                return cb.Result;
+                result = cb.Result;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in CloseCB callback: {ex}");
-                return IupNative.IUP_IGNORE; // do not close a dialog whose handler failed
+                return (int)CallbackResult.Ignore;   // don't close a dialog whose handler failed
             }
-        }
 
+            if (DestroyOnClose && result != CallbackResult.Ignore && Handle != IntPtr.Zero)
+                PostMessageInternal(_destroyMessage);   // deferred: IUP still uses the element here
+
+            return (int)result;
+        }
         private ShowCBCallback _showCB;
         private IFni _showCBInternal; // need reference to keep alive in GC
         /// <summary>
@@ -616,12 +635,12 @@ namespace IupSharp
             {
                 var cb = new ShowCBData(this, state);
                 _showCB?.Invoke(cb);
-                return cb.Result;
+                return (int)cb.Result;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in ShowCB callback: {ex}");
-                return IupNative.IUP_DEFAULT;
+                return (int)CallbackResult.Default;
             }
         }
 
@@ -648,12 +667,12 @@ namespace IupSharp
             {
                 var cb = new ResizeCBData(this, width, height);
                 _resizeCB?.Invoke(cb);
-                return cb.Result;
+                return (int)cb.Result;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in ResizeCB callback: {ex}");
-                return IupNative.IUP_DEFAULT;
+                return (int)CallbackResult.Default;
             }
         }
 
@@ -680,12 +699,12 @@ namespace IupSharp
             {
                 var cb = new MoveCBData(this, x, y);
                 _moveCB?.Invoke(cb);
-                return cb.Result;
+                return (int)cb.Result;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in MoveCB callback: {ex}");
-                return IupNative.IUP_DEFAULT;
+                return (int)CallbackResult.Default;
             }
         }
 
@@ -714,12 +733,12 @@ namespace IupSharp
             {
                 var cb = new TrayClickCBData(this, but, pressed, dclick);
                 _trayClickCB?.Invoke(cb);
-                return cb.Result;
+                return (int)cb.Result;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in TrayClickCB callback: {ex}");
-                return IupNative.IUP_DEFAULT;
+                return (int)CallbackResult.Default;
             }
         }
 
@@ -747,12 +766,12 @@ namespace IupSharp
             {
                 var cb = new DropFilesCBData(this, filename, num, x, y);
                 _dropFilesCB?.Invoke(cb);
-                return cb.Result;
+                return (int)cb.Result;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in DropFilesCB callback: {ex}");
-                return IupNative.IUP_DEFAULT;
+                return (int)CallbackResult.Default;
             }
         }
 

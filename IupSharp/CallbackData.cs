@@ -10,7 +10,7 @@ namespace IupSharp
     public class CallbackData
     {
         public readonly IupObject Sender;
-        public int Result = IupNative.IUP_DEFAULT;
+        public CallbackResult Result = CallbackResult.Default;
 
         public CallbackData(IupObject sender)
         {

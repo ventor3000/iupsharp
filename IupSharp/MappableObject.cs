@@ -36,12 +36,12 @@ namespace IupSharp
             {
                 var cb = new CallbackData(this);
                 _mapCB?.Invoke(cb);
-                return cb.Result;
+                return (int)cb.Result;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in MapCB callback: {ex}");
-                return IupNative.IUP_DEFAULT;
+                return (int)CallbackResult.Default;
             }
         }
 
@@ -66,12 +66,12 @@ namespace IupSharp
             {
                 var cb = new CallbackData(this);
                 _unmapCB?.Invoke(cb);
-                return cb.Result;
+                return (int)cb.Result;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in UnmapCB callback: {ex}");
-                return IupNative.IUP_DEFAULT;
+                return (int)CallbackResult.Default;
             }
         }
 

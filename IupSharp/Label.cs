@@ -233,12 +233,12 @@ namespace IupSharp
             {
                 var cb = new ButtonCBData(this, i1, i2, i3, i4, s);
                 _buttonCB?.Invoke(cb);
-                return cb.Result;
+                return (int)cb.Result;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in ButtonCB callback: {ex}");
-                return IupNative.IUP_DEFAULT;
+                return (int)CallbackResult.Default;
             }
         }
 
@@ -264,12 +264,12 @@ namespace IupSharp
             {
                 var cb = new MotionCBData(this, x, y, status);
                 _motionCB?.Invoke(cb);
-                return cb.Result;
+                return (int)cb.Result;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in MotionCB callback: {ex}");
-                return IupNative.IUP_DEFAULT;
+                return (int)CallbackResult.Default;
             }
         }
 
@@ -300,12 +300,12 @@ namespace IupSharp
             {
                 var cb = new DropFilesCBData(this, filename, num, x, y);
                 _dropfilesCB?.Invoke(cb);
-                return cb.Result;
+                return (int)cb.Result;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in DropFilesCB callback: {ex}");
-                return IupNative.IUP_DEFAULT;
+                return (int)CallbackResult.Default;
             }
         }
 

@@ -370,7 +370,41 @@ namespace IupSharp
             set => SetAttribute("TIPBALLOONTITLEICON", ((int)value).ToString(CultureInfo.InvariantCulture));
         }
 
+        private const string ReservedPrefix = "IUPSHARP_";
+
+        /// <summary>
+        /// Posts a message to this element, to be processed once IUP is back in its
+        /// loop. This is IUP's thread-safe entry point, so it may be called from any
+        /// thread to marshal work back to the UI thread.
+        /// </summary>
+        public void PostMessage(string text, int value = 0, double number = 0.0, IntPtr pointer = default)
+        {
+            if (text != null && text.StartsWith(ReservedPrefix, StringComparison.Ordinal))
+                throw new ArgumentException($"Message names starting with {ReservedPrefix} are reserved.", nameof(text));
+
+            CheckAlive();
+            IupNative.PostMessage(Handle, text, value, number, pointer);
+        }
+
+        /// <summary>
+        /// Posts a message without the reserved-name check, for IupSharp's own
+        /// deferred operations.
+        /// </summary>
+        protected void PostMessageInternal(string text, int value = 0, double number = 0.0, IntPtr pointer = default)
+        {
+            CheckAlive();
+            IupNative.PostMessage(Handle, text, value, number, pointer);
+        }
+
+        /// <summary>
+        /// Called for each posted message before the public callback. Return true if
+        /// the message was handled internally and should not be forwarded.
+        /// </summary>
+        protected virtual bool OnPostMessage(string text, int value, double number, IntPtr pointer) => false;
+
         #endregion
+
+
 
         #region METHODS
 
@@ -484,12 +518,12 @@ namespace IupSharp
             {
                 var cb = new CallbackData(this);
                 _getFocusCB?.Invoke(cb);
-                return cb.Result;
+                return (int)cb.Result;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in GetFocusCB callback: {ex}");
-                return IupNative.IUP_DEFAULT;
+                return (int)CallbackResult.Default;
             }
         }
 
@@ -515,12 +549,12 @@ namespace IupSharp
             {
                 var cb = new CallbackData(this);
                 _killFocusCB?.Invoke(cb);
-                return cb.Result;
+                return (int)cb.Result;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in KillFocusCB callback: {ex}");
-                return IupNative.IUP_DEFAULT;
+                return (int)CallbackResult.Default;
             }
         }
 
@@ -545,12 +579,12 @@ namespace IupSharp
             {
                 var cb = new CallbackData(this);
                 _enterWindowCB?.Invoke(cb);
-                return cb.Result;
+                return (int)cb.Result;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in EnterWindowCB callback: {ex}");
-                return IupNative.IUP_DEFAULT;
+                return (int)CallbackResult.Default;
             }
         }
 
@@ -575,12 +609,12 @@ namespace IupSharp
             {
                 var cb = new CallbackData(this);
                 _leaveWindowCB?.Invoke(cb);
-                return cb.Result;
+                return (int)cb.Result;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in LeaveWindowCB callback: {ex}");
-                return IupNative.IUP_DEFAULT;
+                return (int)CallbackResult.Default;
             }
         }
 
@@ -609,12 +643,12 @@ namespace IupSharp
             {
                 var cb = new KeyCBData(this, (Key)c);
                 _kAny?.Invoke(cb);
-                return cb.Result;
+                return (int)cb.Result;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in KAny callback: {ex}");
-                return IupNative.IUP_DEFAULT;
+                return (int)CallbackResult.Default;
             }
         }
 
@@ -641,12 +675,12 @@ namespace IupSharp
             {
                 var cb = new CallbackData(this);
                 _helpCB?.Invoke(cb);
-                return cb.Result;
+                return (int)cb.Result;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in HelpCB callback: {ex}");
-                return IupNative.IUP_DEFAULT;
+                return (int)CallbackResult.Default;
             }
         }
         #endregion

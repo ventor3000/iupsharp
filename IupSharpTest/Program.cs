@@ -22,7 +22,7 @@ namespace IupSharpTest
                     new Label("The end")
                 )
             )
-            { CloseCB = ClosaCall,KAny=DialogKey,Shrink=false};
+            { CloseCB = ClosaCall,KAny=DialogKey,Shrink=false,DestroyOnClose=true};
 
             var col = btn.FgColor;
 
@@ -64,8 +64,7 @@ namespace IupSharpTest
         private static void ClosaCall(CallbackData d)
         {
             
-            Iup.Message("Hello");
-            d.Result = IupNative.IUP_CONTINUE;
+            
 
         }
 

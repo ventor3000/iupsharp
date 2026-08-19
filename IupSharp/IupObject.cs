@@ -142,12 +142,12 @@ namespace IupSharp
             {
                 var cb = new CallbackData(this);
                 _destroyCB?.Invoke(cb);
-                return cb.Result;
+                return (int)cb.Result;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in DestroyCB callback: {ex}");
-                return IupNative.IUP_DEFAULT;
+                return (int)CallbackResult.Default;
             }
 
         }
@@ -172,7 +172,7 @@ namespace IupSharp
             {
                 var cb = new CallbackData(this);
                 _ldestroyCB?.Invoke(cb);
-                return cb.Result;
+                return (int)cb.Result;
             }
             catch (Exception ex)
             {
