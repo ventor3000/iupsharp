@@ -78,6 +78,50 @@ namespace IupSharp
     }
 
     /// <summary>
+    /// Horizontal alignment of the children of a VBox (which arranges its
+    /// children vertically, so aligns them along the horizontal axis).
+    /// </summary>
+    public enum HorizontalAlignment
+    {
+        Left,
+        Center,
+        Right
+    }
+
+    /// <summary>
+    /// Vertical alignment of the children of an HBox (which arranges its
+    /// children horizontally, so aligns them along the vertical axis).
+    /// </summary>
+    public enum VerticalAlignment
+    {
+        Top,
+        Center,
+        Bottom
+    }
+
+    /// <summary>
+    /// Controls how a VBox/HBox normalizes the natural size of its children,
+    /// via the NORMALIZESIZE attribute.
+    /// </summary>
+    public enum NormalizeSize
+    {
+        No,
+        Horizontal,
+        Vertical,
+        Both
+    }
+
+    /// <summary>
+    /// The layout direction of a box container, as reported by its read-only
+    /// ORIENTATION attribute.
+    /// </summary>
+    public enum BoxOrientation
+    {
+        Horizontal,
+        Vertical
+    }
+
+    /// <summary>
     /// IUP keyboard codes, as reported by the KAny callback and used by the Key
     /// attribute of menu items. Generated from iupkey.h of IUP 3.32.
     ///

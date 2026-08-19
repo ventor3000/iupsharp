@@ -1934,6 +1934,18 @@ namespace IupSharp
             return PtrToStringUTF8(IupGetAttribute(ih, name));
         }
 
+        /// <summary>
+        /// Gets an attribute's raw pointer value without interpreting it as a
+        /// UTF-8 string. Needed for attributes that are documented as
+        /// returning an opaque pointer rather than text, such as WID on
+        /// IupImage/IupImageRGB/IupImageRGBA.
+        /// </summary>
+        public static IntPtr GetAttributePtr(Ihandle ih, string name)
+        {
+            CheckThread();
+            return IupGetAttribute(ih, name);
+        }
+
         public static int GetInt(Ihandle ih, string name)
         {
             CheckThread();

@@ -72,6 +72,18 @@ namespace IupSharp
             CheckAlive();
             return IupNative.GetAttribute(Handle, name);
         }
+
+        /// <summary>
+        /// Gets an attribute's raw pointer value without interpreting it as a
+        /// UTF-8 string. Needed for attributes documented as returning an
+        /// opaque pointer, such as WID on image elements.
+        /// </summary>
+        protected IntPtr GetAttributePtr(string name)
+        {
+            CheckAlive();
+            return IupNative.GetAttributePtr(Handle, name);
+        }
+
         public string GetAttributeId(string name, int id)
         {
             CheckAlive();

@@ -24,6 +24,38 @@ namespace IupSharp
             set => SetAttribute("FGCOLOR", Utils.FormatColor(value));
         }
 
+        // (attributes meaningful only when this control is a child of a VBox/HBox/Zbox; harmless no-ops otherwise)
+        #region BOX LAYOUT 
+
+        /// <summary>
+        /// Gets or sets whether this control's size and position are ignored by the
+        /// layout processing of its parent VBox/HBox/Zbox. Default: false.
+        /// (non inheritable) (at children only)
+        /// </summary>
+        public virtual bool Floating
+        {
+            get => GetAttribute("FLOATING") == "YES";
+            set => SetAttribute("FLOATING", value ? "YES" : "NO");
+        }
+
+        /// <summary>
+        /// Gets or sets the expand weight used to multiply the free space this
+        /// control receives when its parent VBox/HBox distributes extra space
+        /// among expandable children. Default: 1 (native default when unset).
+        /// (non inheritable) (at children only)
+        /// </summary>
+        public virtual double ExpandWeight
+        {
+            get
+            {
+                double.TryParse(GetAttribute("EXPANDWEIGHT"), NumberStyles.Float, CultureInfo.InvariantCulture, out double w);
+                return w;
+            }
+            set => SetAttribute("EXPANDWEIGHT", value.ToString(CultureInfo.InvariantCulture));
+        }
+
+        #endregion
+
         #region STATE
 
         /// <summary>

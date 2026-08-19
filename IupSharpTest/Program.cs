@@ -37,7 +37,6 @@ namespace IupSharpTest
         private static void ClosaCall(CallbackData d)
         {
             
-
             Iup.Message("Hello");
             d.Result = IupNative.IUP_CONTINUE;
 

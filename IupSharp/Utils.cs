@@ -160,5 +160,27 @@ namespace IupSharp
             return ((uint)a << 24) | ((uint)r << 16) | ((uint)g << 8) | b;
         }
 
+        /// <summary>
+        /// Parses an IUP "WxH" size string (as returned by attributes like
+        /// RASTERSIZE or ORIGINALSCALE) into a (width, height) tuple. Returns
+        /// (0, 0) if the value is null, empty, or not in the expected format.
+        /// </summary>
+        public static (int, int) ParseSize(string s)
+        {
+            if (string.IsNullOrWhiteSpace(s))
+                return (0, 0);
+
+            string[] parts = s.Split('x');
+            if (parts.Length != 2)
+                return (0, 0);
+
+            if (!int.TryParse(parts[0], NumberStyles.Integer, CultureInfo.InvariantCulture, out int w))
+                return (0, 0);
+            if (!int.TryParse(parts[1], NumberStyles.Integer, CultureInfo.InvariantCulture, out int h))
+                return (0, 0);
+
+            return (w, h);
+        }
+
     }
 }
