@@ -9,13 +9,7 @@ namespace IupSharp
     {
         public static string FormatPadding((int, int) p) => FormatInt(p.Item1) + "x" + FormatInt(p.Item2);
 
-        /// <summary>
-        /// Formats a width/height or x/y pair as IUP expects it: "WxH".
-        /// Identical to FormatPadding; kept separate only for readable call sites.
-        /// You may prefer to delete FormatPadding and use this everywhere.
-        /// </summary>
-        public static string FormatSize((int, int) s) =>
-            Utils.FormatInt(s.Item1) + "x" + Utils.FormatInt(s.Item2);
+        public static string FormatSize((int, int) s) => FormatPadding(s);
 
         public static string FormatInt(int i) => i.ToString(CultureInfo.InvariantCulture);
 

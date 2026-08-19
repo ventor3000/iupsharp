@@ -9,7 +9,9 @@
         public virtual void Append(Control child)
         {
             CheckAlive();
-            IupNative.IupAppend(Handle, child.Handle);
+
+            if (child != null)
+                IupNative.IupAppend(Handle, child.Handle);
         }
     }
 }

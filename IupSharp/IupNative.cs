@@ -1755,7 +1755,7 @@ namespace IupSharp
             IntPtr argv = IntPtr.Zero;
             int res=IupOpen(ref argc, ref argv);
 
-            if (res>=0) // error
+            if (res!=(int)OpenResult.Error) 
                 UiThreadId = Environment.CurrentManagedThreadId;
             return res;
             
