@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Globalization;
 
 namespace IupSharp
@@ -12,13 +13,13 @@ namespace IupSharp
 
 
 
-        public virtual uint BgColor
+        public virtual Color BgColor
         {
             get => Utils.ParseColor(GetAttribute("BGCOLOR"));
             set => SetAttribute("BGCOLOR", Utils.FormatColor(value));
         }
 
-        public virtual uint FgColor
+        public virtual Color FgColor
         {
             get => Utils.ParseColor(GetAttribute("FGCOLOR"));
             set => SetAttribute("FGCOLOR", Utils.FormatColor(value));
@@ -287,7 +288,7 @@ namespace IupSharp
         /// Gets or sets the tip background color. Default: light yellow (255,255,225).
         /// [Windows and Motif only]
         /// </summary>
-        public uint TipBgColor
+        public Color TipBgColor
         {
             get => Utils.ParseColor(GetAttribute("TIPBGCOLOR"));
             set => SetAttribute("TIPBGCOLOR", Utils.FormatColor(value));
@@ -297,7 +298,7 @@ namespace IupSharp
         /// Gets or sets the tip text color. Default: black.
         /// [Windows and Motif only]
         /// </summary>
-        public uint TipFgColor
+        public Color TipFgColor
         {
             get => Utils.ParseColor(GetAttribute("TIPFGCOLOR"));
             set => SetAttribute("TIPFGCOLOR", Utils.FormatColor(value));

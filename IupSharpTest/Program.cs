@@ -1,4 +1,5 @@
 ﻿using IupSharp;
+using System.Drawing;
 
 namespace IupSharpTest
 {
@@ -10,18 +11,21 @@ namespace IupSharpTest
         {
             Iup.Open();
 
+            Button btn;
 
             Dialog dlg = new Dialog(
                 new VBox(
-                    new Button("My button") { Expand = Expand.Horizontal, Action = ButtonAction },
+                    btn=new Button("My button") { Expand = Expand.Horizontal, Action = ButtonAction, BgColor = Color.CornflowerBlue,FgColor=Color.Red },
                     new Toggle("My toggle") { Action = ToggleAction }
                 )
                 { }
 
             )
             { CloseCB = ClosaCall,KAny=DialogKey };
-            
 
+            var col = btn.FgColor;
+
+            btn.FgColor = Color.Empty;
 
             dlg.Popup();
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Globalization;
 
 namespace IupSharp
@@ -63,7 +64,7 @@ namespace IupSharp
         /// defined, the BGCOLOR of the control that contains the image is
         /// used instead.
         /// </summary>
-        public uint BgColor
+        public Color BgColor
         {
             get => Utils.ParseColor(GetAttribute("BGCOLOR"));
             set => SetAttribute("BGCOLOR", Utils.FormatColor(value));

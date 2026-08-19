@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 
 namespace IupSharp
 {
@@ -43,7 +44,7 @@ namespace IupSharp
         /// Gets or sets the background color. Ignored, transparent in all systems;
         /// the background color of the native parent is used instead.
         /// </summary>
-        public override uint BgColor { get => base.BgColor; set => base.BgColor = value; } // just to enable special comments for label
+        public override Color BgColor { get => base.BgColor; set => base.BgColor = value; } // just to enable special comments for label
 
         /// <summary>
         /// Gets or sets whether the drop of files is enabled. Default: No, but if

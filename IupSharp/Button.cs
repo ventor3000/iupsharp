@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Globalization;
 
 namespace IupSharp
@@ -42,7 +43,7 @@ namespace IupSharp
         /// text or image is defined. Default: the global property DlgBgColor. BgColor is
         /// ignored when Flat=Yes because it will be used the background from the native parent.
         /// </summary>
-        public override uint BgColor { get => base.BgColor; set => base.BgColor = value; } // just to allow for extra documentation for Button class
+        public override Color BgColor { get => base.BgColor; set => base.BgColor = value; } // just to allow for extra documentation for Button class
 
         /// <summary>
         /// Gets or sets whether focus traversal of the control is enabled. In Windows the button 

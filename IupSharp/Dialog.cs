@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Globalization;
 
 namespace IupSharp
@@ -179,7 +180,7 @@ namespace IupSharp
         /// Gets or sets the dialog's background color. Note that this will also affect
         /// all the controls inside the dialog.
         /// </summary>
-        public override uint BgColor { get => base.BgColor; set => base.BgColor = value; }
+        public override Color BgColor { get => base.BgColor; set => base.BgColor = value; }
 
         private ImageRGBA _iconReference = null;
         /// <summary>

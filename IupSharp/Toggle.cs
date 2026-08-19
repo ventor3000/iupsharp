@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 
 namespace IupSharp
 {
@@ -59,7 +60,7 @@ namespace IupSharp
         /// parent. When displaying an image in Windows the background is ignored and
         /// the system color is used. Default: the global property DlgBgColor.
         /// </summary>
-        public override uint BgColor { get => base.BgColor; set => base.BgColor = value; } // just to allow for extra documentation for Toggle class
+        public override Color BgColor { get => base.BgColor; set => base.BgColor = value; } // just to allow for extra documentation for Toggle class
 
         /// <summary>
         /// Gets or sets whether focus traversal of the control is enabled. In Windows
@@ -87,7 +88,7 @@ namespace IupSharp
         /// Color of the text shown on the toggle. In Windows, when using Visual Styles
         /// FgColor is ignored. Default: the global property DlgFgColor.
         /// </summary>
-        public override uint FgColor { get => base.FgColor; set => base.FgColor = value; } // just to allow for extra documentation for Toggle class
+        public override Color FgColor { get => base.FgColor; set => base.FgColor = value; } // just to allow for extra documentation for Toggle class
 
         /// <summary>
         /// Gets or sets whether the toggle borders are hidden until the mouse cursor

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -97,30 +98,49 @@ namespace IupSharp
             return align;
         }
 
-
-        public static string FormatColor(uint color)
+        /// <summary>
+        /// Formats a color the way IUP expects it: "R G B", or "R G B A" when the
+        /// color is not fully opaque. Color.Empty maps to null, which clears the
+        /// attribute so the system default applies again.
+        /// </summary>
+        public static string FormatColor(Color color)
         {
-            byte a = (byte)((color & 0xff000000) >> 24);
-            byte r = (byte)((color & 0xff0000) >> 16);
-            byte g = (byte)((color & 0xff00) >> 8);
-            byte b = (byte)(color & 0xff);
+            if (color.IsEmpty)
+                return null;
 
-            if (a != 255)
-                return
-                    r.ToString(CultureInfo.InvariantCulture) + " "
-                    + g.ToString(CultureInfo.InvariantCulture) + " "
-                    + b.ToString(CultureInfo.InvariantCulture) + " "
-                    + a.ToString(CultureInfo.InvariantCulture);
-            else
-                return r.ToString(CultureInfo.InvariantCulture) + " "
-                    + g.ToString(CultureInfo.InvariantCulture) + " "
-                    + b.ToString(CultureInfo.InvariantCulture);
+            string s = FormatInt(color.R) + " " + FormatInt(color.G) + " " + FormatInt(color.B);
 
+            if (color.A != 255)
+                s += " " + FormatInt(color.A);
+
+            return s;
         }
-        public static uint ParseColor(string color)
+
+        /// <summary>
+        /// Parses an IUP color attribute. Accepts the native "R G B" and "R G B A"
+        /// forms as well as "#RRGGBB" and "#RRGGBBAA". Returns Color.Empty when the
+        /// attribute has no value, meaning the system default applies.
+        /// </summary>
+        /// <exception cref="FormatException">The value is not a recognized color.</exception>
+        public static Color ParseColor(string color)
         {
+            if (!TryParseColor(color, out Color result) && !string.IsNullOrWhiteSpace(color))
+                throw new FormatException($"Invalid color: \"{color}\"");
+
+            return result;
+        }
+
+        /// <summary>
+        /// Parses an IUP color attribute without throwing. Returns false for a
+        /// malformed value; an absent value yields Color.Empty and true, since
+        /// "not set" is a valid state rather than an error.
+        /// </summary>
+        public static bool TryParseColor(string color, out Color result)
+        {
+            result = Color.Empty;
+
             if (string.IsNullOrWhiteSpace(color))
-                return 0; // TODO: what color should we return in this case?
+                return true;
 
             color = color.Trim();
 
@@ -130,30 +150,35 @@ namespace IupSharp
             {
                 string hex = color.Substring(1);
                 if (hex.Length != 6 && hex.Length != 8)
-                    throw new FormatException($"Invalid hex color: \"{color}\"");
+                    return false;
 
-                r = byte.Parse(hex.AsSpan(0, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture);
-                g = byte.Parse(hex.AsSpan(2, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture);
-                b = byte.Parse(hex.AsSpan(4, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture);
-                if (hex.Length == 8)
-                    a = byte.Parse(hex.AsSpan(6, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+                if (!byte.TryParse(hex.AsSpan(0, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out r) ||
+                    !byte.TryParse(hex.AsSpan(2, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out g) ||
+                    !byte.TryParse(hex.AsSpan(4, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out b))
+                    return false;
+
+                if (hex.Length == 8 &&
+                    !byte.TryParse(hex.AsSpan(6, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out a))
+                    return false;
             }
             else
             {
                 string[] parts = color.Split(' ', StringSplitOptions.RemoveEmptyEntries);
                 if (parts.Length != 3 && parts.Length != 4)
-                    throw new FormatException($"Invalid color: \"{color}\"");
+                    return false;
 
-                r = byte.Parse(parts[0], CultureInfo.InvariantCulture);
-                g = byte.Parse(parts[1], CultureInfo.InvariantCulture);
-                b = byte.Parse(parts[2], CultureInfo.InvariantCulture);
-                if (parts.Length == 4)
-                    a = byte.Parse(parts[3], CultureInfo.InvariantCulture);
+                if (!byte.TryParse(parts[0], CultureInfo.InvariantCulture, out r) ||
+                    !byte.TryParse(parts[1], CultureInfo.InvariantCulture, out g) ||
+                    !byte.TryParse(parts[2], CultureInfo.InvariantCulture, out b))
+                    return false;
+
+                if (parts.Length == 4 && !byte.TryParse(parts[3], CultureInfo.InvariantCulture, out a))
+                    return false;
             }
 
-            return ((uint)a << 24) | ((uint)r << 16) | ((uint)g << 8) | b;
+            result = Color.FromArgb(a, r, g, b);
+            return true;
         }
-
         /// <summary>
         /// Parses an IUP "WxH" size string (as returned by attributes like
         /// RASTERSIZE or ORIGINALSCALE) into a (width, height) tuple. Returns
