@@ -7,6 +7,7 @@ namespace IupSharpTest
     {
 
         static Canvas can;
+        static Dialog dlg;
         static void Main(string[] args)
         {
             Iup.Open();
@@ -14,7 +15,7 @@ namespace IupSharpTest
             Button btn;
             
 
-            using Dialog dlg = new Dialog(
+            dlg = new Dialog(
                 new VBox(
                     btn = new Button("My button") { Expand = Expand.Horizontal, Action = ButtonAction, BgColor = Color.CornflowerBlue, FgColor = Color.Red },
                     new Toggle("My toggle") { Action = ToggleAction },
@@ -27,13 +28,24 @@ namespace IupSharpTest
             var col = btn.FgColor;
 
             btn.FgColor = Color.Empty;
-            
+
+
+            UITimer tt = new UITimer(500, OnTimer, true);
 
             dlg.Popup();
 
             
 
             Iup.Close();
+        }
+
+
+        static int testCount = 0;
+        private static void OnTimer(CallbackData d)
+        {
+            testCount++;
+            dlg.Title=testCount.ToString();
+            
         }
 
         private static void RedrawCanvas(CanvasActionData d)
