@@ -372,35 +372,78 @@ namespace IupSharp
 
         private const string ReservedPrefix = "IUPSHARP_";
 
+        
         /// <summary>
         /// Posts a message to this element, to be processed once IUP is back in its
-        /// loop. This is IUP's thread-safe entry point, so it may be called from any
-        /// thread to marshal work back to the UI thread.
+        /// loop. This is IUP's thread-safe entry point, so unlike the rest of the API
+        /// it may be called from any thread in order to marshal work back to the UI
+        /// thread.
         /// </summary>
-        public void PostMessage(string text, int value = 0, double number = 0.0, IntPtr pointer = default)
+        /// <param name="text">
+        /// A name identifying the message. Must not begin with the IUPSHARP_ prefix.
+        /// </param>
+        /// <param name="value">An arbitrary integer passed through to the callback.</param>
+        /// <param name="number">An arbitrary double passed through to the callback.</param>
+        /// <param name="pointer">
+        /// An arbitrary pointer passed through to the callback. The caller owns
+        /// whatever it points at and must keep it alive until the message is handled.
+        /// </param>
+        /// <returns>
+        /// False if the element has already been destroyed, in which case nothing is
+        /// posted. Returns false rather than throwing because a worker thread has no
+        /// good way to handle an exception, and the element may legitimately be
+        /// destroyed while a background task is still running.
+        /// </returns>
+        /// <exception cref="ArgumentException">The name uses the reserved prefix.</exception>
+        /// <remarks>
+        /// There is an inherent race: the element can be destroyed between the check
+        /// and the native call. IUP offers no atomic alternative, so only post to
+        /// elements the caller knows will outlive the post - typically a long-lived
+        /// dialog rather than a transient control.
+        /// </remarks>
+        public bool PostMessage(string text, int value = 0, double number = 0.0, IntPtr pointer = default)
         {
             if (text != null && text.StartsWith(ReservedPrefix, StringComparison.Ordinal))
-                throw new ArgumentException($"Message names starting with {ReservedPrefix} are reserved.", nameof(text));
+                throw new ArgumentException(
+                    $"Message names starting with {ReservedPrefix} are reserved for IupSharp.",
+                    nameof(text));
 
-            CheckAlive();
-            IupNative.PostMessage(Handle, text, value, number, pointer);
+            return PostMessageInternal(text, value, number, pointer);
         }
 
         /// <summary>
         /// Posts a message without the reserved-name check, for IupSharp's own
-        /// deferred operations.
+        /// deferred operations. Returns false if the element is already destroyed.
         /// </summary>
-        protected void PostMessageInternal(string text, int value = 0, double number = 0.0, IntPtr pointer = default)
+        protected bool PostMessageInternal(string text, int value = 0, double number = 0.0, IntPtr pointer = default)
         {
-            CheckAlive();
+            if (Handle == IntPtr.Zero)
+                return false;
+
             IupNative.PostMessage(Handle, text, value, number, pointer);
+            return true;
         }
 
+       
         /// <summary>
         /// Called for each posted message before the public callback. Return true if
         /// the message was handled internally and should not be forwarded.
         /// </summary>
         protected virtual bool OnPostMessage(string text, int value, double number, IntPtr pointer) => false;
+
+        /// <summary>
+        /// Registers POSTMESSAGE_CB if it has not been registered yet. Call this from
+        /// anything that relies on posted messages arriving, not only from the public
+        /// callback setter - a feature that forgets to call it fails silently.
+        /// </summary>
+        protected void EnsurePostMessageHook()
+        {
+            if (_postMessageCBInternal != null)
+                return;
+
+            _postMessageCBInternal = PostMessageCBInternal;
+            SetCallback("POSTMESSAGE_CB", Utils.CastCallback<Icallback>(_postMessageCBInternal));
+        }
 
         #endregion
 
@@ -683,6 +726,52 @@ namespace IupSharp
                 return (int)CallbackResult.Default;
             }
         }
+
+
+        private PostMessageCallback _postMessageCB;
+
+        /// <summary>
+        /// Keeps the native thunk alive for the GC. Non-null exactly when
+        /// POSTMESSAGE_CB has been registered, so it doubles as the installed flag -
+        /// never clear it without also unregistering the callback.
+        /// </summary>
+        private IFnsidv _postMessageCBInternal;
+
+        /// <summary>
+        /// Gets or sets the action generated when a message posted with PostMessage is
+        /// processed. Messages consumed internally by IupSharp are not forwarded here.
+        /// </summary>
+        public PostMessageCallback PostMessageCB
+        {
+            get => _postMessageCB;
+            set
+            {
+                _postMessageCB = value;
+                EnsurePostMessageHook();
+            }
+        }
+
+
+
+        private int PostMessageCBInternal(nint ih, string text, int value, double number, IntPtr pointer)
+        {
+            try
+            {
+                if (OnPostMessage(text, value, number, pointer))
+                    return (int)CallbackResult.Default;
+
+                var cb = new PostMessageData(this, text, value, number, pointer);
+                _postMessageCB?.Invoke(cb);
+                return (int)cb.Result;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in PostMessageCB callback: {ex}");
+                return (int)CallbackResult.Default;
+            }
+        }
+
+
         #endregion
 
     }

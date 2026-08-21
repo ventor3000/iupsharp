@@ -52,6 +52,8 @@ namespace IupSharp
 
         const string _destroyMessage = "IUPSHARP_DESTROY";
 
+        private bool _destroyOnClose=false;
+
         /// <summary>
         /// Creates a new Dialog containing the specified child.
         /// </summary>
@@ -253,7 +255,35 @@ namespace IupSharp
             set => SetAttribute("PLACEMENT", Utils.MapEnum(value, _placements));
         }
 
-        public bool DestroyOnClose { get; set; } = false;
+        /// <summary>
+        /// Gets or sets whether the dialog destroys itself once the user closes it.
+        /// Default: false, matching IUP, where closing a dialog only hides it.
+        ///
+        /// <para>Set this for one-shot dialogs. For a dialog that will be shown again,
+        /// leave it false and call Destroy when it is finally no longer needed.</para>
+        ///
+        /// <para>IMPORTANT: a dialog is never collected merely because the application
+        /// drops its reference - IupSharp keeps every live element reachable until its
+        /// native element is destroyed. A hidden dialog that is never destroyed leaks
+        /// for the lifetime of the process.</para>
+        ///
+        /// <para>This does NOT fire when the dialog is destroyed as a side effect of
+        /// its parent being destroyed: IUP does not call CloseCB in that case.
+        /// Override OnDestroying for cleanup that must always run.</para>
+        /// </summary>
+        public bool DestroyOnClose
+        {
+            get => _destroyOnClose;
+            set
+            {
+                _destroyOnClose = value;
+
+                // The deferred destroy arrives through POSTMESSAGE_CB, so the hook has
+                // to exist even when the application never sets PostMessageCB.
+                if (value)
+                    EnsurePostMessageHook();
+            }
+        }
 
         #endregion
 

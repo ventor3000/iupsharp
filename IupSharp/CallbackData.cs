@@ -424,4 +424,37 @@ namespace IupSharp
         }
     }
     public delegate void WomCBCallback(WomCBData d);
+
+    /// <summary>
+    /// Data for the PostMessageCB callback, carrying the values passed to
+    /// PostMessage.
+    /// </summary>
+    public class PostMessageData : CallbackData
+    {
+        /// <summary>The name passed to PostMessage. May be null.</summary>
+        public readonly string Text;
+
+        /// <summary>The integer passed to PostMessage.</summary>
+        public readonly int Value;
+
+        /// <summary>The double passed to PostMessage.</summary>
+        public readonly double Number;
+
+        /// <summary>
+        /// The pointer passed to PostMessage, or IntPtr.Zero. The sender owns whatever
+        /// it points at; IupSharp does not manage its lifetime.
+        /// </summary>
+        public readonly IntPtr Pointer;
+
+        public PostMessageData(IupObject sender, string text, int value, double number, IntPtr pointer)
+            : base(sender)
+        {
+            this.Text = text;
+            this.Value = value;
+            this.Number = number;
+            this.Pointer = pointer;
+        }
+    }
+
+    public delegate void PostMessageCallback(PostMessageData d);
 }
