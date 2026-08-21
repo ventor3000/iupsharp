@@ -115,7 +115,7 @@ namespace IupSharp
             IupNative.SetCallback(Handle, cbname, cb);
         }
 
-        protected IntPtr GetCallback(string name, Icallback func)
+        protected IntPtr GetCallback(string name)
         {
             CheckAlive();
             return IupNative.GetCallback(Handle, name);
