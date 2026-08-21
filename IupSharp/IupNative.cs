@@ -2149,12 +2149,14 @@ namespace IupSharp
 
         // --- Callbacks ---
 
-        public static Icallback GetCallback(Ihandle ih, string name)
+        public static IntPtr GetCallback(Ihandle ih, string name)
         {
             CheckThread();
             IntPtr ptr = IupGetCallback(ih, name);
+            return ptr;
+            /*
             return ptr == IntPtr.Zero ? null
-                : Marshal.GetDelegateForFunctionPointer<Icallback>(ptr);
+                : Marshal.GetDelegateForFunctionPointer<Icallback>(ptr);*/
         }
 
         public static void SetCallback(Ihandle ih, string name, Icallback func)
@@ -2165,20 +2167,22 @@ namespace IupSharp
                 : Marshal.GetDelegateForFunctionPointer<Icallback>(old);*/
         }
 
-        public static Icallback GetFunction(string name)
+        public static IntPtr GetFunction(string name)
         {
             CheckThread();
             IntPtr ptr = IupGetFunction(name);
+            return ptr;
+            /*
             return ptr == IntPtr.Zero ? null
-                : Marshal.GetDelegateForFunctionPointer<Icallback>(ptr);
+                : Marshal.GetDelegateForFunctionPointer<Icallback>(ptr);*/
         }
 
-        public static Icallback SetFunction(string name, Icallback func)
+        public static void SetFunction(string name, Icallback func)
         {
             CheckThread();
             IntPtr old = IupSetFunction(name, func);
-            return old == IntPtr.Zero ? null
-                : Marshal.GetDelegateForFunctionPointer<Icallback>(old);
+            /*return old == IntPtr.Zero ? null
+                : Marshal.GetDelegateForFunctionPointer<Icallback>(old);*/
         }
 
         // --- Named handles ---
