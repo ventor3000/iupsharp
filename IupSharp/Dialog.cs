@@ -616,7 +616,7 @@ namespace IupSharp
             set
             {
                 _closeCB = value;
-                _closeCBInternal = CloseCBInternal;
+                
                 SetCallback("CLOSE_CB", Utils.CastCallback<Icallback>(_closeCBInternal));
             }
         }
