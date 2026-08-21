@@ -8,6 +8,8 @@ namespace IupSharpTest
 
         static Canvas can;
         static Dialog dlg;
+        static UITimer tt;
+
         static void Main(string[] args)
         {
             Iup.Open();
@@ -20,8 +22,10 @@ namespace IupSharpTest
                     btn = new Button("My button") { Expand = Expand.Horizontal, Action = ButtonAction, BgColor = Color.CornflowerBlue, FgColor = Color.Red },
                     new Toggle("My toggle") { Action = ToggleAction },
                     can=new Canvas() { RasterSize=(200,200), BgColor = Color.Black,Action=RedrawCanvas },
+                    new Text("Hello") { Expand=Expand.Horizontal},
                     new Label("The end")
                 )
+                { Gap=8,Margin=(8,8)}
             )
             { CloseCB = ClosaCall,KAny=DialogKey,Shrink=false,DestroyOnClose=true};
 
@@ -30,8 +34,8 @@ namespace IupSharpTest
             btn.FgColor = Color.Empty;
 
 
-            UITimer tt = new UITimer(500, OnTimer, true);
-
+            tt = new UITimer(500, OnTimer, true);
+            
             dlg.Popup();
 
             
@@ -44,7 +48,7 @@ namespace IupSharpTest
         private static void OnTimer(CallbackData d)
         {
             testCount++;
-            dlg.Title=testCount.ToString();
+            dlg.Title=testCount.ToString()+" "+tt.Wid.ToString();
             
         }
 
@@ -69,8 +73,7 @@ namespace IupSharpTest
 
         private static void DialogKey(KeyCBData d)
         {
-            if(d.Key!=(Key.Shift|Key.LeftShift))
-                Iup.Message(d.Key.Describe());
+            
         }
 
         private static void ClosaCall(CallbackData d)
@@ -82,7 +85,9 @@ namespace IupSharpTest
 
         private static void ButtonAction(CallbackData d)
         {
-            Iup.MessageError("test");
+            tt.Running = !tt.Running;
+
+            
         }
 
         private static void ToggleAction(ToggleActionData d)

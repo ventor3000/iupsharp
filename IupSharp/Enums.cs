@@ -225,6 +225,47 @@ namespace IupSharp
         Continue = -4
     }
 
+    /// <summary>Horizontal text alignment inside a Text control.</summary>
+    public enum TextAlignment
+    {
+        /// <summary>Left aligned. This is the default, and the only option in Motif.</summary>
+        Left,
+        /// <summary>Centred.</summary>
+        Center,
+        /// <summary>Right aligned.</summary>
+        Right
+    }
+
+    /// <summary>Case conversion applied by Text.ChangeCase.</summary>
+    public enum TextCase
+    {
+        /// <summary>Convert everything to upper case.</summary>
+        Upper,
+        /// <summary>Convert everything to lower case.</summary>
+        Lower,
+        /// <summary>Invert the case of each character.</summary>
+        Toggle,
+        /// <summary>
+        /// Title case: the first letter of each space-separated word becomes upper case
+        /// and the rest lower case, but only for words longer than three characters.
+        /// For example "Best of the World".
+        /// </summary>
+        Title
+    }
+
+    /// <summary>Filter applied to characters typed into a Text control.</summary>
+    public enum TextFilter
+    {
+        /// <summary>No filtering.</summary>
+        None,
+        /// <summary>Force typed characters to lower case.</summary>
+        Lowercase,
+        /// <summary>Force typed characters to upper case.</summary>
+        Uppercase,
+        /// <summary>Allow digits only.</summary>
+        Number
+    }
+
     /// <summary>
     /// IUP keyboard codes, as reported by the KAny callback and used by the Key
     /// attribute of menu items. Generated from iupkey.h of IUP 3.32.

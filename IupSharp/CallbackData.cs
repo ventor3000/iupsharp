@@ -457,4 +457,73 @@ namespace IupSharp
     }
 
     public delegate void PostMessageCallback(PostMessageData d);
+
+    /// <summary>
+    /// Data for the Text Action callback, raised before the value actually changes.
+    /// </summary>
+    public class TextActionData : CallbackData
+    {
+        /// <summary>
+        /// The typed character, or '\0' when the change did not come from a single
+        /// keystroke - for example a paste or an undo.
+        /// </summary>
+        public readonly char Character;
+
+        /// <summary>The text the control would have after the change.</summary>
+        public readonly string NewValue;
+
+        /// <summary>
+        /// Set this to substitute a different character for the one typed. Only
+        /// meaningful when Character is not '\0'. Leave it as '\0' to accept the
+        /// original, or set Result to Ignore to reject the change entirely.
+        /// </summary>
+        public char Replacement;
+
+        public TextActionData(Control sender, int c, string newValue) : base(sender)
+        {
+            this.Character = c == 0 ? '\0' : (char)c;
+            this.NewValue = newValue;
+            this.Replacement = '\0';
+        }
+    }
+    public delegate void TextActionCallback(TextActionData d);
+
+
+    /// <summary>Data for the CaretCB callback.</summary>
+    public class CaretCBData : CallbackData
+    {
+        /// <summary>Line number, starting at 1. Always 1 for a single line control.</summary>
+        public readonly int Line;
+
+        /// <summary>Column number, starting at 1.</summary>
+        public readonly int Column;
+
+        /// <summary>
+        /// Zero based character position. For a single line control this is always
+        /// Column - 1.
+        /// </summary>
+        public readonly int Position;
+
+        public CaretCBData(Control sender, int lin, int col, int pos) : base(sender)
+        {
+            this.Line = lin;
+            this.Column = col;
+            this.Position = pos;
+        }
+    }
+    public delegate void CaretCBCallback(CaretCBData d);
+
+
+    /// <summary>Data for the SpinCB callback.</summary>
+    public class SpinCBData : CallbackData
+    {
+        /// <summary>The spin value, after it was incremented or decremented.</summary>
+        public readonly int Value;
+
+        public SpinCBData(Control sender, int pos) : base(sender)
+        {
+            this.Value = pos;
+        }
+    }
+    public delegate void SpinCBCallback(SpinCBData d);
 }
