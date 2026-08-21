@@ -9,6 +9,11 @@ namespace IupSharp
 
         public Control(nint handle) : base(handle)
         {
+
+            // Registered unconditionally: the library's own features depend on posted
+            // messages arriving, and a feature that forgets to register fails silently.
+            _postMessageCBInternal = PostMessageCBInternal;
+            SetCallback("POSTMESSAGE_CB", Utils.CastCallback<Icallback>(_postMessageCBInternal));
         }
 
 
@@ -431,20 +436,7 @@ namespace IupSharp
         /// </summary>
         protected virtual bool OnPostMessage(string text, int value, double number, IntPtr pointer) => false;
 
-        /// <summary>
-        /// Registers POSTMESSAGE_CB if it has not been registered yet. Call this from
-        /// anything that relies on posted messages arriving, not only from the public
-        /// callback setter - a feature that forgets to call it fails silently.
-        /// </summary>
-        protected void EnsurePostMessageHook()
-        {
-            if (_postMessageCBInternal != null)
-                return;
-
-            _postMessageCBInternal = PostMessageCBInternal;
-            SetCallback("POSTMESSAGE_CB", Utils.CastCallback<Icallback>(_postMessageCBInternal));
-        }
-
+        
         #endregion
 
 
@@ -744,13 +736,8 @@ namespace IupSharp
         public PostMessageCallback PostMessageCB
         {
             get => _postMessageCB;
-            set
-            {
-                _postMessageCB = value;
-                EnsurePostMessageHook();
-            }
+            set => _postMessageCB = value;   // hook already installed in constructor, so no need to set the native callback here
         }
-
 
 
         private int PostMessageCBInternal(nint ih, string text, int value, double number, IntPtr pointer)

@@ -63,8 +63,8 @@ namespace IupSharpTest
 
         private static void ClosaCall(CallbackData d)
         {
-            
-            
+
+            int debug = 0;
 
         }
 

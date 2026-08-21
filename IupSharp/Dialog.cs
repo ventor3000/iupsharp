@@ -65,6 +65,11 @@ namespace IupSharp
             : base(IupNative.IupDialog(child == null ? IntPtr.Zero : child.Handle))
         {
             _child = child;
+
+            // Registered unconditionally so DestroyOnClose works without the
+            // application also setting CloseCB.
+            _closeCBInternal = CloseCBInternal;
+            SetCallback("CLOSE_CB", Utils.CastCallback<Icallback>(_closeCBInternal));
         }
 
         /// <summary>
@@ -277,11 +282,6 @@ namespace IupSharp
             set
             {
                 _destroyOnClose = value;
-
-                // The deferred destroy arrives through POSTMESSAGE_CB, so the hook has
-                // to exist even when the application never sets PostMessageCB.
-                if (value)
-                    EnsurePostMessageHook();
             }
         }
 
