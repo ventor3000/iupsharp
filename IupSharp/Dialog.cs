@@ -615,7 +615,7 @@ namespace IupSharp
             get => _closeCB;
             set
             {
-                _closeCB = value;
+                _closeCB = value; // CLOSE_CB already registered in constructor, so just update the delegate reference
             }
         }
         private int CloseCBInternal(nint ih)
