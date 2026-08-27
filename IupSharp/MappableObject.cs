@@ -12,6 +12,42 @@ namespace IupSharp
         {
         }
 
+        /// <summary>
+        /// Gets whether the element has a native representation yet. Non-native
+        /// containers such as VBox and HBox report a fake WID of -1 when mapped, so
+        /// this is true for them too.
+        /// </summary>
+        public bool IsMapped => GetAttribute("WID") != null;
+
+        /// <summary>
+        /// Creates the native element and, recursively, those of its children. Called
+        /// automatically before a dialog is shown, so this is only needed when an
+        /// attribute must be read before the dialog is displayed, or when adding
+        /// elements to an already mapped container.
+        /// </summary>
+        /// <remarks>
+        /// The element must already be attached to a mapped container, except for a
+        /// dialog. Mapping an already mapped non-dialog element does nothing. After
+        /// adding elements to a live dialog, call Refresh on it to update the layout.
+        /// </remarks>
+        /// <exception cref="IupException">The native creation failed.</exception>
+        public void Map()
+        {
+            CheckAlive();
+            if (IupNative.IupMap(Handle) != IupNative.IUP_NOERROR)
+                throw new IupException("Failed to map the element.");
+        }
+
+        /// <summary>
+        /// Destroys the native element but keeps the IUP element. Its attributes are
+        /// saved first, so a later Map restores them.
+        /// </summary>
+        public void Unmap()
+        {
+            CheckAlive();
+            IupNative.IupUnmap(Handle);
+        }
+
         #region CALLBACKS
 
         private Callback _mapCB;

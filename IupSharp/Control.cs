@@ -505,29 +505,7 @@ namespace IupSharp
             IupNative.IupSetFocus(Handle);
         }
 
-        /// <summary>
-        /// Creates the native element for this control. Called automatically when the
-        /// dialog is shown; only needed when an attribute must be read before the
-        /// dialog is displayed.
-        /// </summary>
-        /// <exception cref="IupException">The element could not be mapped.</exception>
-        public void Map()
-        {
-            CheckAlive();
-            if (IupNative.IupMap(Handle) != IupNative.IUP_NOERROR)
-                throw new IupException("Failed to map the element.");
-        }
-
-        /// <summary>
-        /// Destroys the native element but keeps the IUP element. Its attributes are
-        /// saved before unmapping.
-        /// </summary>
-        public void Unmap()
-        {
-            CheckAlive();
-            IupNative.IupUnmap(Handle);
-        }
-
+        
         #endregion
 
         #region CALLBACKS

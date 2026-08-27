@@ -10,6 +10,7 @@ namespace IupSharpTest
         static Dialog dlg;
         static UITimer tt;
         static DropButton dropbtn;
+        static Submenu editMenu;
 
         static void Main(string[] args)
         {
@@ -40,8 +41,16 @@ namespace IupSharpTest
 
 
             dlg.Menu = new Menu(
-                new Submenu("File"),
-                new Submenu("Edit"),
+                new Submenu("File", new Menu(
+                        new Item("Kalle"),
+                        new Item("Olle"),
+                        new Item("Pelle",PelleClick)
+                    )),
+                editMenu=new Submenu("Edit", new Menu(
+                        new Item("Kalle 2"),
+                        new Item("Olle 2"),
+                        new Item("Pelle 2")
+                    )),
                 new Submenu("Help"));
 
             var col = btn.FgColor;
@@ -59,6 +68,18 @@ namespace IupSharpTest
             Iup.Close();
         }
 
+        private static void PelleClick(CallbackData d)
+        {
+            Item i = new Item("New item",NewItemClick);
+            editMenu.Menu.Append(i);
+            
+            i.Map();
+        }
+
+        private static void NewItemClick(CallbackData d)
+        {
+            Iup.Message("Hello world");
+        }
 
         static int testCount = 0;
         private static void OnTimer(CallbackData d)
