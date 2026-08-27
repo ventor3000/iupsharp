@@ -83,11 +83,18 @@ namespace IupSharpTest
             DoubleParam f = Param.Real("Ange flyttal",3.5);
             ColorParam par = Param.Color("ANge färg", Color.Pink);
 
-            if (Iup.GetParams("Ange parametrar", a, b, c, d,e,f,par))
+            if (Iup.GetParams("Ange parametrar",ParamCb, a, b, c, d,e,f,par))
                 Iup.Message("Bekräftat");
 
 
             Iup.Message(f.Value.ToString());
+            
+        }
+
+        private static void ParamCb(ParamCallbackData d)
+        {
+            if(d.Parameter is DoubleParam)
+                d.Accept = false;
             
         }
 
