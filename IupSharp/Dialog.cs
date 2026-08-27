@@ -462,12 +462,12 @@ namespace IupSharp
 
         #region ASSOCIATED ELEMENTS
 
-        private IupObject _menuReference = null;
+        private Menu _menuReference = null;
         /// <summary>
         /// Gets or sets a menu associated with the dialog as a menu bar. The previous
         /// menu, if any, is unmapped.
         /// </summary>
-        public virtual IupObject Menu
+        public virtual Menu Menu
         {
             set
             {

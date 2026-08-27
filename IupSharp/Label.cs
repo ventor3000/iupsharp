@@ -148,30 +148,30 @@ namespace IupSharp
         /// Expand attribute is set accordingly.
         /// (creation only) (non inheritable)
         /// </summary>
-        public virtual Separator Separator
+        public virtual SeparatorOrientation SeparatorOrientation
         {
             get
             {
                 string sep = GetAttribute("SEPARATOR");
                 if (sep == "HORIZONTAL")
-                    return Separator.Horizontal;
+                    return SeparatorOrientation.Horizontal;
                 else if (sep == "VERTICAL")
-                    return Separator.Vertical;
+                    return SeparatorOrientation.Vertical;
                 else
-                    return Separator.No;
+                    return SeparatorOrientation.No;
 
             }
             set
             {
                 switch (value)
                 {
-                    case Separator.Horizontal:
+                    case SeparatorOrientation.Horizontal:
                         SetAttribute("SEPARATOR", "HORIZONTAL");
                         break;
-                    case Separator.Vertical:
+                    case SeparatorOrientation.Vertical:
                         SetAttribute("SEPARATOR", "VERTICAL");
                         break;
-                    case Separator.No:
+                    case SeparatorOrientation.No:
                     default:
                         SetAttribute("SEPARATOR", null); // separator off
                         break;

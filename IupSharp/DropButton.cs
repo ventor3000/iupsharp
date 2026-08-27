@@ -54,6 +54,7 @@ namespace IupSharp
         public DropButton(Control dropChild)
             : base(IupNative.IupDropButton(dropChild == null ? IntPtr.Zero : dropChild.Handle))
         {
+            CheckDropChild(dropChild);
             _dropChild = dropChild;
         }
 
@@ -66,6 +67,18 @@ namespace IupSharp
         }
 
         #region DROP CHILD
+
+
+        private static Control CheckDropChild(Control dropChild)
+        {
+            if (dropChild is Dialog)
+                throw new ArgumentException(
+                    "The drop child must not be a Dialog. IUP creates its own undecorated " +
+                    "dialog for it — pass the content directly, such as a VBox.",
+                    nameof(dropChild));
+
+            return dropChild;
+        }
 
         private Control _dropChild;
 
@@ -80,6 +93,7 @@ namespace IupSharp
             set
             {
                 CheckAlive();
+                CheckDropChild(value);
                 _dropChild = value;
                 IupNative.SetAttributeHandle(Handle, "DROPCHILD_HANDLE",
                     value == null ? IntPtr.Zero : value.Handle);

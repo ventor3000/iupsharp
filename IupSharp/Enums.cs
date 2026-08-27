@@ -47,7 +47,7 @@ namespace IupSharp
         Bottom
     }
 
-    public enum Separator
+    public enum SeparatorOrientation
     {
         No,
         Horizontal,

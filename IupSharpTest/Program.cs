@@ -18,11 +18,11 @@ namespace IupSharpTest
             Button btn;
 
 
-            Dialog dropdlg = new Dialog(
+            var dropcontent = 
                 new VBox(
                     new Button("Alfa"),
                     new Button("Beta"),
-                    new Button("Gamma")));
+                    new Button("Gamma"));
 
 
             dlg = new Dialog(
@@ -32,14 +32,20 @@ namespace IupSharpTest
                     can=new Canvas() { RasterSize=(200,200), BgColor = Color.Black,Action=RedrawCanvas },
                     new Text("Hello\nworld",true) { Expand=Expand.Yes,BgColor=Color.Blue },
                     new Label("The end"),
-                    dropbtn=new DropButton("My dropdown", dropdlg)
+                    dropbtn=new DropButton("My dropdown", dropcontent) { CanFocus=false}
                 )
                 { Gap=8,Margin=(8,8)}
             )
             { CloseCB = ClosaCall,KAny=DialogKey,Shrink=false,DestroyOnClose=true};
 
+
+            dlg.Menu = new Menu(
+                new Submenu("File"),
+                new Submenu("Edit"),
+                new Submenu("Help"));
+
             var col = btn.FgColor;
-            dropbtn.DropChild = dropdlg;
+            //dropbtn.DropChild = dropdlg;
 
             btn.FgColor = Color.Empty;
 
