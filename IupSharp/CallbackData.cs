@@ -526,4 +526,20 @@ namespace IupSharp
         }
     }
     public delegate void SpinCBCallback(SpinCBData d);
+
+    /// <summary>
+    /// Data for the DropDownCB and DropShowCB callbacks. For DropDownCB the state is
+    /// the one about to be applied; for DropShowCB it is the current one.
+    /// </summary>
+    public class DropStateData : CallbackData
+    {
+        /// <summary>True when the drop child is being shown, false when hidden.</summary>
+        public readonly bool Shown;
+
+        public DropStateData(Control sender, int state) : base(sender)
+        {
+            this.Shown = state != 0;
+        }
+    }
+    public delegate void DropStateCallback(DropStateData d);
 }

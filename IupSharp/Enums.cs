@@ -267,6 +267,34 @@ namespace IupSharp
     }
 
     /// <summary>
+    /// Where the drop child appears relative to the drop button. The named corner of
+    /// the drop child is aligned with the opposite corner of the button.
+    /// </summary>
+    public enum DropPosition
+    {
+        /// <summary>
+        /// The top-left corner of the drop child aligns with the bottom-left corner of
+        /// the button. This is the default.
+        /// </summary>
+        BottomLeft,
+        /// <summary>
+        /// The bottom-left corner of the drop child aligns with the top-left corner of
+        /// the button.
+        /// </summary>
+        TopLeft,
+        /// <summary>
+        /// The top-right corner of the drop child aligns with the bottom-right corner
+        /// of the button.
+        /// </summary>
+        BottomRight,
+        /// <summary>
+        /// The bottom-right corner of the drop child aligns with the top-right corner
+        /// of the button.
+        /// </summary>
+        TopRight
+    }
+
+    /// <summary>
     /// IUP keyboard codes, as reported by the KAny callback and used by the Key
     /// attribute of menu items. Generated from iupkey.h of IUP 3.32.
     ///
