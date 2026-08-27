@@ -42,14 +42,14 @@ namespace IupSharpTest
 
             dlg.Menu = new Menu(
                 new Submenu("File", new Menu(
-                        new Item("Kalle"),
-                        new Item("Olle"),
-                        new Item("Pelle",PelleClick)
+                        new MenuItem("Kalle"),
+                        new MenuItem("Olle"),
+                        new MenuItem("Pelle",PelleClick)
                     )),
                 editMenu=new Submenu("Edit", new Menu(
-                        new Item("Kalle 2"),
-                        new Item("Olle 2"),
-                        new Item("Pelle 2")
+                        new MenuItem("Kalle 2"),
+                        new MenuItem("Olle 2"),
+                        new MenuItem("Pelle 2")
                     )),
                 new Submenu("Help"));
 
@@ -70,7 +70,7 @@ namespace IupSharpTest
 
         private static void PelleClick(CallbackData d)
         {
-            Item i = new Item("New item",NewItemClick);
+            MenuItem i = new MenuItem("New item",NewItemClick);
             editMenu.Menu.Append(i);
             
             i.Map();

@@ -63,7 +63,7 @@ namespace IupSharp
     /// <summary>
     /// Creates a menu item. When selected it generates an action.
     /// </summary>
-    public class Item : MenuElement
+    public class MenuItem : MenuElement
     {
         /// <summary>
         /// Creates a new menu item.
@@ -73,7 +73,7 @@ namespace IupSharp
         /// "&amp;&amp;" to show a literal "&amp;". A '\t' right-aligns everything after
         /// it, which is the convention for showing a shortcut, as in "Save\tCtrl+S".
         /// </param>
-        public Item(string title = null) : base(IupNative.Item(title, null))
+        public MenuItem(string title = null) : base(IupNative.Item(title, null))
         {
         }
 
@@ -82,7 +82,7 @@ namespace IupSharp
         /// </summary>
         /// <param name="title">The item text.</param>
         /// <param name="action">The action invoked when the item is selected.</param>
-        public Item(string title, Callback action) : this(title)
+        public MenuItem(string title, Callback action) : this(title)
         {
             Action = action;
         }
@@ -318,16 +318,60 @@ namespace IupSharp
         /// <param name="title">The text shown on the submenu item.</param>
         /// <param name="menu">The menu opened when the item is selected. It can be null.</param>
         public Submenu(string title, Menu menu = null)
-            : base(IupNative.Submenu(title, menu == null ? IntPtr.Zero : menu.Handle))
+    : base(IupNative.Submenu(title, IntPtr.Zero))
         {
-            _menu = menu;
+            Title = title;
+            Menu = menu;
         }
 
         /// <summary>
-        /// Gets the menu opened by this submenu. It is set at construction and becomes
-        /// a child of the submenu, so it is destroyed along with it.
+        /// Gets or sets the menu opened when this submenu is selected. It becomes a
+        /// child of the submenu, so it is destroyed along with it.
+        ///
+        /// <para><b>A submenu with no menu is not displayed at all.</b> IUP inserts the
+        /// submenu into its parent when the child menu is mapped, so a submenu without
+        /// one never appears, rather than appearing and doing nothing.</para>
+        ///
+        /// <para>Assigning over an existing menu detaches the old one, which then
+        /// becomes the caller's responsibility to destroy. Assigning null detaches
+        /// without replacing.</para>
         /// </summary>
-        public Menu Menu => _menu;
+        /// <exception cref="ArgumentException">The menu is already attached elsewhere.</exception>
+        public virtual Menu Menu
+        {
+            get => _menu;
+            set
+            {
+                CheckAlive();
+
+                if (ReferenceEquals(_menu, value))
+                    return;
+
+                if (value != null && IupNative.IupGetParent(value.Handle) != IntPtr.Zero)
+                    throw new ArgumentException(
+                        "That menu already belongs to another element. Detach it first.", nameof(value));
+
+                // A submenu accepts only one child, so the old menu must go first.
+                if (_menu != null && _menu.Handle != IntPtr.Zero)
+                    IupNative.IupDetach(_menu.Handle);
+
+                _menu = value;
+
+                if (value == null)
+                    return;
+
+                if (IupNative.IupAppend(Handle, value.Handle) == IntPtr.Zero)
+                {
+                    _menu = null;
+                    throw new IupException("Failed to attach the menu to the submenu.");
+                }
+
+                // The parent menu may already be mapped, in which case the new child
+                // needs mapping for the submenu to appear.
+                if (IsMapped)
+                    value.Map();
+            }
+        }
 
         /// <summary>
         /// Gets or sets the submenu text. The "&amp;" character defines a mnemonic; use
@@ -363,6 +407,8 @@ namespace IupSharp
             _image = null;
             base.OnDestroying();
         }
+
+
     }
 
 

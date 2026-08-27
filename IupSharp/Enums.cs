@@ -295,6 +295,23 @@ namespace IupSharp
     }
 
     /// <summary>
+    /// State reported by the ShowCB callback.
+    /// </summary>
+    public enum ShowState
+    {
+        /// <summary>The dialog was shown.</summary>
+        Show = 0,
+        /// <summary>The dialog was restored from minimized or maximized.</summary>
+        Restore = 1,
+        /// <summary>The dialog was minimized.</summary>
+        Minimize = 2,
+        /// <summary>The dialog was maximized. Not received in Motif.</summary>
+        Maximize = 3,
+        /// <summary>The dialog was hidden.</summary>
+        Hide = 4
+    }
+
+    /// <summary>
     /// IUP keyboard codes, as reported by the KAny callback and used by the Key
     /// attribute of menu items. Generated from iupkey.h of IUP 3.32.
     ///

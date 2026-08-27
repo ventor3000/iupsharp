@@ -108,10 +108,7 @@ namespace IupSharp
         public const string IUP_MASK_INT = "[+/-]?/d+";
         public const string IUP_MASK_UINT = "/d+";
 
-        // ------------------------------------------------------------------ //
-        // SHOW_CB enum                                                         //
-        // ------------------------------------------------------------------ //
-        public enum ShowState { Show = 0, Restore, Minimize, Maximize, Hide }
+        
 
         // ------------------------------------------------------------------ //
         // SCROLL_CB enum                                                       //
