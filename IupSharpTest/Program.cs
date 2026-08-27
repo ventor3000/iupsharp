@@ -11,6 +11,7 @@ namespace IupSharpTest
         static UITimer tt;
         static DropButton dropbtn;
         static Submenu editMenu;
+        static List lst;
 
         static void Main(string[] args)
         {
@@ -33,12 +34,16 @@ namespace IupSharpTest
                     can=new Canvas() { RasterSize=(200,200), BgColor = Color.Black,Action=RedrawCanvas },
                     new Text("Hello\nworld",true) { Expand=Expand.Yes,BgColor=Color.Blue },
                     new Label("The end"),
-                    dropbtn=new DropButton("My dropdown", dropcontent) { CanFocus=false}
+                    dropbtn=new DropButton("My dropdown", dropcontent) { CanFocus=false},
+                    lst=new List(ListStyle.Multiple,"Kalle","Olle","Pelle","Niklas") { SelectedPosition=25}
                 )
                 { Gap=8,Margin=(8,8)}
             )
             { CloseCB = ClosaCall,KAny=DialogKey,Shrink=false,DestroyOnClose=true};
 
+            lst.SelectedPositions = new[] { 1, 4 };
+
+            
 
             dlg.Menu = new Menu(
                 new Submenu("File", new Menu(
@@ -68,12 +73,22 @@ namespace IupSharpTest
             Iup.Close();
         }
 
-        private static void PelleClick(CallbackData d)
+        private static void PelleClick(CallbackData cd)
         {
-            MenuItem i = new MenuItem("New item",NewItemClick);
-            editMenu.Menu.Append(i);
+            Param a = Param.Int("Mitt heltal");
+            Param b = Param.Int("Mitt andra heltal", 3, -1, 5);
+            Param c = Param.Bool("Vill du testa?");
+            Param d = Param.Angle("Ange vinkel",90);
+            Param e = Param.Font("Ange typsnitt");
+            DoubleParam f = Param.Real("Ange flyttal");
+            ColorParam par = Param.Color("ANge färg", Color.Pink);
+
+            if (Iup.GetParams("Ange parametrar", a, b, c, d,e,f,par))
+                Iup.Message("Bekräftat");
+
+
+            Iup.Message(par.Value.ToString());
             
-            i.Map();
         }
 
         private static void NewItemClick(CallbackData d)

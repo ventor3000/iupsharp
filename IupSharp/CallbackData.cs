@@ -542,4 +542,145 @@ namespace IupSharp
         }
     }
     public delegate void DropStateCallback(DropStateData d);
+
+    // =====================================================================
+    // Add to CallbackData.cs
+    // =====================================================================
+
+    /// <summary>
+    /// Data for the List Action callback, raised when an item's selection state
+    /// changes.
+    /// </summary>
+    public class ListActionData : CallbackData
+    {
+        /// <summary>Text of the item whose state changed.</summary>
+        public readonly string Text;
+
+        /// <summary>One-based position of the item whose state changed.</summary>
+        public readonly int Position;
+
+        /// <summary>True if the item was selected, false if it was deselected.</summary>
+        public readonly bool Selected;
+
+        public ListActionData(Control sender, string text, int item, int state) : base(sender)
+        {
+            this.Text = text;
+            this.Position = item;
+            this.Selected = state != 0;
+        }
+    }
+    public delegate void ListActionCallback(ListActionData d);
+
+
+    /// <summary>
+    /// Data for the MultiSelectCB callback, raised once a multiple selection
+    /// interaction is over.
+    /// </summary>
+    public class MultiSelectData : CallbackData
+    {
+        /// <summary>
+        /// The raw IUP string: '+' for a newly selected item, '-' for a newly
+        /// deselected one, and 'x' for an item whose state did not change. One
+        /// character per item, in order.
+        /// </summary>
+        public readonly string Value;
+
+        /// <summary>One-based positions of the items just selected.</summary>
+        public readonly int[] Selected;
+
+        /// <summary>One-based positions of the items just deselected.</summary>
+        public readonly int[] Deselected;
+
+        /// <summary>One-based positions of every currently selected item.</summary>
+        public readonly int[] AllSelected;
+
+        public MultiSelectData(Control sender, string value) : base(sender)
+        {
+            this.Value = value;
+
+            if (string.IsNullOrEmpty(value))
+            {
+                Selected = Array.Empty<int>();
+                Deselected = Array.Empty<int>();
+                AllSelected = Array.Empty<int>();
+                return;
+            }
+
+            var sel = new System.Collections.Generic.List<int>();
+            var desel = new System.Collections.Generic.List<int>();
+            var all = new System.Collections.Generic.List<int>();
+
+            for (int i = 0; i < value.Length; i++)
+            {
+                switch (value[i])
+                {
+                    case '+':
+                        sel.Add(i + 1);
+                        all.Add(i + 1);
+                        break;
+                    case '-':
+                        desel.Add(i + 1);
+                        break;
+                        // 'x' means unchanged; it does not say whether the item is
+                        // selected, so it cannot contribute to AllSelected.
+                }
+            }
+
+            Selected = sel.ToArray();
+            Deselected = desel.ToArray();
+            AllSelected = all.ToArray();
+        }
+    }
+    public delegate void MultiSelectCallback(MultiSelectData d);
+
+
+    /// <summary>Data for the DblClickCB callback.</summary>
+    public class DblClickData : CallbackData
+    {
+        /// <summary>One-based position of the double clicked item.</summary>
+        public readonly int Position;
+
+        /// <summary>Text of the double clicked item.</summary>
+        public readonly string Text;
+
+        public DblClickData(Control sender, int item, string text) : base(sender)
+        {
+            this.Position = item;
+            this.Text = text;
+        }
+    }
+    public delegate void DblClickCallback(DblClickData d);
+
+
+    /// <summary>
+    /// Data for the DragDropCB callback, raised when an internal drag and drop of
+    /// items completes.
+    /// </summary>
+    public class DragDropData : CallbackData
+    {
+        /// <summary>One-based position where the drag started.</summary>
+        public readonly int DragPosition;
+
+        /// <summary>
+        /// One-based position where the drop happened, or -1 for a drop in blank
+        /// space.
+        /// </summary>
+        public readonly int DropPosition;
+
+        /// <summary>True if Shift was held.</summary>
+        public readonly bool Shift;
+
+        /// <summary>True if Ctrl was held, which copies rather than moves.</summary>
+        public readonly bool Control;
+
+        public DragDropData(Control sender, int dragId, int dropId, int isShift, int isControl)
+            : base(sender)
+        {
+            this.DragPosition = dragId;
+            this.DropPosition = dropId;
+            this.Shift = isShift != 0;
+            this.Control = isControl != 0;
+        }
+    }
+    public delegate void DragDropCallback(DragDropData d);
 }

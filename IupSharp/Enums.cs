@@ -312,6 +312,33 @@ namespace IupSharp
     }
 
     /// <summary>
+    /// Creation-only options for a List. These cannot be changed after the element
+    /// is created, which is why they are constructor arguments.
+    /// </summary>
+    [Flags]
+    public enum ListStyle
+    {
+        /// <summary>A plain, single-selection list with scrollbars and focus.</summary>
+        None = 0,
+        /// <summary>Show only the selected item until opened — a combo box.</summary>
+        DropDown = 1,
+        /// <summary>Add an edit box for text input.</summary>
+        EditBox = 2,
+        /// <summary>Allow selecting several items at once.</summary>
+        Multiple = 4,
+        /// <summary>Keep the items alphabetically sorted.</summary>
+        Sort = 8,
+        /// <summary>Allow an image beside each item. [Windows and GTK only]</summary>
+        ShowImage = 16,
+        /// <summary>Enable internal drag and drop of items, and DragDropCB.</summary>
+        ShowDragDrop = 32,
+        /// <summary>Omit the scrollbars. They are present by default.</summary>
+        NoScrollBar = 64,
+        /// <summary>Exclude the list from focus traversal. It is included by default.</summary>
+        NoFocus = 128
+    }
+
+    /// <summary>
     /// IUP keyboard codes, as reported by the KAny callback and used by the Key
     /// attribute of menu items. Generated from iupkey.h of IUP 3.32.
     ///
