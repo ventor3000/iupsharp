@@ -2466,7 +2466,10 @@ namespace IupSharp
         public static int GetParamv(string title, Iparamcb action, IntPtr userData,
                                     string format, int paramCount, int paramExtra,
                                     IntPtr[] paramData)
-            => IupGetParamv(title, action, userData, format, paramCount, paramExtra, paramData);
+        {
+            CheckThread();
+            return IupGetParamv(title, action, userData, format, paramCount, paramExtra, paramData);
+        }
 
         public static Ihandle Param(string format)
         {

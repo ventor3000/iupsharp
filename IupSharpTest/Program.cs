@@ -80,14 +80,14 @@ namespace IupSharpTest
             Param c = Param.Bool("Vill du testa?");
             Param d = Param.Angle("Ange vinkel",90);
             Param e = Param.Font("Ange typsnitt");
-            DoubleParam f = Param.Real("Ange flyttal");
+            DoubleParam f = Param.Real("Ange flyttal",3.5);
             ColorParam par = Param.Color("ANge färg", Color.Pink);
 
             if (Iup.GetParams("Ange parametrar", a, b, c, d,e,f,par))
                 Iup.Message("Bekräftat");
 
 
-            Iup.Message(par.Value.ToString());
+            Iup.Message(f.Value.ToString());
             
         }
 
