@@ -46,7 +46,7 @@ namespace IupSharp
         {
             if (NativeIup.IupIsOpened() == 0)
                 throw new InvalidOperationException(
-                    "Iup.Open() must be called before IupImageLib.Open().");
+                    "Iup.Open() must be called before ImageLib.Open().");
 
             NativeIupImageLib.IupImageLibOpen();
         }

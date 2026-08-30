@@ -1,4 +1,5 @@
 ﻿using IupSharp;
+using IupSharp.Controls;
 using System.Drawing;
 
 namespace IupSharpTest
@@ -22,6 +23,7 @@ namespace IupSharpTest
         {
             Iup.Open();
             ImageLib.Open();
+           // NativeIupControls.IupControlsOpen();
 
             Button btn;
 
@@ -47,9 +49,9 @@ namespace IupSharpTest
                     new Link("www.google.com", "Press here to go to google") { Action = LinkAction },
                     valuator = new Valuator(Orientation.Horizontal, 5, TicksPosition.Reverse) { ValueChangedCB = ValChanged, Expand = Expand.Horizontal },
                     new DatePick() { Value = new DateTime(1973, 10, 19), Separator = "~" },
-                  
-                    
-                    radio=new Radio(new VBox(
+                  new Dial(DialOrientation.Circular),
+
+                    radio =new Radio(new VBox(
                         tog1=new Toggle("Alfa"),
                         tog2 = new Toggle("Beta"),
                         tog3 = new Toggle("Gamma"),
@@ -117,6 +119,8 @@ namespace IupSharpTest
             Param e = Param.Font("Ange typsnitt");
             DoubleParam f = Param.Real("Ange flyttal",3.5);
             ColorParam par = Param.Color("ANge färg", Color.Pink);
+
+            
 
             if (Iup.GetParams("Ange parametrar",ParamCb, a, b, c, d,e,f,par))
                 Iup.Message("Bekräftat");
