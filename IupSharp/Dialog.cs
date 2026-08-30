@@ -452,9 +452,11 @@ namespace IupSharp
         {
             get
             {
+                return GetAttributePtr("HWND");
+                /*
                 string wid = GetAttribute("HWND");
                 if (string.IsNullOrEmpty(wid)) return IntPtr.Zero;
-                return (IntPtr)long.Parse(wid, NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+                return (IntPtr)long.Parse(wid, NumberStyles.HexNumber, CultureInfo.InvariantCulture);*/
             }
         }
 

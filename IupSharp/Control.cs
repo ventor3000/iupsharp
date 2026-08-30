@@ -97,6 +97,8 @@ namespace IupSharp
         {
             get
             {
+                return GetAttributePtr("WID");
+                /*
                 string wid = GetAttribute("WID");
                 if (string.IsNullOrEmpty(wid))
                     return IntPtr.Zero;
@@ -108,7 +110,7 @@ namespace IupSharp
                 if (long.TryParse(wid, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out long v))
                     return (IntPtr)v;
 
-                return IntPtr.Zero;
+                return IntPtr.Zero;*/
             }
         }
 

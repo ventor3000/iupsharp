@@ -17,7 +17,7 @@ namespace IupSharp
         /// containers such as VBox and HBox report a fake WID of -1 when mapped, so
         /// this is true for them too.
         /// </summary>
-        public bool IsMapped => GetAttribute("WID") != null;
+        public bool IsMapped => GetAttributePtr("WID") != null;
 
         /// <summary>
         /// Creates the native element and, recursively, those of its children. Called

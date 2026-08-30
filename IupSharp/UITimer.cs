@@ -121,8 +121,9 @@ namespace IupSharp
         {
             get
             {
-                string v = GetAttribute("WID");
-                return int.TryParse(v, CultureInfo.InvariantCulture, out int w) ? w : -1;
+                return (int)GetAttributePtr("WID");
+                /*string v = GetAttribute("WID");
+                return int.TryParse(v, CultureInfo.InvariantCulture, out int w) ? w : -1;*/
             }
         }
 
