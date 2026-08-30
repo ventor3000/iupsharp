@@ -143,6 +143,8 @@ namespace IupSharp
         {
             _iminactiveReference = null;
             _imageReference = null;
+            _imageName = null;
+            _iminactiveName= null;
             base.OnDestroying();
         }
 
