@@ -33,7 +33,7 @@ namespace IupSharpTest
 
             dlg = new Dialog(
                 new VBox(
-                    btn = new Button("My button") { ImageName=ImageLib.Print, Expand = Expand.Horizontal, Action = ButtonAction, BgColor = Color.CornflowerBlue, FgColor = Color.Red },
+                    btn = new Button("My button") { ImageName=ImageLib.Print,ImPressName=ImageLib.FileNew, Expand = Expand.Horizontal, Action = ButtonAction, BgColor = Color.CornflowerBlue, FgColor = Color.Red },
                     new Toggle("My toggle") { Action = ToggleAction },
                     can = new Canvas() { RasterSize = (200, 200), BgColor = Color.Black, Action = RedrawCanvas },
                     new Text("Hello\nworld", true) { Expand = Expand.Yes, BgColor = Color.Blue },
