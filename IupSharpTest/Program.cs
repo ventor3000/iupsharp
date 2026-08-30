@@ -15,6 +15,7 @@ namespace IupSharpTest
         static ProgressBar pbar;
         static Valuator valuator;
         static AnimatedLabel animatedlabel;
+        static Radio radio;
         static void Main(string[] args)
         {
             Iup.Open();
@@ -46,6 +47,14 @@ namespace IupSharpTest
                     new DatePick() { Value = new DateTime(1973, 10, 19), Separator = "~" },
                   
                     
+                    radio=new Radio(new VBox(
+                        new Toggle("Alfa"),
+                        new Toggle("Beta"),
+                        new Toggle("Gamma"),
+                        new Toggle("toggle me") { IgnoreRadio= true },
+                        new Toggle("Delta")
+                        )),
+
                     animatedlabel= new AnimatedLabel() { AnimationName = ImageLib.CircleProgressAnimation }
                     
                 )
@@ -174,7 +183,8 @@ namespace IupSharpTest
 
         private static void ButtonAction(CallbackData d)
         {
-            tt.Running = !tt.Running;
+
+            radio.SelectedToggle.Checked = false;
 
             
         }

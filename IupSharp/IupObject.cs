@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace IupSharp
 {
-    public class IupObject:IDisposable
+    public class IupObject : IDisposable
     {
 
         private static readonly Dictionary<nint, IupObject> _live = new();
@@ -21,12 +21,12 @@ namespace IupSharp
                 _live.Remove(Handle);                     // now collectable
                 Handle = IntPtr.Zero;
             };
-            
+
         }
 
         protected virtual void OnDestroying()
         {
-            
+
         }
 
         private bool _disposed;
@@ -95,7 +95,7 @@ namespace IupSharp
             return IupNative.GetAttributeId2(Handle, name, lin, col);
         }
 
-        
+
 
         protected void CheckAlive()
         {
@@ -120,7 +120,7 @@ namespace IupSharp
             CheckAlive();
             return IupNative.GetCallback(Handle, name);
         }
-        
+
 
         #region CALLBACKS
 
@@ -133,7 +133,7 @@ namespace IupSharp
             {
                 _destroyCB = value;
                 _destroyCBInternal = DestroyCBInternal;
-                SetCallback( "DESTROY_CB", Utils.CastCallback<Icallback>(_destroyCBInternal));
+                SetCallback("DESTROY_CB", Utils.CastCallback<Icallback>(_destroyCBInternal));
             }
         }
         private int DestroyCBInternal(nint ih)
@@ -154,7 +154,7 @@ namespace IupSharp
 
         private Callback _ldestroyCB; // users callback function for 
         private IFn _ldestroyCBInternal; // need reference to keep alive in GC
-        
+
 
         private Callback LDestroyCB // note only used for internal object management, not usable for end application
         {
@@ -163,7 +163,7 @@ namespace IupSharp
             {
                 _ldestroyCB = value;
                 _ldestroyCBInternal = LDestroyCBInternal;
-                SetCallback( "LDESTROY_CB", Utils.CastCallback<Icallback>(_ldestroyCBInternal));
+                SetCallback("LDESTROY_CB", Utils.CastCallback<Icallback>(_ldestroyCBInternal));
             }
         }
         private int LDestroyCBInternal(nint ih)
@@ -186,13 +186,34 @@ namespace IupSharp
 
         }
 
-        
+
         #endregion
 
 
 
         /// <summary>
-        /// only to be called when IUP is closed to drop obejct tracking.
+        /// Finds the wrapper object for a native handle, or null when the handle is
+        /// zero, unknown, or belongs to an object of a different type.
+        /// </summary>
+        /// <remarks>
+        /// <para>Only elements created through IupSharp are known here. An element
+        /// created inside IUP itself - such as the dialog a DropButton builds for its
+        /// drop child, or the spin buttons inside an IupSpinbox - has no wrapper and
+        /// yields null even though the handle is perfectly valid.</para>
+        ///
+        /// <para>Used by properties that read a handle back out of IUP, such as
+        /// Radio.SelectedToggle.</para>
+        /// </remarks>
+        internal static T Find<T>(nint handle) where T : IupObject
+        {
+            if (handle == IntPtr.Zero)
+                return null;
+
+            return _live.TryGetValue(handle, out IupObject obj) ? obj as T : null;
+        }
+
+        /// <summary>
+        /// only to be called when IUP is closed to drop object tracking.
         /// </summary>
         internal static void InvalidateAll()
         {
