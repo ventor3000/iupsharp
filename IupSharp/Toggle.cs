@@ -103,14 +103,14 @@ namespace IupSharp
             set => SetAttribute("FLAT", value ? "YES" : "NO");
         }
 
-        private ImageRGBA _imageReference = null;
+        private Image _imageReference = null;
         /// <summary>
         /// Gets or sets the image. When defined the Title is not shown, making the
         /// toggle look just like a button with an image, but its behavior remains the
         /// same. [GTK 2.6]
         /// (non inheritable)
         /// </summary>
-        public virtual ImageRGBA Image
+        public virtual Image Image
         {
             set
             {
@@ -120,7 +120,7 @@ namespace IupSharp
             get => _imageReference;
         }
 
-        private ImageRGBA _iminactiveReference = null;
+        private Image _iminactiveReference = null;
         /// <summary>
         /// Gets or sets the image name of the toggle when inactive. If it is not
         /// defined but Image is defined then for inactive toggles the colors will be
@@ -128,7 +128,7 @@ namespace IupSharp
         /// disabled effect. [GTK 2.6]
         /// (non inheritable)
         /// </summary>
-        public virtual ImageRGBA ImInactive
+        public virtual Image ImInactive
         {
             set
             {
@@ -138,14 +138,14 @@ namespace IupSharp
             get => _iminactiveReference;
         }
 
-        private ImageRGBA _impressReference = null;
+        private Image _impressReference = null;
         /// <summary>
         /// Gets or sets the image of the pressed toggle. Unlike buttons, toggles
         /// always display the button border when Image and ImPress are both defined.
         /// [GTK 2.6]
         /// (non inheritable)
         /// </summary>
-        public virtual ImageRGBA ImPress
+        public virtual Image ImPress
         {
             set
             {

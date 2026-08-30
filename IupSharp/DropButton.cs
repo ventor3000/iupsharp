@@ -260,45 +260,45 @@ namespace IupSharp
             set => SetAttribute("IMAGEPOSITION", Utils.MapEnum(value, _imagePositions));
         }
 
-        private ImageRGBA _image;
+        private Image _image;
         /// <summary>Gets or sets the button's image. (non inheritable)</summary>
-        public virtual ImageRGBA Image
+        public virtual Image Image
         {
             get => _image;
             set => SetImage("IMAGE", value, ref _image);
         }
 
-        private ImageRGBA _imageHighlight;
+        private Image _imageHighlight;
         /// <summary>
         /// Gets or sets the image shown in the highlight state. Falls back to Image
         /// when not set.
         /// (non inheritable)
         /// </summary>
-        public virtual ImageRGBA ImageHighlight
+        public virtual Image ImageHighlight
         {
             get => _imageHighlight;
             set => SetImage("IMAGEHIGHLIGHT", value, ref _imageHighlight);
         }
 
-        private ImageRGBA _imageInactive;
+        private Image _imageInactive;
         /// <summary>
         /// Gets or sets the image shown when inactive. Falls back to a greyed version
         /// of Image when not set.
         /// (non inheritable)
         /// </summary>
-        public virtual ImageRGBA ImageInactive
+        public virtual Image ImageInactive
         {
             get => _imageInactive;
             set => SetImage("IMAGEINACTIVE", value, ref _imageInactive);
         }
 
-        private ImageRGBA _imagePress;
+        private Image _imagePress;
         /// <summary>
         /// Gets or sets the image shown in the pressed state. Falls back to Image when
         /// not set.
         /// (non inheritable)
         /// </summary>
-        public virtual ImageRGBA ImagePress
+        public virtual Image ImagePress
         {
             get => _imagePress;
             set => SetImage("IMAGEPRESS", value, ref _imagePress);
@@ -308,45 +308,45 @@ namespace IupSharp
 
         #region BACKGROUND AND FOREGROUND IMAGES
 
-        private ImageRGBA _backImage;
+        private Image _backImage;
         /// <summary>Gets or sets the background image. (non inheritable)</summary>
-        public virtual ImageRGBA BackImage
+        public virtual Image BackImage
         {
             get => _backImage;
             set => SetImage("BACKIMAGE", value, ref _backImage);
         }
 
-        private ImageRGBA _backImageHighlight;
+        private Image _backImageHighlight;
         /// <summary>
         /// Gets or sets the background image in the highlight state. Falls back to
         /// BackImage.
         /// (non inheritable)
         /// </summary>
-        public virtual ImageRGBA BackImageHighlight
+        public virtual Image BackImageHighlight
         {
             get => _backImageHighlight;
             set => SetImage("BACKIMAGEHIGHLIGHT", value, ref _backImageHighlight);
         }
 
-        private ImageRGBA _backImageInactive;
+        private Image _backImageInactive;
         /// <summary>
         /// Gets or sets the background image when inactive. Falls back to a greyed
         /// BackImage.
         /// (non inheritable)
         /// </summary>
-        public virtual ImageRGBA BackImageInactive
+        public virtual Image BackImageInactive
         {
             get => _backImageInactive;
             set => SetImage("BACKIMAGEINACTIVE", value, ref _backImageInactive);
         }
 
-        private ImageRGBA _backImagePress;
+        private Image _backImagePress;
         /// <summary>
         /// Gets or sets the background image in the pressed state. Falls back to
         /// BackImage.
         /// (non inheritable)
         /// </summary>
-        public virtual ImageRGBA BackImagePress
+        public virtual Image BackImagePress
         {
             get => _backImagePress;
             set => SetImage("BACKIMAGEPRESS", value, ref _backImagePress);
@@ -374,49 +374,49 @@ namespace IupSharp
             set => SetAttribute("FITTOBACKIMAGE", value ? "YES" : "NO");
         }
 
-        private ImageRGBA _frontImage;
+        private Image _frontImage;
         /// <summary>
         /// Gets or sets the foreground image, drawn in the same position as the
         /// background but painted last.
         /// (non inheritable)
         /// </summary>
-        public virtual ImageRGBA FrontImage
+        public virtual Image FrontImage
         {
             get => _frontImage;
             set => SetImage("FRONTIMAGE", value, ref _frontImage);
         }
 
-        private ImageRGBA _frontImageHighlight;
+        private Image _frontImageHighlight;
         /// <summary>
         /// Gets or sets the foreground image in the highlight state. Falls back to
         /// FrontImage.
         /// (non inheritable)
         /// </summary>
-        public virtual ImageRGBA FrontImageHighlight
+        public virtual Image FrontImageHighlight
         {
             get => _frontImageHighlight;
             set => SetImage("FRONTIMAGEHIGHLIGHT", value, ref _frontImageHighlight);
         }
 
-        private ImageRGBA _frontImageInactive;
+        private Image _frontImageInactive;
         /// <summary>
         /// Gets or sets the foreground image when inactive. Falls back to a greyed
         /// FrontImage.
         /// (non inheritable)
         /// </summary>
-        public virtual ImageRGBA FrontImageInactive
+        public virtual Image FrontImageInactive
         {
             get => _frontImageInactive;
             set => SetImage("FRONTIMAGEINACTIVE", value, ref _frontImageInactive);
         }
 
-        private ImageRGBA _frontImagePress;
+        private Image _frontImagePress;
         /// <summary>
         /// Gets or sets the foreground image in the pressed state. Falls back to
         /// FrontImage.
         /// (non inheritable)
         /// </summary>
-        public virtual ImageRGBA FrontImagePress
+        public virtual Image FrontImagePress
         {
             get => _frontImagePress;
             set => SetImage("FRONTIMAGEPRESS", value, ref _frontImagePress);
@@ -475,47 +475,47 @@ namespace IupSharp
             set => SetAttribute("ARROWIMAGES", value ? "YES" : "NO");
         }
 
-        private ImageRGBA _arrowImage;
+        private Image _arrowImage;
         /// <summary>
         /// Gets or sets the arrow image. Requires ArrowImages to be true.
         /// (non inheritable)
         /// </summary>
-        public virtual ImageRGBA ArrowImage
+        public virtual Image ArrowImage
         {
             get => _arrowImage;
             set => SetImage("ARROWIMAGE", value, ref _arrowImage);
         }
 
-        private ImageRGBA _arrowImageHighlight;
+        private Image _arrowImageHighlight;
         /// <summary>
         /// Gets or sets the arrow image in the highlight state. Falls back to
         /// ArrowImage.
         /// (non inheritable)
         /// </summary>
-        public virtual ImageRGBA ArrowImageHighlight
+        public virtual Image ArrowImageHighlight
         {
             get => _arrowImageHighlight;
             set => SetImage("ARROWIMAGEHIGHLIGHT", value, ref _arrowImageHighlight);
         }
 
-        private ImageRGBA _arrowImageInactive;
+        private Image _arrowImageInactive;
         /// <summary>
         /// Gets or sets the arrow image when inactive. Falls back to a greyed
         /// ArrowImage.
         /// (non inheritable)
         /// </summary>
-        public virtual ImageRGBA ArrowImageInactive
+        public virtual Image ArrowImageInactive
         {
             get => _arrowImageInactive;
             set => SetImage("ARROWIMAGEINACTIVE", value, ref _arrowImageInactive);
         }
 
-        private ImageRGBA _arrowImagePress;
+        private Image _arrowImagePress;
         /// <summary>
         /// Gets or sets the arrow image in the pressed state. Falls back to ArrowImage.
         /// (non inheritable)
         /// </summary>
-        public virtual ImageRGBA ArrowImagePress
+        public virtual Image ArrowImagePress
         {
             get => _arrowImagePress;
             set => SetImage("ARROWIMAGEPRESS", value, ref _arrowImagePress);
@@ -731,7 +731,7 @@ namespace IupSharp
 
         #region HELPERS
 
-        private void SetImage(string name, ImageRGBA image, ref ImageRGBA field)
+        private void SetImage(string name, Image image, ref Image field)
         {
             CheckAlive();
             field = image;

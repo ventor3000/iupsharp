@@ -144,31 +144,31 @@ namespace IupSharp
             set => SetAttribute("HIDEMARK", value ? "YES" : "NO");
         }
 
-        private ImageRGBA _image;
+        private Image _image;
         /// <summary>
         /// Gets or sets the check mark image used when Checked is false. About 16x16
         /// fits best; a larger image is cropped in Windows. Ignored for an item in a
         /// menu bar.
         /// [Windows and GTK only] (non inheritable)
         /// </summary>
-        public virtual ImageRGBA Image
+        public virtual Image Image
         {
             get => _image;
             set => SetImage("IMAGE", value, ref _image);
         }
 
-        private ImageRGBA _impress;
+        private Image _impress;
         /// <summary>
         /// Gets or sets the check mark image used when Checked is true.
         /// [Windows and GTK only] (non inheritable)
         /// </summary>
-        public virtual ImageRGBA ImPress
+        public virtual Image ImPress
         {
             get => _impress;
             set => SetImage("IMPRESS", value, ref _impress);
         }
 
-        private ImageRGBA _titleImage;
+        private Image _titleImage;
         /// <summary>
         /// Gets or sets an image shown alongside the title. In Windows it appears
         /// before the text and after the check mark area, so both can be visible. In
@@ -176,13 +176,13 @@ namespace IupSharp
         /// must be set before the element is mapped.
         /// (non inheritable) (since 3.0)
         /// </summary>
-        public virtual ImageRGBA TitleImage
+        public virtual Image TitleImage
         {
             get => _titleImage;
             set => SetImage("TITLEIMAGE", value, ref _titleImage);
         }
 
-        private void SetImage(string name, ImageRGBA image, ref ImageRGBA field)
+        private void SetImage(string name, Image image, ref Image field)
         {
             CheckAlive();
             field = image;
@@ -383,13 +383,13 @@ namespace IupSharp
             set => SetAttribute("TITLE", value);
         }
 
-        private ImageRGBA _image;
+        private Image _image;
         /// <summary>
         /// Gets or sets the submenu image. About 16x16 fits best. Ignored for a submenu
         /// in a menu bar, and in Windows a menu bar item cannot have a check mark.
         /// (non inheritable) (since 3.0)
         /// </summary>
-        public virtual ImageRGBA Image
+        public virtual Image Image
         {
             get => _image;
             set

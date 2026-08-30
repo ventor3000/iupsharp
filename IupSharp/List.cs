@@ -219,7 +219,7 @@ namespace IupSharp
             /// already exist. Not shown in the edit box.
             /// [Windows and GTK only] (write only) (since 3.6)
             /// </summary>
-            public void SetImage(int position, ImageRGBA image)
+            public void SetImage(int position, Image image)
             {
                 CheckPosition(position);
                 _owner.CheckAlive();

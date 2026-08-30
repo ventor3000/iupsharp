@@ -176,12 +176,12 @@ namespace IupSharp
         /// </summary>
         public override Color BgColor { get => base.BgColor; set => base.BgColor = value; }
 
-        private ImageRGBA _iconReference = null;
+        private Image _iconReference = null;
         /// <summary>
         /// Gets or sets the dialog's icon. The Windows SDK recommends that cursors and
         /// icons should be implemented as resources rather than created at run time.
         /// </summary>
-        public virtual ImageRGBA Icon
+        public virtual Image Icon
         {
             set
             {
@@ -536,12 +536,12 @@ namespace IupSharp
             set => SetAttribute("TRAY", value ? "YES" : "NO");
         }
 
-        private ImageRGBA _trayImageReference = null;
+        private Image _trayImageReference = null;
         /// <summary>
         /// Gets or sets the image used as the tray icon.
         /// [Windows and GTK only]
         /// </summary>
-        public virtual ImageRGBA TrayImage
+        public virtual Image TrayImage
         {
             set
             {

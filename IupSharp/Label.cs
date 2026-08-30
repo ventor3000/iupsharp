@@ -77,14 +77,14 @@ namespace IupSharp
             set => SetAttribute("ELLIPSIS", value ? "YES" : "NO");
         }
 
-        private ImageRGBA _imageReference = null;
+        private Image _imageReference = null;
         /// <summary>
         /// Gets or sets the image. If set before mapping defines the behavior of
         /// the label to contain an image. The natural size will be the size of the
         /// image in pixels.
         /// (non inheritable)
         /// </summary>
-        public virtual ImageRGBA Image
+        public virtual Image Image
         {
             set
             {
@@ -94,14 +94,14 @@ namespace IupSharp
             get => _imageReference;
         }
 
-        private ImageRGBA _iminactiveReference = null;
+        private Image _iminactiveReference = null;
         /// <summary>
         /// Gets or sets the image of the element when inactive. If it is not defined
         /// then the Image is used and the colors will be replaced by a modified
         /// version of the background color creating the disabled effect.
         /// [GTK and Motif only] (non inheritable)
         /// </summary>
-        public virtual ImageRGBA ImInactive
+        public virtual Image ImInactive
         {
             set
             {

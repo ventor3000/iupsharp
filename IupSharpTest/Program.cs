@@ -39,12 +39,17 @@ namespace IupSharpTest
                     dropbtn = new DropButton("My dropdown", dropcontent) { CanFocus = false },
                     lst = new List(ListStyle.Multiple, "Kalle", "Olle", "Pelle", "Niklas") { SelectedPosition = 25 },
                     pbar = new ProgressBar(Orientation.Vertical, false, false) { Min = 0, Max = 100, Value = 45 },
-                    new Link("www.google.com","Press here to go to google") { Action=LinkAction},
-                    valuator=new Valuator(Orientation.Horizontal,5,TicksPosition.Reverse) { ValueChangedCB=ValChanged,Expand=Expand.Horizontal}
+                    new Link("www.google.com", "Press here to go to google") { Action = LinkAction },
+                    valuator = new Valuator(Orientation.Horizontal, 5, TicksPosition.Reverse) { ValueChangedCB = ValChanged, Expand = Expand.Horizontal },
+                    new DatePick() { Value = new DateTime(1973, 10, 19), Separator = "~" },
+                    new Spinbox(new VBox(
+                        new Button("Knapp1"),
+                        new Button("Knapp2")
+                    )
+                    { ExpandChildren = true }) 
                 )
                 { Gap = 8, Margin = (8, 8) }
-            )
-            { CloseCB = ClosaCall,KAny=DialogKey,Shrink=false,DestroyOnClose=true};
+            ) { CloseCB = ClosaCall,KAny=DialogKey,Shrink=false,DestroyOnClose=true};
 
             lst.SelectedPositions = new[] { 1, 4 };
 

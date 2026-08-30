@@ -695,4 +695,29 @@ namespace IupSharp
         }
     }
     public delegate void LinkActionCallback(LinkActionData d);
+
+    /// <summary>
+    /// Data for the SpinCB callback on a Spin or Spinbox.
+    /// </summary>
+    /// <remarks>
+    /// This is a different callback from the Text control's SpinCB, which reports the
+    /// spin's resulting value rather than an increment, and uses SpinCBData.
+    /// </remarks>
+    public class SpinButtonData : CallbackData
+    {
+        /// <summary>
+        /// How much to change the value by: +1 for the up button and -1 for the down
+        /// button, multiplied by 2 while Shift is held, 10 for Ctrl, and 100 for both.
+        /// </summary>
+        public readonly int Increment;
+
+        /// <summary>True if the up button was clicked.</summary>
+        public bool IsUp => Increment > 0;
+
+        public SpinButtonData(Control sender, int increment) : base(sender)
+        {
+            this.Increment = increment;
+        }
+    }
+    public delegate void SpinButtonCallback(SpinButtonData d);
 }

@@ -79,7 +79,7 @@ namespace IupSharp
         }
 
 
-        private ImageRGBA _imageReference=null;
+        private Image _imageReference=null;
         /// <summary>
         /// Gets or sets the image. If set before mapping defines the behavior of
         /// the button to contain an image. The natural size will be size of the image in
@@ -87,7 +87,7 @@ namespace IupSharp
         /// will be shown (except in Motif).
         /// (non inheritable)
         /// </summary>
-        public virtual ImageRGBA Image
+        public virtual Image Image
         {
             set
             {
@@ -99,7 +99,7 @@ namespace IupSharp
 
         
 
-        private ImageRGBA _iminactiveReference = null;
+        private Image _iminactiveReference = null;
         /// <summary>
         /// Gets or sets the image name of the element when inactive. If it is
         /// not defined then the Image is used and the colors will be replaced by a modified
@@ -107,7 +107,7 @@ namespace IupSharp
         /// change the inactive image to look like other inactive objects.
         /// (non inheritable)
         /// </summary>
-        public virtual ImageRGBA ImInactive
+        public virtual Image ImInactive
         {
             set
             {
@@ -118,7 +118,7 @@ namespace IupSharp
         }
 
         
-        private ImageRGBA _impressReference = null;
+        private Image _impressReference = null;
         /// <summary>
         /// Gets or sets the image of the pressed button. If ImPress and
         /// Image are defined, the button borders are not shown and not computed in natural
@@ -126,7 +126,7 @@ namespace IupSharp
         /// button will lose its focus feedback also.
         /// (non inheritable)
         /// </summary>
-        public virtual ImageRGBA ImPress
+        public virtual Image ImPress
         {
             set
             {
