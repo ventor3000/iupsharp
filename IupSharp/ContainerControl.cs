@@ -11,7 +11,7 @@
             CheckAlive();
 
             if (child != null)
-                IupNative.IupAppend(Handle, child.Handle);
+                NativeIup.IupAppend(Handle, child.Handle);
         }
     }
 }

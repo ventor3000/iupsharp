@@ -68,7 +68,7 @@ namespace IupSharp
                         int ticks = 0,
                         TicksPosition ticksPosition = TicksPosition.Normal,
                         bool canFocus = true)
-            : base(IupNative.Val(orientation == Orientation.Vertical ? "VERTICAL" : "HORIZONTAL"))
+            : base(NativeIup.Val(orientation == Orientation.Vertical ? "VERTICAL" : "HORIZONTAL"))
         {
             if (ticks == 1 || ticks < 0)
                 throw new ArgumentOutOfRangeException(nameof(ticks),

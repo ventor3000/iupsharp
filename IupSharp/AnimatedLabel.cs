@@ -46,7 +46,7 @@ namespace IupSharp
         /// assigned later through Animation or AnimationName.
         /// </param>
         public AnimatedLabel(Animation animation = null)
-            : base(IupNative.IupAnimatedLabel(
+            : base(NativeIup.IupAnimatedLabel(
                 animation == null ? IntPtr.Zero : animation.Handle))
         {
             _animation = animation;
@@ -83,7 +83,7 @@ namespace IupSharp
                 _animation = value;
                 _animationName = null;
 
-                IupNative.SetAttributeHandle(Handle, "ANIMATION_HANDLE",
+                NativeIup.SetAttributeHandle(Handle, "ANIMATION_HANDLE",
                     value == null ? IntPtr.Zero : value.Handle);
             }
         }

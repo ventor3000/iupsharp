@@ -15,7 +15,7 @@ namespace IupSharp
         /// Creates a new Button with the specified title.
         /// </summary>
         /// <param name="title">Text to be shown to the user. It can be null.</param>
-        public Button(string title) : base(IupNative.Button(title, null))
+        public Button(string title) : base(NativeIup.Button(title, null))
         {
         }
 
@@ -241,7 +241,7 @@ namespace IupSharp
         /// </summary>
         public (int, int) Padding
         {
-            get { IupNative.GetIntInt(((Control)this).Handle, "PADDING", out int x, out int y); return (x, y); }
+            get { NativeIup.GetIntInt(((Control)this).Handle, "PADDING", out int x, out int y); return (x, y); }
             set => ((Control)this).SetAttribute("PADDING", Utils.FormatPadding(value));
         }
 
@@ -251,7 +251,7 @@ namespace IupSharp
         /// </summary>
         public (int, int) CPadding
         {
-            get { IupNative.GetIntInt(Handle, "CPADDING", out int x, out int y); return (x, y); }
+            get { NativeIup.GetIntInt(Handle, "CPADDING", out int x, out int y); return (x, y); }
             set => SetAttribute("CPADDING", Utils.FormatPadding(value));
         }
 

@@ -52,25 +52,25 @@ namespace IupSharp
         public void SetAttribute(string name, string value)
         {
             CheckAlive();
-            IupNative.StoreAttribute(Handle, name, value);
+            NativeIup.StoreAttribute(Handle, name, value);
         }
 
         public void SetAttributeId(string name, int id, string value)
         {
             CheckAlive();
-            IupNative.StoreAttributeId(Handle, name, id, value);
+            NativeIup.StoreAttributeId(Handle, name, id, value);
         }
 
         public void SetAttributeId2(string name, int lin, int col, string value)
         {
             CheckAlive();
-            IupNative.StoreAttributeId2(Handle, name, lin, col, value);
+            NativeIup.StoreAttributeId2(Handle, name, lin, col, value);
         }
 
         public string GetAttribute(string name)
         {
             CheckAlive();
-            return IupNative.GetAttribute(Handle, name);
+            return NativeIup.GetAttribute(Handle, name);
         }
 
         /// <summary>
@@ -81,18 +81,18 @@ namespace IupSharp
         protected IntPtr GetAttributePtr(string name)
         {
             CheckAlive();
-            return IupNative.GetAttributePtr(Handle, name);
+            return NativeIup.GetAttributePtr(Handle, name);
         }
 
         public string GetAttributeId(string name, int id)
         {
             CheckAlive();
-            return IupNative.GetAttributeId(Handle, name, id);
+            return NativeIup.GetAttributeId(Handle, name, id);
         }
         public string GetAttributeId2(string name, int lin, int col)
         {
             CheckAlive();
-            return IupNative.GetAttributeId2(Handle, name, lin, col);
+            return NativeIup.GetAttributeId2(Handle, name, lin, col);
         }
 
 
@@ -106,19 +106,19 @@ namespace IupSharp
         public void Destroy()
         {
             if (Handle != IntPtr.Zero)
-                IupNative.IupDestroy(Handle);
+                NativeIup.IupDestroy(Handle);
         }
 
         protected void SetCallback(string cbname, Icallback cb)
         {
             CheckAlive();
-            IupNative.SetCallback(Handle, cbname, cb);
+            NativeIup.SetCallback(Handle, cbname, cb);
         }
 
         protected IntPtr GetCallback(string name)
         {
             CheckAlive();
-            return IupNative.GetCallback(Handle, name);
+            return NativeIup.GetCallback(Handle, name);
         }
 
 
@@ -181,7 +181,7 @@ namespace IupSharp
                 Handle = IntPtr.Zero;
 
                 System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in LDestroyCB callback: {ex}");
-                return IupNative.IUP_DEFAULT;
+                return NativeIup.IUP_DEFAULT;
             }
 
         }

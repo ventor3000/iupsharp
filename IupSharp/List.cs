@@ -34,7 +34,7 @@ namespace IupSharp
         /// </param>
         /// <param name="items">Initial items, in order.</param>
         /// <exception cref="ArgumentException">The style combination is not valid.</exception>
-        public List(ListStyle style, params string[] items) : base(IupNative.List(null))
+        public List(ListStyle style, params string[] items) : base(NativeIup.List(null))
         {
             Validate(style);
 
@@ -223,7 +223,7 @@ namespace IupSharp
             {
                 CheckPosition(position);
                 _owner.CheckAlive();
-                IupNative.SetAttributeHandleId(_owner.Handle, "IMAGE", position,
+                NativeIup.SetAttributeHandleId(_owner.Handle, "IMAGE", position,
                     image == null ? IntPtr.Zero : image.Handle);
             }
 
@@ -525,7 +525,7 @@ namespace IupSharp
         /// </summary>
         public (int, int) Padding
         {
-            get { CheckAlive(); IupNative.GetIntInt(Handle, "PADDING", out int x, out int y); return (x, y); }
+            get { CheckAlive(); NativeIup.GetIntInt(Handle, "PADDING", out int x, out int y); return (x, y); }
             set => SetAttribute("PADDING", Utils.FormatPadding(value));
         }
 

@@ -66,7 +66,7 @@ namespace IupSharp
         /// </summary>
         public (int, int) Margin
         {
-            get { IupNative.GetIntInt(Handle, "MARGIN", out int x, out int y); return (x, y); }
+            get { NativeIup.GetIntInt(Handle, "MARGIN", out int x, out int y); return (x, y); }
             set => SetAttribute("MARGIN", Utils.FormatPadding(value));
         }
 
@@ -76,7 +76,7 @@ namespace IupSharp
         /// </summary>
         public (int, int) CMargin
         {
-            get { IupNative.GetIntInt(Handle, "CMARGIN", out int x, out int y); return (x, y); }
+            get { NativeIup.GetIntInt(Handle, "CMARGIN", out int x, out int y); return (x, y); }
             set => SetAttribute("CMARGIN", Utils.FormatPadding(value));
         }
 
@@ -85,7 +85,7 @@ namespace IupSharp
         /// </summary>
         public (int, int) NMargin
         {
-            get { IupNative.GetIntInt(Handle, "NMARGIN", out int x, out int y); return (x, y); }
+            get { NativeIup.GetIntInt(Handle, "NMARGIN", out int x, out int y); return (x, y); }
             set => SetAttribute("NMARGIN", Utils.FormatPadding(value));
         }
 
@@ -94,7 +94,7 @@ namespace IupSharp
         /// </summary>
         public (int, int) NCMargin
         {
-            get { IupNative.GetIntInt(Handle, "NCMARGIN", out int x, out int y); return (x, y); }
+            get { NativeIup.GetIntInt(Handle, "NCMARGIN", out int x, out int y); return (x, y); }
             set => SetAttribute("NCMARGIN", Utils.FormatPadding(value));
         }
 
@@ -167,7 +167,7 @@ namespace IupSharp
         /// Creates a new VBox containing the given children, appended in order.
         /// </summary>
         /// <param name="children">The controls to place in the box, top to bottom.</param>
-        public VBox(params Control[] children) : base(IupNative.IupVboxv(IntPtr.Zero))
+        public VBox(params Control[] children) : base(NativeIup.IupVboxv(IntPtr.Zero))
         {
             foreach (var w in children)
                 Append(w);
@@ -205,7 +205,7 @@ namespace IupSharp
         /// Creates a new HBox containing the given children, appended in order.
         /// </summary>
         /// <param name="children">The controls to place in the box, left to right.</param>
-        public HBox(params Control[] children) : base(IupNative.IupHboxv(IntPtr.Zero))
+        public HBox(params Control[] children) : base(NativeIup.IupHboxv(IntPtr.Zero))
         {
             foreach (var w in children)
                 Append(w);

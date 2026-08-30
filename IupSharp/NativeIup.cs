@@ -23,7 +23,7 @@ namespace IupSharp
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate int Iparamcb(Ihandle dialog, int paramIndex, IntPtr userData);
 
-    public static class IupNative
+    public static class NativeIup
     {
 
         // ------------------------------------------------------------------ //

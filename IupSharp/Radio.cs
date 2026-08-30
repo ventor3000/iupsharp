@@ -44,7 +44,7 @@ namespace IupSharp
         /// in which case a child can be added later with Append.
         /// </param>
         public Radio(Control child)
-            : base(IupNative.IupRadio(child == null ? IntPtr.Zero : child.Handle))
+            : base(NativeIup.IupRadio(child == null ? IntPtr.Zero : child.Handle))
         {
             _child = child;
         }
@@ -99,14 +99,14 @@ namespace IupSharp
             get
             {
                 CheckAlive();
-                return Find<Toggle>(IupNative.GetAttributePtr(Handle, "VALUE_HANDLE"));
+                return Find<Toggle>(NativeIup.GetAttributePtr(Handle, "VALUE_HANDLE"));
 
 
             }
             set
             {
                 CheckAlive();
-                IupNative.SetAttributeHandle(Handle, "VALUE_HANDLE",
+                NativeIup.SetAttributeHandle(Handle, "VALUE_HANDLE",
                     value == null ? IntPtr.Zero : value.Handle);
             }
         }

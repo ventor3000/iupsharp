@@ -17,7 +17,7 @@ namespace IupSharp
         /// containers such as VBox and HBox report a fake WID of -1 when mapped, so
         /// this is true for them too.
         /// </summary>
-        public bool IsMapped => GetAttributePtr("WID") != null;
+        public bool IsMapped => GetAttributePtr("WID") != IntPtr.Zero;
 
         /// <summary>
         /// Creates the native element and, recursively, those of its children. Called
@@ -34,7 +34,7 @@ namespace IupSharp
         public void Map()
         {
             CheckAlive();
-            if (IupNative.IupMap(Handle) != IupNative.IUP_NOERROR)
+            if (NativeIup.IupMap(Handle) != NativeIup.IUP_NOERROR)
                 throw new IupException("Failed to map the element.");
         }
 
@@ -45,7 +45,7 @@ namespace IupSharp
         public void Unmap()
         {
             CheckAlive();
-            IupNative.IupUnmap(Handle);
+            NativeIup.IupUnmap(Handle);
         }
 
         #region CALLBACKS
@@ -134,7 +134,7 @@ namespace IupSharp
             imageField = image;
             nameField = null;
 
-            IupNative.SetAttributeHandle(Handle, attribute,
+            NativeIup.SetAttributeHandle(Handle, attribute,
                 image == null ? IntPtr.Zero : image.Handle);
         }
 

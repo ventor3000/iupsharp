@@ -79,7 +79,7 @@ namespace IupSharp
                         bool zeroPreceded = false,
                         bool monthShortNames = false,
                         bool weekNumbers = false)
-            : base(IupNative.IupDatePick())
+            : base(NativeIup.IupDatePick())
         {
             // SEPARATOR, ZEROPRECED and MONTHSHORTNAMES must all be set before ORDER,
             // because ORDER is what rebuilds the Windows FORMAT string from them.

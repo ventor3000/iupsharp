@@ -33,7 +33,7 @@ namespace IupSharp
         /// <summary>
         /// Creates a new pair of spin buttons.
         /// </summary>
-        public Spin() : base(IupNative.IupSpin())
+        public Spin() : base(NativeIup.IupSpin())
         {
         }
 
@@ -111,7 +111,7 @@ namespace IupSharp
         /// the box is created empty and a child can be added later with Append.
         /// </param>
         public Spinbox(Control child)
-            : base(IupNative.IupSpinbox(child == null ? IntPtr.Zero : child.Handle))
+            : base(NativeIup.IupSpinbox(child == null ? IntPtr.Zero : child.Handle))
         {
             _child = child;
         }

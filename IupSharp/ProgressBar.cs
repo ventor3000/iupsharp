@@ -38,7 +38,7 @@ namespace IupSharp
         /// </param>
         public ProgressBar(Orientation orientation = Orientation.Horizontal,
                            bool dashed = false, bool marquee = false)
-            : base(IupNative.IupProgressBar())
+            : base(NativeIup.IupProgressBar())
         {
             // Creation-only attributes must be set before the element is mapped.
             if (orientation == Orientation.Vertical)

@@ -255,7 +255,7 @@ namespace IupSharp
         public bool SaveAsText(string filename, string format, string name)
         {
             CheckAlive();
-            return IupNative.SaveImageAsText(Handle, filename, format, name) != 0;
+            return NativeIup.SaveImageAsText(Handle, filename, format, name) != 0;
         }
 
         #endregion
@@ -325,7 +325,7 @@ namespace IupSharp
         /// be reused afterwards.
         /// </param>
         public Image8(int width, int height, byte[] pixels)
-            : base(IupNative.IupImage(width, height,
+            : base(NativeIup.IupImage(width, height,
                 ValidatePixels(width, height, pixels, 1, "8 bit")))
         {
         }
@@ -428,7 +428,7 @@ namespace IupSharp
         /// can be reused afterwards.
         /// </param>
         public ImageRGB(int width, int height, byte[] pixels)
-            : base(IupNative.IupImageRGB(width, height,
+            : base(NativeIup.IupImageRGB(width, height,
                 ValidatePixels(width, height, pixels, 3, "RGB")))
         {
         }
@@ -469,7 +469,7 @@ namespace IupSharp
         /// can be reused afterwards.
         /// </param>
         public ImageRGBA(int width, int height, byte[] pixels)
-            : base(IupNative.IupImageRGBA(width, height,
+            : base(NativeIup.IupImageRGBA(width, height,
                 ValidatePixels(width, height, pixels, 4, "RGBA")))
         {
         }

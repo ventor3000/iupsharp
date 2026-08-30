@@ -43,7 +43,7 @@ namespace IupSharp
         /// Creates a new animation from the given frames, in order. It can also be
         /// created empty and filled later with Append.
         /// </summary>
-        public Animation(params Image[] frames) : base(IupNative.IupUser())
+        public Animation(params Image[] frames) : base(NativeIup.IupUser())
         {
             if (frames == null)
                 return;
@@ -71,7 +71,7 @@ namespace IupSharp
             get
             {
                 CheckAlive();
-                return IupNative.IupGetChildCount(Handle);
+                return NativeIup.IupGetChildCount(Handle);
             }
         }
 
@@ -87,7 +87,7 @@ namespace IupSharp
 
             CheckAlive();
 
-            if (IupNative.IupAppend(Handle, frame.Handle) == IntPtr.Zero)
+            if (NativeIup.IupAppend(Handle, frame.Handle) == IntPtr.Zero)
                 throw new IupException("Failed to append the frame to the animation.");
 
             _frames.Add(frame);

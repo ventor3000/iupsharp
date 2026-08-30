@@ -20,7 +20,7 @@ namespace IupSharp
         /// <summary>
         /// Creates a new Calendar.
         /// </summary>
-        public Calendar() : base(IupNative.IupCalendar())
+        public Calendar() : base(NativeIup.IupCalendar())
         {
         }
 

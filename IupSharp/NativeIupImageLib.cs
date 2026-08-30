@@ -19,13 +19,13 @@ namespace IupSharp
     /// set of pre-defined stock images for buttons, labels and toolbars.
     /// </summary>
     /// <remarks>
-    /// <para>Mirrors the conventions of <see cref="IupSharp.IupNative"/>: each
+    /// <para>Mirrors the conventions of <see cref="IupSharp.NativeIup"/>: each
     /// native entry point is a private extern with an explicit EntryPoint, fronted
     /// by a public wrapper that calls CheckThread first.</para>
     ///
     /// <para>Prefer the managed <c>ImageLib</c> class over calling these directly.</para>
     /// </remarks>
-    public static class IupImageLibNative
+    public static class NativeIupImageLib
     {
         // ------------------------------------------------------------------ //
         // Library name — change to match your platform / deployment layout.  //
@@ -61,7 +61,7 @@ namespace IupSharp
         /// </exception>
         public static void IupImageLibOpen()
         {
-            IupNative.CheckThread();
+            NativeIup.CheckThread();
             IupImageLibOpen_native();
         }
     }

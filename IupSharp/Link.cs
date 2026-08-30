@@ -53,7 +53,7 @@ namespace IupSharp
         /// nothing until Title is set.
         /// </param>
         public Link(string url = null, string title = null)
-            : base(IupNative.Link(url, title))
+            : base(NativeIup.Link(url, title))
         {
         }
 

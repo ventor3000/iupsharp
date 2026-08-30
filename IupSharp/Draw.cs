@@ -88,7 +88,7 @@ namespace IupSharp
             if (_control.Handle == IntPtr.Zero)
                 throw new ObjectDisposedException(control.GetType().Name);
 
-            IupNative.IupDrawBegin(_control.Handle);
+            NativeIup.IupDrawBegin(_control.Handle);
         }
 
         /// <summary>The control being drawn on.</summary>
@@ -106,7 +106,7 @@ namespace IupSharp
             _ended = true;
 
             if (_control.Handle != IntPtr.Zero)
-                IupNative.IupDrawEnd(_control.Handle);
+                NativeIup.IupDrawEnd(_control.Handle);
         }
 
         private void CheckOpen()
@@ -298,14 +298,14 @@ namespace IupSharp
         public void SetClipRect(int x1, int y1, int x2, int y2)
         {
             CheckOpen();
-            IupNative.IupDrawSetClipRect(_control.Handle, x1, y1, x2, y2);
+            NativeIup.IupDrawSetClipRect(_control.Handle, x1, y1, x2, y2);
         }
 
         /// <summary>Removes the clipping region.</summary>
         public void ResetClip()
         {
             CheckOpen();
-            IupNative.IupDrawResetClip(_control.Handle);
+            NativeIup.IupDrawResetClip(_control.Handle);
         }
 
         /// <summary>
@@ -316,7 +316,7 @@ namespace IupSharp
         public (int, int, int, int) GetClipRect()
         {
             CheckOpen();
-            IupNative.IupDrawGetClipRect(_control.Handle, out int x1, out int y1, out int x2, out int y2);
+            NativeIup.IupDrawGetClipRect(_control.Handle, out int x1, out int y1, out int x2, out int y2);
             return (x1, y1, x2, y2);
         }
 
@@ -328,21 +328,21 @@ namespace IupSharp
         public void ParentBackground()
         {
             CheckOpen();
-            IupNative.IupDrawParentBackground(_control.Handle);
+            NativeIup.IupDrawParentBackground(_control.Handle);
         }
 
         /// <summary>Draws a line, including both end points.</summary>
         public void Line(int x1, int y1, int x2, int y2)
         {
             CheckOpen();
-            IupNative.IupDrawLine(_control.Handle, x1, y1, x2, y2);
+            NativeIup.IupDrawLine(_control.Handle, x1, y1, x2, y2);
         }
 
         /// <summary>Draws a rectangle, including the start and end points.</summary>
         public void Rectangle(int x1, int y1, int x2, int y2)
         {
             CheckOpen();
-            IupNative.IupDrawRectangle(_control.Handle, x1, y1, x2, y2);
+            NativeIup.IupDrawRectangle(_control.Handle, x1, y1, x2, y2);
         }
 
         /// <summary>
@@ -354,7 +354,7 @@ namespace IupSharp
         public void Arc(int x1, int y1, int x2, int y2, double angle1, double angle2)
         {
             CheckOpen();
-            IupNative.IupDrawArc(_control.Handle, x1, y1, x2, y2, angle1, angle2);
+            NativeIup.IupDrawArc(_control.Handle, x1, y1, x2, y2, angle1, angle2);
         }
 
         /// <summary>
@@ -374,7 +374,7 @@ namespace IupSharp
                 throw new ArgumentException(
                     "The array must hold x,y pairs, so its length must be even.", nameof(points));
 
-            IupNative.IupDrawPolygon(_control.Handle, points, points.Length / 2);
+            NativeIup.IupDrawPolygon(_control.Handle, points, points.Length / 2);
         }
 
         /// <summary>
@@ -413,7 +413,7 @@ namespace IupSharp
             CheckOpen();
             // len is -1 so IUP calls strlen itself; the marshaller has already
             // produced a null-terminated UTF-8 buffer.
-            IupNative.IupDrawText(_control.Handle, text ?? "", -1, x, y, w, h);
+            NativeIup.IupDrawText(_control.Handle, text ?? "", -1, x, y, w, h);
         }
 
         /// <summary>
@@ -429,21 +429,21 @@ namespace IupSharp
         public void Image(string name, int x, int y, int w = -1, int h = -1)
         {
             CheckOpen();
-            IupNative.IupDrawImage(_control.Handle, name, x, y, w, h);
+            NativeIup.IupDrawImage(_control.Handle, name, x, y, w, h);
         }
 
         /// <summary>Draws a selection rectangle.</summary>
         public void SelectRect(int x1, int y1, int x2, int y2)
         {
             CheckOpen();
-            IupNative.IupDrawSelectRect(_control.Handle, x1, y1, x2, y2);
+            NativeIup.IupDrawSelectRect(_control.Handle, x1, y1, x2, y2);
         }
 
         /// <summary>Draws a focus rectangle.</summary>
         public void FocusRect(int x1, int y1, int x2, int y2)
         {
             CheckOpen();
-            IupNative.IupDrawFocusRect(_control.Handle, x1, y1, x2, y2);
+            NativeIup.IupDrawFocusRect(_control.Handle, x1, y1, x2, y2);
         }
 
         #endregion
@@ -456,7 +456,7 @@ namespace IupSharp
             get
             {
                 CheckOpen();
-                IupNative.IupDrawGetSize(_control.Handle, out int w, out int h);
+                NativeIup.IupDrawGetSize(_control.Handle, out int w, out int h);
                 return (w, h);
             }
         }
@@ -467,7 +467,7 @@ namespace IupSharp
         public (int Width, int Height) TextSize(string text)
         {
             CheckOpen();
-            IupNative.IupDrawGetTextSize(_control.Handle, text ?? "", -1, out int w, out int h);
+            NativeIup.IupDrawGetTextSize(_control.Handle, text ?? "", -1, out int w, out int h);
             return (w, h);
         }
 
@@ -477,7 +477,7 @@ namespace IupSharp
         /// </summary>
         public static (int Width, int Height, int Bpp) ImageInfo(string name)
         {
-            IupNative.IupDrawGetImageInfo(name, out int w, out int h, out int bpp);
+            NativeIup.IupDrawGetImageInfo(name, out int w, out int h, out int bpp);
             return (w, h, bpp);
         }
 

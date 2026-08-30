@@ -22,7 +22,7 @@ namespace IupSharp
         /// <summary>
         /// Creates a new Canvas.
         /// </summary>
-        public Canvas() : base(IupNative.Canvas(null))
+        public Canvas() : base(NativeIup.Canvas(null))
         {
         }
 
@@ -67,7 +67,7 @@ namespace IupSharp
         /// </summary>
         public (int, int) DrawSize
         {
-            get { IupNative.GetIntInt(Handle, "DRAWSIZE", out int w, out int h); return (w, h); }
+            get { NativeIup.GetIntInt(Handle, "DRAWSIZE", out int w, out int h); return (w, h); }
         }
 
 

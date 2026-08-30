@@ -26,7 +26,7 @@ namespace IupSharp
         /// <summary>
         /// Creates a new single line text field.
         /// </summary>
-        public Text() : base(IupNative.Text(null))
+        public Text() : base(NativeIup.Text(null))
         {
         }
 
@@ -239,7 +239,7 @@ namespace IupSharp
         public int LineColToPos(int line, int col)
         {
             CheckAlive();
-            IupNative.IupTextConvertLinColToPos(Handle, line, col, out int pos);
+            NativeIup.IupTextConvertLinColToPos(Handle, line, col, out int pos);
             return pos;
         }
 
@@ -251,7 +251,7 @@ namespace IupSharp
         public (int Line, int Column) PosToLineCol(int pos)
         {
             CheckAlive();
-            IupNative.IupTextConvertPosToLinCol(Handle, pos, out int lin, out int col);
+            NativeIup.IupTextConvertPosToLinCol(Handle, pos, out int lin, out int col);
             return (lin, col);
         }
 
@@ -475,7 +475,7 @@ namespace IupSharp
         /// </summary>
         public (int, int) Padding
         {
-            get { CheckAlive(); IupNative.GetIntInt(Handle, "PADDING", out int x, out int y); return (x, y); }
+            get { CheckAlive(); NativeIup.GetIntInt(Handle, "PADDING", out int x, out int y); return (x, y); }
             set => SetAttribute("PADDING", Utils.FormatPadding(value));
         }
 

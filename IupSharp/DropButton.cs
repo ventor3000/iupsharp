@@ -40,7 +40,7 @@ namespace IupSharp
         /// Creates a new drop button with no drop child. The arrow is disabled until a
         /// drop child is set.
         /// </summary>
-        public DropButton() : base(IupNative.IupDropButton(IntPtr.Zero))
+        public DropButton() : base(NativeIup.IupDropButton(IntPtr.Zero))
         {
         }
 
@@ -52,7 +52,7 @@ namespace IupSharp
         /// undecorated dialog, not as a child of the button.
         /// </param>
         public DropButton(Control dropChild)
-            : base(IupNative.IupDropButton(dropChild == null ? IntPtr.Zero : dropChild.Handle))
+            : base(NativeIup.IupDropButton(dropChild == null ? IntPtr.Zero : dropChild.Handle))
         {
             CheckDropChild(dropChild);
             _dropChild = dropChild;
@@ -95,7 +95,7 @@ namespace IupSharp
                 CheckAlive();
                 CheckDropChild(value);
                 _dropChild = value;
-                IupNative.SetAttributeHandle(Handle, "DROPCHILD_HANDLE",
+                NativeIup.SetAttributeHandle(Handle, "DROPCHILD_HANDLE",
                     value == null ? IntPtr.Zero : value.Handle);
             }
         }
@@ -116,7 +116,7 @@ namespace IupSharp
                 if (_dropChild == null || _dropChild.Handle == IntPtr.Zero)
                     return IntPtr.Zero;
 
-                return IupNative.IupGetDialog(_dropChild.Handle);
+                return NativeIup.IupGetDialog(_dropChild.Handle);
             }
         }
 
@@ -949,7 +949,7 @@ namespace IupSharp
         /// </summary>
         public (int, int) Padding
         {
-            get { CheckAlive(); IupNative.GetIntInt(Handle, "PADDING", out int x, out int y); return (x, y); }
+            get { CheckAlive(); NativeIup.GetIntInt(Handle, "PADDING", out int x, out int y); return (x, y); }
             set => SetAttribute("PADDING", Utils.FormatPadding(value));
         }
 

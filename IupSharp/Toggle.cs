@@ -35,7 +35,7 @@ namespace IupSharp
         /// Creates a new Toggle with the specified title.
         /// </summary>
         /// <param name="title">Text to be shown on the toggle. It can be null.</param>
-        public Toggle(string title) : base(IupNative.Toggle(title, null))
+        public Toggle(string title) : base(NativeIup.Toggle(title, null))
         {
         }
 
@@ -226,7 +226,7 @@ namespace IupSharp
         /// </summary>
         public (int, int) Padding
         {
-            get { IupNative.GetIntInt(Handle, "PADDING", out int x, out int y); return (x, y); }
+            get { NativeIup.GetIntInt(Handle, "PADDING", out int x, out int y); return (x, y); }
             set => SetAttribute("PADDING", Utils.FormatPadding(value));
         }
 

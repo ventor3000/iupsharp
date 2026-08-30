@@ -6,21 +6,21 @@ namespace IupSharp
     {
         
 
-        public static void Message(string title, string message) => IupNative.Message(title, message);
+        public static void Message(string title, string message) => NativeIup.Message(title, message);
         public static void Message(string message) => Message("", message);
-        public static void MessageError(Control parent, string message) => IupNative.MessageError(parent==null ? IntPtr.Zero:parent.Handle, message);
-        public static void MessageError(string message) => IupNative.MessageError(IntPtr.Zero, message);
+        public static void MessageError(Control parent, string message) => NativeIup.MessageError(parent==null ? IntPtr.Zero:parent.Handle, message);
+        public static void MessageError(string message) => NativeIup.MessageError(IntPtr.Zero, message);
         
         public static OpenResult Open()
         {
-            int res=IupNative.Open();
+            int res=NativeIup.Open();
             OpenResult rr;
             switch(res)
             {
-                case IupNative.IUP_ERROR:
+                case NativeIup.IUP_ERROR:
                     rr=OpenResult.Error;
                     break;
-                case IupNative.IUP_OPENED:
+                case NativeIup.IUP_OPENED:
                     rr=OpenResult.AlreadyOpen;
                     break;
                 default:
@@ -30,8 +30,8 @@ namespace IupSharp
 
             if (rr != OpenResult.Error)
             {
-                IupNative.SetStrGlobal("UTF8MODE", "YES");
-                IupNative.SetStrGlobal("UTF8MODE_FILE", "YES");
+                NativeIup.SetStrGlobal("UTF8MODE", "YES");
+                NativeIup.SetStrGlobal("UTF8MODE_FILE", "YES");
             }
 
             return rr;
@@ -39,13 +39,13 @@ namespace IupSharp
 
         public static void Close()
         {
-            IupNative.Close();
+            NativeIup.Close();
             IupObject.InvalidateAll();
         }
 
-        public static void MainLoop() => IupNative.IupMainLoop();
-        public static void ExitLoop() => IupNative.IupExitLoop();
-        public static void Flush() => IupNative.IupFlush();
+        public static void MainLoop() => NativeIup.IupMainLoop();
+        public static void ExitLoop() => NativeIup.IupExitLoop();
+        public static void Flush() => NativeIup.IupFlush();
 
         /// <summary>
         /// Shows a modal dialog built from the given parameters, and returns true if
@@ -144,7 +144,7 @@ namespace IupSharp
                     data[i] = valued[i].Buffer;
                 }
 
-                int result = IupNative.GetParamv(
+                int result = NativeIup.GetParamv(
                     title, native, IntPtr.Zero, format.ToString(),
                     valued.Count, 0, data);
 

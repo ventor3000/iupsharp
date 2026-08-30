@@ -147,7 +147,7 @@ namespace IupSharp
         /// </summary>
         public (int, int) Size
         {
-            get { IupNative.GetIntInt(Handle, "SIZE", out int w, out int h); return (w, h); }
+            get { NativeIup.GetIntInt(Handle, "SIZE", out int w, out int h); return (w, h); }
             set => SetAttribute("SIZE", value == (0, 0) ? null : Utils.FormatSize(value));
         }
 
@@ -158,7 +158,7 @@ namespace IupSharp
         /// </summary>
         public (int x, int y) RasterSize
         {
-            get { IupNative.GetIntInt(Handle, "RASTERSIZE", out int w, out int h); return (w, h); }
+            get { NativeIup.GetIntInt(Handle, "RASTERSIZE", out int w, out int h); return (w, h); }
             set => SetAttribute("RASTERSIZE", value == (0, 0) ? null : Utils.FormatSize(value));
         }
 
@@ -168,7 +168,7 @@ namespace IupSharp
         /// </summary>
         public (int, int) MinSize
         {
-            get { IupNative.GetIntInt(Handle, "MINSIZE", out int w, out int h); return (w, h); }
+            get { NativeIup.GetIntInt(Handle, "MINSIZE", out int w, out int h); return (w, h); }
             set => SetAttribute("MINSIZE", Utils.FormatSize(value));
         }
 
@@ -178,7 +178,7 @@ namespace IupSharp
         /// </summary>
         public (int, int) MaxSize
         {
-            get { IupNative.GetIntInt(Handle, "MAXSIZE", out int w, out int h); return (w, h); }
+            get { NativeIup.GetIntInt(Handle, "MAXSIZE", out int w, out int h); return (w, h); }
             set => SetAttribute("MAXSIZE", Utils.FormatSize(value));
         }
 
@@ -189,7 +189,7 @@ namespace IupSharp
         /// </summary>
         public (int, int) Position
         {
-            get { IupNative.GetIntInt(Handle, "POSITION", out int x, out int y); return (x, y); }
+            get { NativeIup.GetIntInt(Handle, "POSITION", out int x, out int y); return (x, y); }
             set => SetAttribute("POSITION", Utils.FormatSize(value));
         }
 
@@ -200,7 +200,7 @@ namespace IupSharp
         /// </summary>
         public (int, int) ScreenPosition
         {
-            get { IupNative.GetIntInt(Handle, "SCREENPOSITION", out int x, out int y); return (x, y); }
+            get { NativeIup.GetIntInt(Handle, "SCREENPOSITION", out int x, out int y); return (x, y); }
         }
 
         /// <summary>
@@ -208,14 +208,14 @@ namespace IupSharp
         /// of the dialog.
         /// (read only) (non inheritable)
         /// </summary>
-        public int X => IupNative.GetInt(Handle, "X");
+        public int X => NativeIup.GetInt(Handle, "X");
 
         /// <summary>
         /// Gets the element vertical position in pixels relative to the client area of
         /// the dialog.
         /// (read only) (non inheritable)
         /// </summary>
-        public int Y => IupNative.GetInt(Handle, "Y");
+        public int Y => NativeIup.GetInt(Handle, "Y");
 
         /// <summary>
         /// Sets the position of the element in the Z order, relative to its siblings.
@@ -427,7 +427,7 @@ namespace IupSharp
             if (Handle == IntPtr.Zero)
                 return false;
 
-            IupNative.PostMessage(Handle, text, value, number, pointer);
+            NativeIup.PostMessage(Handle, text, value, number, pointer);
             return true;
         }
 
@@ -454,7 +454,7 @@ namespace IupSharp
         public void Refresh()
         {
             CheckAlive();
-            IupNative.IupRefresh(Handle);
+            NativeIup.IupRefresh(Handle);
         }
 
         /// <summary>
@@ -464,7 +464,7 @@ namespace IupSharp
         public void RefreshChildren()
         {
             CheckAlive();
-            IupNative.IupRefreshChildren(Handle);
+            NativeIup.IupRefreshChildren(Handle);
         }
 
         /// <summary>
@@ -474,7 +474,7 @@ namespace IupSharp
         public void Update()
         {
             CheckAlive();
-            IupNative.IupUpdate(Handle);
+            NativeIup.IupUpdate(Handle);
         }
 
         /// <summary>
@@ -484,7 +484,7 @@ namespace IupSharp
         public void UpdateChildren()
         {
             CheckAlive();
-            IupNative.IupUpdateChildren(Handle);
+            NativeIup.IupUpdateChildren(Handle);
         }
 
         /// <summary>
@@ -494,7 +494,7 @@ namespace IupSharp
         public void Redraw(bool children = false)
         {
             CheckAlive();
-            IupNative.IupRedraw(Handle, children ? 1 : 0);
+            NativeIup.IupRedraw(Handle, children ? 1 : 0);
         }
 
         /// <summary>
@@ -504,7 +504,7 @@ namespace IupSharp
         public void SetFocus()
         {
             CheckAlive();
-            IupNative.IupSetFocus(Handle);
+            NativeIup.IupSetFocus(Handle);
         }
 
 

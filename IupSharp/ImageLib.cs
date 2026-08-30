@@ -44,11 +44,11 @@ namespace IupSharp
         /// </exception>
         public static void Open()
         {
-            if (IupNative.IupIsOpened() == 0)
+            if (NativeIup.IupIsOpened() == 0)
                 throw new InvalidOperationException(
                     "Iup.Open() must be called before IupImageLib.Open().");
 
-            IupImageLibNative.IupImageLibOpen();
+            NativeIupImageLib.IupImageLibOpen();
         }
 
         /// <summary>
@@ -69,12 +69,12 @@ namespace IupSharp
         {
             get
             {
-                string v = IupNative.GetGlobal("IMAGESTOCKSIZE");
+                string v = NativeIup.GetGlobal("IMAGESTOCKSIZE");
                 return int.TryParse(v, NumberStyles.Integer, CultureInfo.InvariantCulture, out int i)
                     ? i
                     : 0;
             }
-            set => IupNative.SetStrGlobal("IMAGESTOCKSIZE",
+            set => NativeIup.SetStrGlobal("IMAGESTOCKSIZE",
                 value.ToString(CultureInfo.InvariantCulture));
         }
 

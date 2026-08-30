@@ -32,7 +32,7 @@ namespace IupSharp
         /// <summary>
         /// Creates a new timer, stopped, with the default interval.
         /// </summary>
-        public UITimer() : base(IupNative.IupTimer())
+        public UITimer() : base(NativeIup.IupTimer())
         {
         }
 

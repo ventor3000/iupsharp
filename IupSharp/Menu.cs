@@ -50,7 +50,7 @@ namespace IupSharp
     public class Separator : MenuElement
     {
         /// <summary>Creates a new menu separator.</summary>
-        public Separator() : base(IupNative.IupSeparator())
+        public Separator() : base(NativeIup.IupSeparator())
         {
         }
     }
@@ -73,7 +73,7 @@ namespace IupSharp
         /// "&amp;&amp;" to show a literal "&amp;". A '\t' right-aligns everything after
         /// it, which is the convention for showing a shortcut, as in "Save\tCtrl+S".
         /// </param>
-        public MenuItem(string title = null) : base(IupNative.Item(title, null))
+        public MenuItem(string title = null) : base(NativeIup.Item(title, null))
         {
         }
 
@@ -370,7 +370,7 @@ namespace IupSharp
         /// <param name="title">The text shown on the submenu item.</param>
         /// <param name="menu">The menu opened when the item is selected. It can be null.</param>
         public Submenu(string title, Menu menu = null)
-    : base(IupNative.Submenu(title, IntPtr.Zero))
+    : base(NativeIup.Submenu(title, IntPtr.Zero))
         {
             Title = title;
             Menu = menu;
@@ -399,20 +399,20 @@ namespace IupSharp
                 if (ReferenceEquals(_menu, value))
                     return;
 
-                if (value != null && IupNative.IupGetParent(value.Handle) != IntPtr.Zero)
+                if (value != null && NativeIup.IupGetParent(value.Handle) != IntPtr.Zero)
                     throw new ArgumentException(
                         "That menu already belongs to another element. Detach it first.", nameof(value));
 
                 // A submenu accepts only one child, so the old menu must go first.
                 if (_menu != null && _menu.Handle != IntPtr.Zero)
-                    IupNative.IupDetach(_menu.Handle);
+                    NativeIup.IupDetach(_menu.Handle);
 
                 _menu = value;
 
                 if (value == null)
                     return;
 
-                if (IupNative.IupAppend(Handle, value.Handle) == IntPtr.Zero)
+                if (NativeIup.IupAppend(Handle, value.Handle) == IntPtr.Zero)
                 {
                     _menu = null;
                     throw new IupException("Failed to attach the menu to the submenu.");
@@ -528,7 +528,7 @@ namespace IupSharp
         {
             // IupMenuv takes a NULL-terminated array; a single NULL creates an
             // empty menu, which is then filled with IupAppend.
-            return IupNative.IupMenuv(new nint[] { IntPtr.Zero });
+            return NativeIup.IupMenuv(new nint[] { IntPtr.Zero });
         }
 
         #region CHILDREN
@@ -551,7 +551,7 @@ namespace IupSharp
 
             CheckAlive();
 
-            if (IupNative.IupAppend(Handle, child.Handle) == IntPtr.Zero)
+            if (NativeIup.IupAppend(Handle, child.Handle) == IntPtr.Zero)
                 throw new IupException($"Failed to append {child.GetType().Name} to the menu.");
 
             _children.Add(child);
@@ -580,7 +580,7 @@ namespace IupSharp
 
             CheckAlive();
 
-            if (IupNative.IupInsert(Handle, refChild.Handle, child.Handle) == IntPtr.Zero)
+            if (NativeIup.IupInsert(Handle, refChild.Handle, child.Handle) == IntPtr.Zero)
                 throw new IupException($"Failed to insert {child.GetType().Name} into the menu.");
 
             _children.Insert(index, child);
@@ -596,7 +596,7 @@ namespace IupSharp
                 return;
 
             if (Handle != IntPtr.Zero && child.Handle != IntPtr.Zero)
-                IupNative.IupDetach(child.Handle);
+                NativeIup.IupDetach(child.Handle);
         }
 
         /// <summary>
@@ -677,11 +677,11 @@ namespace IupSharp
         /// <param name="x">Horizontal position, or one of the IupNative position constants.</param>
         /// <param name="y">Vertical position, or one of the IupNative position constants.</param>
         /// <exception cref="IupException">The menu could not be shown.</exception>
-        public void Popup(int x = IupNative.IUP_MOUSEPOS, int y = IupNative.IUP_MOUSEPOS)
+        public void Popup(int x = NativeIup.IUP_MOUSEPOS, int y = NativeIup.IUP_MOUSEPOS)
         {
             CheckAlive();
 
-            if (IupNative.IupPopup(Handle, x, y) != IupNative.IUP_NOERROR)
+            if (NativeIup.IupPopup(Handle, x, y) != NativeIup.IUP_NOERROR)
                 throw new IupException("Failed to show the popup menu.");
         }
 

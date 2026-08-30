@@ -47,7 +47,7 @@ namespace IupSharp
         /// created empty and a child can be added later with Append.
         /// </param>
         public Dialog(Control child)
-            : base(IupNative.IupDialog(child == null ? IntPtr.Zero : child.Handle))
+            : base(NativeIup.IupDialog(child == null ? IntPtr.Zero : child.Handle))
         {
             _child = child;
 
@@ -109,7 +109,7 @@ namespace IupSharp
         public void Show()
         {
             CheckAlive();
-            if (IupNative.IupShow(Handle) != IupNative.IUP_NOERROR)
+            if (NativeIup.IupShow(Handle) != NativeIup.IUP_NOERROR)
                 throw new IupException("Failed to show the dialog.");
         }
 
@@ -123,7 +123,7 @@ namespace IupSharp
         public void ShowXY(int x, int y)
         {
             CheckAlive();
-            if (IupNative.IupShowXY(Handle, x, y) != IupNative.IUP_NOERROR)
+            if (NativeIup.IupShowXY(Handle, x, y) != NativeIup.IUP_NOERROR)
                 throw new IupException("Failed to show the dialog.");
         }
 
@@ -137,10 +137,10 @@ namespace IupSharp
         /// <param name="x">Horizontal position. Defaults to centred on screen.</param>
         /// <param name="y">Vertical position. Defaults to centred on screen.</param>
         /// <exception cref="IupException">The dialog could not be shown.</exception>
-        public void Popup(int x = IupNative.IUP_CENTER, int y = IupNative.IUP_CENTER)
+        public void Popup(int x = NativeIup.IUP_CENTER, int y = NativeIup.IUP_CENTER)
         {
             CheckAlive();
-            if (IupNative.IupPopup(Handle, x, y) != IupNative.IUP_NOERROR)
+            if (NativeIup.IupPopup(Handle, x, y) != NativeIup.IUP_NOERROR)
                 throw new IupException("Failed to popup the dialog.");
         }
 
@@ -151,7 +151,7 @@ namespace IupSharp
         public void Hide()
         {
             CheckAlive();
-            IupNative.IupHide(Handle);
+            NativeIup.IupHide(Handle);
         }
 
 
@@ -387,7 +387,7 @@ namespace IupSharp
         /// </summary>
         public (int, int) ClientSize
         {
-            get { IupNative.GetIntInt(Handle, "CLIENTSIZE", out int w, out int h); return (w, h); }
+            get { NativeIup.GetIntInt(Handle, "CLIENTSIZE", out int w, out int h); return (w, h); }
         }
 
 
@@ -409,7 +409,7 @@ namespace IupSharp
         /// </summary>
         public (int, int) ChildOffset
         {
-            get { IupNative.GetIntInt(Handle, "CHILDOFFSET", out int x, out int y); return (x, y); }
+            get { NativeIup.GetIntInt(Handle, "CHILDOFFSET", out int x, out int y); return (x, y); }
             set => SetAttribute("CHILDOFFSET", Utils.FormatPadding(value));
         }
 
@@ -475,7 +475,7 @@ namespace IupSharp
             {
                 CheckAlive();
                 _menuReference = value;
-                IupNative.SetAttributeHandle(Handle, "MENU", value == null ? IntPtr.Zero : value.Handle);
+                NativeIup.SetAttributeHandle(Handle, "MENU", value == null ? IntPtr.Zero : value.Handle);
             }
             get => _menuReference;
         }
@@ -491,7 +491,7 @@ namespace IupSharp
             {
                 CheckAlive();
                 _defaultEnterReference = value;
-                IupNative.SetAttributeHandle(Handle, "DEFAULTENTER", value == null ? IntPtr.Zero : value.Handle);
+                NativeIup.SetAttributeHandle(Handle, "DEFAULTENTER", value == null ? IntPtr.Zero : value.Handle);
             }
             get => _defaultEnterReference;
         }
@@ -507,7 +507,7 @@ namespace IupSharp
             {
                 CheckAlive();
                 _defaultEscReference = value;
-                IupNative.SetAttributeHandle(Handle, "DEFAULTESC", value == null ? IntPtr.Zero : value.Handle);
+                NativeIup.SetAttributeHandle(Handle, "DEFAULTESC", value == null ? IntPtr.Zero : value.Handle);
             }
             get => _defaultEscReference;
         }
@@ -525,7 +525,7 @@ namespace IupSharp
             {
                 CheckAlive();
                 _startFocusReference = value;
-                IupNative.SetAttributeHandle(Handle, "STARTFOCUS", value == null ? IntPtr.Zero : value.Handle);
+                NativeIup.SetAttributeHandle(Handle, "STARTFOCUS", value == null ? IntPtr.Zero : value.Handle);
             }
             get => _startFocusReference;
         }

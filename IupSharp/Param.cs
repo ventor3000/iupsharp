@@ -532,17 +532,17 @@ namespace IupSharp
         /// <summary>A parameter's value was changed. Index holds which one.</summary>
         ValueChanged = 0,
         /// <summary>The OK button was pressed.</summary>
-        Ok = IupNative.IUP_GETPARAM_BUTTON1,
+        Ok = NativeIup.IUP_GETPARAM_BUTTON1,
         /// <summary>The dialog was mapped and is about to be shown.</summary>
-        Init = IupNative.IUP_GETPARAM_INIT,
+        Init = NativeIup.IUP_GETPARAM_INIT,
         /// <summary>The Cancel button was pressed.</summary>
-        Cancel = IupNative.IUP_GETPARAM_BUTTON2,
+        Cancel = NativeIup.IUP_GETPARAM_BUTTON2,
         /// <summary>The third button, normally Help, was pressed.</summary>
-        Help = IupNative.IUP_GETPARAM_BUTTON3,
+        Help = NativeIup.IUP_GETPARAM_BUTTON3,
         /// <summary>The dialog's close button was clicked.</summary>
-        Close = IupNative.IUP_GETPARAM_CLOSE,
+        Close = NativeIup.IUP_GETPARAM_CLOSE,
         /// <summary>The dialog is about to be mapped.</summary>
-        Map = IupNative.IUP_GETPARAM_MAP
+        Map = NativeIup.IUP_GETPARAM_MAP
     }
 
 
