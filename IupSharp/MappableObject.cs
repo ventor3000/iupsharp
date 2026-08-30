@@ -113,5 +113,48 @@ namespace IupSharp
 
 
         #endregion
+
+        #region IMAGE ATTRIBUTE HELPERS
+
+        /// <summary>
+        /// Sets an image attribute from an Image object, keeping the managed reference
+        /// so the image stays reachable, and clearing any name previously set for the
+        /// same attribute.
+        /// </summary>
+        /// <remarks>
+        /// An image attribute holds one value, so the object form and the name form
+        /// are mutually exclusive. These two helpers keep the cached fields consistent
+        /// with whichever was assigned last.
+        /// </remarks>
+        protected void SetImageHandle(string attribute, Image image,
+                                      ref Image imageField, ref string nameField)
+        {
+            CheckAlive();
+
+            imageField = image;
+            nameField = null;
+
+            IupNative.SetAttributeHandle(Handle, attribute,
+                image == null ? IntPtr.Zero : image.Handle);
+        }
+
+        /// <summary>
+        /// Sets an image attribute from a name - a stock image, a name registered with
+        /// IupSetHandle, a system resource name, or a path to an image file - and
+        /// clears any Image object previously set for the same attribute.
+        /// </summary>
+        protected void SetImageName(string attribute, string imageName,
+                                    ref Image imageField, ref string nameField)
+        {
+            CheckAlive();
+
+            nameField = imageName;
+            imageField = null;
+
+            // SetAttribute copies the string, which IUP needs since it keeps the name.
+            SetAttribute(attribute, imageName);
+        }
+
+        #endregion
     }
 }

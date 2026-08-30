@@ -145,6 +145,7 @@ namespace IupSharp
         }
 
         private Image _image;
+        private string _imageName;
         /// <summary>
         /// Gets or sets the check mark image used when Checked is false. About 16x16
         /// fits best; a larger image is cropped in Windows. Ignored for an item in a
@@ -154,10 +155,29 @@ namespace IupSharp
         public virtual Image Image
         {
             get => _image;
-            set => SetImage("IMAGE", value, ref _image);
+            set => SetImageHandle("IMAGE", value, ref _image, ref _imageName);
         }
 
+        /// <summary>
+        /// Gets or sets the check mark image for the unchecked state by name rather than by object. Accepts a stock
+        /// image name (after IupImageLib.Open), a name registered with IupSetHandle,
+        /// a system resource name, or a path to an image file.
+        /// (non inheritable)
+        /// </summary>
+        /// <remarks>
+        /// This and <see cref="Image"/> set the same IUP attribute, so assigning
+        /// either clears the other. Reading this returns null when the image was set
+        /// as an object.
+        /// </remarks>
+        public virtual string ImageName
+        {
+            get => _imageName;
+            set => SetImageName("IMAGE", value, ref _image, ref _imageName);
+        }
+
+
         private Image _impress;
+        private string _impressName;
         /// <summary>
         /// Gets or sets the check mark image used when Checked is true.
         /// [Windows and GTK only] (non inheritable)
@@ -165,10 +185,29 @@ namespace IupSharp
         public virtual Image ImPress
         {
             get => _impress;
-            set => SetImage("IMPRESS", value, ref _impress);
+            set => SetImageHandle("IMPRESS", value, ref _impress, ref _impressName);
         }
 
+        /// <summary>
+        /// Gets or sets the check mark image for the checked state by name rather than by object. Accepts a stock
+        /// image name (after IupImageLib.Open), a name registered with IupSetHandle,
+        /// a system resource name, or a path to an image file.
+        /// (non inheritable)
+        /// </summary>
+        /// <remarks>
+        /// This and <see cref="ImPress"/> set the same IUP attribute, so assigning
+        /// either clears the other. Reading this returns null when the image was set
+        /// as an object.
+        /// </remarks>
+        public virtual string ImPressName
+        {
+            get => _impressName;
+            set => SetImageName("IMPRESS", value, ref _impress, ref _impressName);
+        }
+
+
         private Image _titleImage;
+        private string _titleImageName;
         /// <summary>
         /// Gets or sets an image shown alongside the title. In Windows it appears
         /// before the text and after the check mark area, so both can be visible. In
@@ -179,16 +218,26 @@ namespace IupSharp
         public virtual Image TitleImage
         {
             get => _titleImage;
-            set => SetImage("TITLEIMAGE", value, ref _titleImage);
+            set => SetImageHandle("TITLEIMAGE", value, ref _titleImage, ref _titleImageName);
         }
 
-        private void SetImage(string name, Image image, ref Image field)
+        /// <summary>
+        /// Gets or sets the title image by name rather than by object. Accepts a stock
+        /// image name (after IupImageLib.Open), a name registered with IupSetHandle,
+        /// a system resource name, or a path to an image file.
+        /// (non inheritable)
+        /// </summary>
+        /// <remarks>
+        /// This and <see cref="TitleImage"/> set the same IUP attribute, so assigning
+        /// either clears the other. Reading this returns null when the image was set
+        /// as an object.
+        /// </remarks>
+        public virtual string TitleImageName
         {
-            CheckAlive();
-            field = image;
-            IupNative.SetAttributeHandle(Handle, name,
-                image == null ? IntPtr.Zero : image.Handle);
+            get => _titleImageName;
+            set => SetImageName("TITLEIMAGE", value, ref _titleImage, ref _titleImageName);
         }
+
 
         #endregion
 
@@ -197,6 +246,9 @@ namespace IupSharp
             _image = null;
             _impress = null;
             _titleImage = null;
+            _imageName = null;
+            _impressName = null;
+            _titleImageName = null;
             base.OnDestroying();
         }
 
@@ -384,6 +436,7 @@ namespace IupSharp
         }
 
         private Image _image;
+        private string _imageName;
         /// <summary>
         /// Gets or sets the submenu image. About 16x16 fits best. Ignored for a submenu
         /// in a menu bar, and in Windows a menu bar item cannot have a check mark.
@@ -392,19 +445,32 @@ namespace IupSharp
         public virtual Image Image
         {
             get => _image;
-            set
-            {
-                CheckAlive();
-                _image = value;
-                IupNative.SetAttributeHandle(Handle, "IMAGE",
-                    value == null ? IntPtr.Zero : value.Handle);
-            }
+            set => SetImageHandle("IMAGE", value, ref _image, ref _imageName);
         }
+
+        /// <summary>
+        /// Gets or sets the submenu image by name rather than by object. Accepts a stock
+        /// image name (after IupImageLib.Open), a name registered with IupSetHandle,
+        /// a system resource name, or a path to an image file.
+        /// (non inheritable)
+        /// </summary>
+        /// <remarks>
+        /// This and <see cref="Image"/> set the same IUP attribute, so assigning
+        /// either clears the other. Reading this returns null when the image was set
+        /// as an object.
+        /// </remarks>
+        public virtual string ImageName
+        {
+            get => _imageName;
+            set => SetImageName("IMAGE", value, ref _image, ref _imageName);
+        }
+
 
         protected override void OnDestroying()
         {
             _menu = null;
             _image = null;
+            _imageName = null;
             base.OnDestroying();
         }
 

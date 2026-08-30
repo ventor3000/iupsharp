@@ -78,6 +78,7 @@ namespace IupSharp
         }
 
         private Image _imageReference = null;
+        private string _imageName = null;
         /// <summary>
         /// Gets or sets the image. If set before mapping defines the behavior of
         /// the label to contain an image. The natural size will be the size of the
@@ -86,15 +87,29 @@ namespace IupSharp
         /// </summary>
         public virtual Image Image
         {
-            set
-            {
-                _imageReference = value;
-                IupNative.SetAttributeHandle(Handle, "IMAGE", value == null ? IntPtr.Zero : value.Handle);
-            }
             get => _imageReference;
+            set => SetImageHandle("IMAGE", value, ref _imageReference, ref _imageName);
+        }
+
+        /// <summary>
+        /// Gets or sets the image by name rather than by object. Accepts a stock
+        /// image name (after IupImageLib.Open), a name registered with IupSetHandle,
+        /// a system resource name, or a path to an image file.
+        /// (non inheritable)
+        /// </summary>
+        /// <remarks>
+        /// This and <see cref="Image"/> set the same IUP attribute, so assigning
+        /// either clears the other. Reading this returns null when the image was set
+        /// as an object.
+        /// </remarks>
+        public virtual string ImageName
+        {
+            get => _imageName;
+            set => SetImageName("IMAGE", value, ref _imageReference, ref _imageName);
         }
 
         private Image _iminactiveReference = null;
+        private string _iminactiveName = null;
         /// <summary>
         /// Gets or sets the image of the element when inactive. If it is not defined
         /// then the Image is used and the colors will be replaced by a modified
@@ -103,12 +118,25 @@ namespace IupSharp
         /// </summary>
         public virtual Image ImInactive
         {
-            set
-            {
-                _iminactiveReference = value;
-                IupNative.SetAttributeHandle(Handle, "IMINACTIVE", value == null ? IntPtr.Zero : value.Handle);
-            }
             get => _iminactiveReference;
+            set => SetImageHandle("IMINACTIVE", value, ref _iminactiveReference, ref _iminactiveName);
+        }
+
+        /// <summary>
+        /// Gets or sets the inactive image by name rather than by object. Accepts a stock
+        /// image name (after IupImageLib.Open), a name registered with IupSetHandle,
+        /// a system resource name, or a path to an image file.
+        /// (non inheritable)
+        /// </summary>
+        /// <remarks>
+        /// This and <see cref="ImInactive"/> set the same IUP attribute, so assigning
+        /// either clears the other. Reading this returns null when the image was set
+        /// as an object.
+        /// </remarks>
+        public virtual string ImInactiveName
+        {
+            get => _iminactiveName;
+            set => SetImageName("IMINACTIVE", value, ref _iminactiveReference, ref _iminactiveName);
         }
 
         protected override void OnDestroying()
@@ -322,206 +350,207 @@ namespace IupSharp
     }
 }
 
-    /*
-    public class Label : Control
+/*
+public class Label : Control
+{
+    public Label(string title) : base(IupNative.Label(title))
     {
-        public Label(string title) : base(IupNative.Label(title))
+
+    }
+
+
+    public virtual Alignment Alignment
+    {
+        get => Utils.ParseAlignment(GetAttribute("ALIGNMENT"));
+        set => SetAttribute("ALIGNMENT", Utils.FormatAlignment(value));
+    }
+
+
+    public override uint BgColor { get => base.BgColor; set => base.BgColor = value; } // just to enable special commentts for label
+
+    public virtual bool DropFilesTarget
+    {
+        get => GetAttribute("DROPFILESTARGET") == "YES";
+        set => SetAttribute("DROPFILESTARGET", value ? "YES" : "NO");
+    }
+
+    public virtual bool Ellipsis
+    {
+        get => GetAttribute("ELLIPSIS") == "YES";
+        set => SetAttribute("ELLIPSIS", value ? "YES" : "NO");
+    }
+
+    private ImageRGBA _imageReference = null;
+        _imageName = null;
+    public virtual ImageRGBA Image
+    {
+        set
         {
+            _imageReference = value;
+            IupNative.SetAttributeHandle(Handle, "IMAGE", value == null ? IntPtr.Zero : value.Handle);
+        }
+        get => _imageReference;
+    }
+
+    private ImageRGBA _iminactiveReference = null;
+        _iminactiveName = null;
+    public virtual ImageRGBA ImInactive
+    {
+        set
+        {
+            _iminactiveReference = value;
+            IupNative.SetAttributeHandle(Handle, "IMINACTIVE", value == null ? IntPtr.Zero : value.Handle);
+        }
+        get => _iminactiveReference;
+    }
+
+    public virtual bool Markup
+    {
+        get => GetAttribute("MARKUP") == "YES";
+        set => SetAttribute("MARKUP", value ? "YES" : "NO");
+    }
+
+    public (int, int) Padding
+    {
+        get { IupNative.GetIntInt(((Control)this).Handle, "PADDING", out int x, out int y); return (x, y); }
+        set => ((Control)this).SetAttribute("PADDING", Utils.FormatPadding(value));
+    }
+
+    public (int, int) CPadding
+    {
+        get { IupNative.GetIntInt(Handle, "CPADDING", out int x, out int y); return (x, y); }
+        set => SetAttribute("CPADDING", Utils.FormatPadding(value));
+    }
+
+    public virtual Separator Separator
+    {
+        get
+        {
+            string sep = GetAttribute("SEPARATOR");
+            if (sep == "HORIZONTAL")
+                return Separator.Horizontal;
+            else if (sep == "VERTICAL")
+                return Separator.Vertical;
+            else
+                return Separator.No;
 
         }
-
-        
-        public virtual Alignment Alignment
+        set
         {
-            get => Utils.ParseAlignment(GetAttribute("ALIGNMENT"));
-            set => SetAttribute("ALIGNMENT", Utils.FormatAlignment(value));
-        }
-
-        
-        public override uint BgColor { get => base.BgColor; set => base.BgColor = value; } // just to enable special commentts for label
-
-        public virtual bool DropFilesTarget
-        {
-            get => GetAttribute("DROPFILESTARGET") == "YES";
-            set => SetAttribute("DROPFILESTARGET", value ? "YES" : "NO");
-        }
-
-        public virtual bool Ellipsis
-        {
-            get => GetAttribute("ELLIPSIS") == "YES";
-            set => SetAttribute("ELLIPSIS", value ? "YES" : "NO");
-        }
-
-        private ImageRGBA _imageReference = null;
-        public virtual ImageRGBA Image
-        {
-            set
+            switch(value)
             {
-                _imageReference = value;
-                IupNative.SetAttributeHandle(Handle, "IMAGE", value == null ? IntPtr.Zero : value.Handle);
-            }
-            get => _imageReference;
-        }
+                case Separator.Horizontal:
+                    SetAttribute("SEPARATOR", "HORIZONTAL");
+                    break;
+                case Separator.Vertical:
+                    SetAttribute("SEPARATOR", "VERTICAL");
+                    break;
+                case Separator.No:
+                default:
+                    SetAttribute("SEPARATOR", null); // separator off
+                    break;
 
-        private ImageRGBA _iminactiveReference = null;
-        public virtual ImageRGBA ImInactive
-        {
-            set
-            {
-                _iminactiveReference = value;
-                IupNative.SetAttributeHandle(Handle, "IMINACTIVE", value == null ? IntPtr.Zero : value.Handle);
-            }
-            get => _iminactiveReference;
-        }
-
-        public virtual bool Markup
-        {
-            get => GetAttribute("MARKUP") == "YES";
-            set => SetAttribute("MARKUP", value ? "YES" : "NO");
-        }
-
-        public (int, int) Padding
-        {
-            get { IupNative.GetIntInt(((Control)this).Handle, "PADDING", out int x, out int y); return (x, y); }
-            set => ((Control)this).SetAttribute("PADDING", Utils.FormatPadding(value));
-        }
-
-        public (int, int) CPadding
-        {
-            get { IupNative.GetIntInt(Handle, "CPADDING", out int x, out int y); return (x, y); }
-            set => SetAttribute("CPADDING", Utils.FormatPadding(value));
-        }
-
-        public virtual Separator Separator
-        {
-            get
-            {
-                string sep = GetAttribute("SEPARATOR");
-                if (sep == "HORIZONTAL")
-                    return Separator.Horizontal;
-                else if (sep == "VERTICAL")
-                    return Separator.Vertical;
-                else
-                    return Separator.No;
-                
-            }
-            set
-            {
-                switch(value)
-                {
-                    case Separator.Horizontal:
-                        SetAttribute("SEPARATOR", "HORIZONTAL");
-                        break;
-                    case Separator.Vertical:
-                        SetAttribute("SEPARATOR", "VERTICAL");
-                        break;
-                    case Separator.No:
-                    default:
-                        SetAttribute("SEPARATOR", null); // separator off
-                        break;
-                        
-                }
-            }
-        }
-
-        public string Title
-        {
-            get => GetAttribute("TITLE");
-            set => SetAttribute("TITLE", value);
-        }
-
-
-        #region CALLBACKS
-
-        private ButtonCBCallback _buttonCB; // users callback function
-        private IFniiiis _buttonCBInternal; // need reference to keep alive in GC
-        /// <summary>
-        /// Gets or sets the action generated when any mouse button is pressed and when it is released. 
-        /// Both calls occur before the ACTION callback when button 1 is being used.
-        /// </summary>
-        public ButtonCBCallback ButtonCB
-        {
-            get => _buttonCB;
-            set
-            {
-                _buttonCB = value;
-                _buttonCBInternal = ButtonCBInternal;
-                SetCallback("BUTTON_CB", Utils.CastCallback<Icallback>(_buttonCBInternal));
             }
         }
-        private int ButtonCBInternal(nint ih, int i1, int i2, int i3, int i4, string s)
+    }
+
+    public string Title
+    {
+        get => GetAttribute("TITLE");
+        set => SetAttribute("TITLE", value);
+    }
+
+
+    #region CALLBACKS
+
+    private ButtonCBCallback _buttonCB; // users callback function
+    private IFniiiis _buttonCBInternal; // need reference to keep alive in GC
+    /// <summary>
+    /// Gets or sets the action generated when any mouse button is pressed and when it is released. 
+    /// Both calls occur before the ACTION callback when button 1 is being used.
+    /// </summary>
+    public ButtonCBCallback ButtonCB
+    {
+        get => _buttonCB;
+        set
         {
-            try { 
-            var cb = new ButtonCBData(this, i1, i2, i3, i4, s);
-            _buttonCB?.Invoke(cb);
+            _buttonCB = value;
+            _buttonCBInternal = ButtonCBInternal;
+            SetCallback("BUTTON_CB", Utils.CastCallback<Icallback>(_buttonCBInternal));
+        }
+    }
+    private int ButtonCBInternal(nint ih, int i1, int i2, int i3, int i4, string s)
+    {
+        try { 
+        var cb = new ButtonCBData(this, i1, i2, i3, i4, s);
+        _buttonCB?.Invoke(cb);
+        return cb.Result;
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in ButtonCB callback: {ex}");
+            return IupNative.IUP_DEFAULT;
+        }
+    }
+
+
+    private MotionCBCallback _motionCB; // users callback function
+    private IFniis _motionCBInternal; // need reference to keep alive in GC
+    public MotionCBCallback MotionCB
+    {
+        get => _motionCB;
+        set
+        {
+            _motionCB = value;
+            _motionCBInternal = MotionCBInternal;
+            SetCallback("MOTION_CB", Utils.CastCallback<Icallback>(_motionCBInternal));
+        }
+    }
+    private int MotionCBInternal(nint ih, int x, int y, string status)
+    {
+        try
+        {
+            var cb = new MotionCBData(this, x, y, status);
+            _motionCB?.Invoke(cb);
             return cb.Result;
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in ButtonCB callback: {ex}");
-                return IupNative.IUP_DEFAULT;
-            }
         }
-
-
-        private MotionCBCallback _motionCB; // users callback function
-        private IFniis _motionCBInternal; // need reference to keep alive in GC
-        public MotionCBCallback MotionCB
+        catch (Exception ex)
         {
-            get => _motionCB;
-            set
-            {
-                _motionCB = value;
-                _motionCBInternal = MotionCBInternal;
-                SetCallback("MOTION_CB", Utils.CastCallback<Icallback>(_motionCBInternal));
-            }
+            System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in MotionCB callback: {ex}");
+            return IupNative.IUP_DEFAULT;
         }
-        private int MotionCBInternal(nint ih, int x, int y, string status)
-        {
-            try
-            {
-                var cb = new MotionCBData(this, x, y, status);
-                _motionCB?.Invoke(cb);
-                return cb.Result;
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in MotionCB callback: {ex}");
-                return IupNative.IUP_DEFAULT;
-            }
 }
 
 
 
-        private DropFilesCBCallback _dropfilesCB; // users callback function
-        private IFnsiii _dropfilesCBInternal; // need reference to keep alive in GC
-        public DropFilesCBCallback DropFilesCB
+    private DropFilesCBCallback _dropfilesCB; // users callback function
+    private IFnsiii _dropfilesCBInternal; // need reference to keep alive in GC
+    public DropFilesCBCallback DropFilesCB
+    {
+        get => _dropfilesCB;
+        set
         {
-            get => _dropfilesCB;
-            set
-            {
-                _dropfilesCB = value;
-                _dropfilesCBInternal = DropFilesCBInternal;
-                SetCallback("DROPFILES_CB", Utils.CastCallback<Icallback>(_dropfilesCBInternal));
-            }
+            _dropfilesCB = value;
+            _dropfilesCBInternal = DropFilesCBInternal;
+            SetCallback("DROPFILES_CB", Utils.CastCallback<Icallback>(_dropfilesCBInternal));
         }
+    }
 
-        private int DropFilesCBInternal(nint ih, string filename, int num, int x, int y)
+    private int DropFilesCBInternal(nint ih, string filename, int num, int x, int y)
+    {
+        try
         {
-            try
-            {
-                var cb = new DropFilesCBData(this, filename, num, x, y);
-                _dropfilesCB?.Invoke(cb);
-                return cb.Result;
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in DropFilesCB callback: {ex}");
-                return IupNative.IUP_DEFAULT;
-            }
+            var cb = new DropFilesCBData(this, filename, num, x, y);
+            _dropfilesCB?.Invoke(cb);
+            return cb.Result;
         }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in DropFilesCB callback: {ex}");
+            return IupNative.IUP_DEFAULT;
+        }
+    }
 
 
-        #endregion
-    }*/
-
+    #endregion
+}*/

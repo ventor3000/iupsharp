@@ -227,6 +227,26 @@ namespace IupSharp
                     image == null ? IntPtr.Zero : image.Handle);
             }
 
+            /// <summary>
+            /// Sets the image shown beside the item at the given one-based position, by
+            /// name rather than by object. Accepts a stock image name (after
+            /// IupImageLib.Open), a name registered with IupSetHandle, a system
+            /// resource name, or a path to an image file.
+            /// [Windows and GTK only] (write only) (since 3.6)
+            /// </summary>
+            /// <remarks>
+            /// This and <see cref="SetImage"/> set the same IUP attribute for a given
+            /// position, so whichever is called last wins. Unlike the image properties
+            /// on other controls there is no cached managed reference here, so an image
+            /// object passed to SetImage must be kept alive by the caller.
+            /// </remarks>
+            public void SetImageName(int position, string imageName)
+            {
+                CheckPosition(position);
+                _owner.CheckAlive();
+                _owner.SetAttributeId("IMAGE", position, imageName);
+            }
+
             public IEnumerator<string> GetEnumerator()
             {
                 int count = Count;

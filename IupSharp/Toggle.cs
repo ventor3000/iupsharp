@@ -104,6 +104,7 @@ namespace IupSharp
         }
 
         private Image _imageReference = null;
+        private string _imageName = null;
         /// <summary>
         /// Gets or sets the image. When defined the Title is not shown, making the
         /// toggle look just like a button with an image, but its behavior remains the
@@ -112,15 +113,29 @@ namespace IupSharp
         /// </summary>
         public virtual Image Image
         {
-            set
-            {
-                _imageReference = value;
-                IupNative.SetAttributeHandle(Handle, "IMAGE", value == null ? IntPtr.Zero : value.Handle);
-            }
             get => _imageReference;
+            set => SetImageHandle("IMAGE", value, ref _imageReference, ref _imageName);
+        }
+
+        /// <summary>
+        /// Gets or sets the image by name rather than by object. Accepts a stock
+        /// image name (after IupImageLib.Open), a name registered with IupSetHandle,
+        /// a system resource name, or a path to an image file.
+        /// (non inheritable)
+        /// </summary>
+        /// <remarks>
+        /// This and <see cref="Image"/> set the same IUP attribute, so assigning
+        /// either clears the other. Reading this returns null when the image was set
+        /// as an object.
+        /// </remarks>
+        public virtual string ImageName
+        {
+            get => _imageName;
+            set => SetImageName("IMAGE", value, ref _imageReference, ref _imageName);
         }
 
         private Image _iminactiveReference = null;
+        private string _iminactiveName = null;
         /// <summary>
         /// Gets or sets the image name of the toggle when inactive. If it is not
         /// defined but Image is defined then for inactive toggles the colors will be
@@ -130,15 +145,29 @@ namespace IupSharp
         /// </summary>
         public virtual Image ImInactive
         {
-            set
-            {
-                _iminactiveReference = value;
-                IupNative.SetAttributeHandle(Handle, "IMINACTIVE", value == null ? IntPtr.Zero : value.Handle);
-            }
             get => _iminactiveReference;
+            set => SetImageHandle("IMINACTIVE", value, ref _iminactiveReference, ref _iminactiveName);
+        }
+
+        /// <summary>
+        /// Gets or sets the inactive image by name rather than by object. Accepts a stock
+        /// image name (after IupImageLib.Open), a name registered with IupSetHandle,
+        /// a system resource name, or a path to an image file.
+        /// (non inheritable)
+        /// </summary>
+        /// <remarks>
+        /// This and <see cref="ImInactive"/> set the same IUP attribute, so assigning
+        /// either clears the other. Reading this returns null when the image was set
+        /// as an object.
+        /// </remarks>
+        public virtual string ImInactiveName
+        {
+            get => _iminactiveName;
+            set => SetImageName("IMINACTIVE", value, ref _iminactiveReference, ref _iminactiveName);
         }
 
         private Image _impressReference = null;
+        private string _impressName = null;
         /// <summary>
         /// Gets or sets the image of the pressed toggle. Unlike buttons, toggles
         /// always display the button border when Image and ImPress are both defined.
@@ -147,19 +176,35 @@ namespace IupSharp
         /// </summary>
         public virtual Image ImPress
         {
-            set
-            {
-                _impressReference = value;
-                IupNative.SetAttributeHandle(Handle, "IMPRESS", value == null ? IntPtr.Zero : value.Handle);
-            }
             get => _impressReference;
+            set => SetImageHandle("IMPRESS", value, ref _impressReference, ref _impressName);
+        }
+
+        /// <summary>
+        /// Gets or sets the pressed image by name rather than by object. Accepts a stock
+        /// image name (after IupImageLib.Open), a name registered with IupSetHandle,
+        /// a system resource name, or a path to an image file.
+        /// (non inheritable)
+        /// </summary>
+        /// <remarks>
+        /// This and <see cref="ImPress"/> set the same IUP attribute, so assigning
+        /// either clears the other. Reading this returns null when the image was set
+        /// as an object.
+        /// </remarks>
+        public virtual string ImPressName
+        {
+            get => _impressName;
+            set => SetImageName("IMPRESS", value, ref _impressReference, ref _impressName);
         }
 
         protected override void OnDestroying()
         {
             _impressReference = null;
+            _impressName = null;
             _iminactiveReference = null;
+            _iminactiveName = null;
             _imageReference = null;
+            _imageName = null;
             base.OnDestroying();
         }
 

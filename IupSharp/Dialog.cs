@@ -19,7 +19,7 @@ namespace IupSharp
         Full
     }
 
-    
+
 
     /// <summary>
     /// Creates a dialog element. It manages user interaction with the interface
@@ -37,7 +37,7 @@ namespace IupSharp
 
         const string _destroyMessage = "IUPSHARP_DESTROY";
 
-        private bool _destroyOnClose=false;
+        private bool _destroyOnClose = false;
 
         /// <summary>
         /// Creates a new Dialog containing the specified child.
@@ -90,6 +90,8 @@ namespace IupSharp
             _child = null;
             _iconReference = null;
             _trayImageReference = null;
+            _iconName = null;
+            _trayImageName = null;
             _menuReference = null;
             _defaultEnterReference = null;
             _defaultEscReference = null;
@@ -152,7 +154,7 @@ namespace IupSharp
             IupNative.IupHide(Handle);
         }
 
-        
+
 
         #endregion
 
@@ -177,20 +179,33 @@ namespace IupSharp
         public override Color BgColor { get => base.BgColor; set => base.BgColor = value; }
 
         private Image _iconReference = null;
+        private string _iconName = null;
         /// <summary>
         /// Gets or sets the dialog's icon. The Windows SDK recommends that cursors and
         /// icons should be implemented as resources rather than created at run time.
         /// </summary>
         public virtual Image Icon
         {
-            set
-            {
-                CheckAlive();
-                _iconReference = value;
-                IupNative.SetAttributeHandle(Handle, "ICON", value == null ? IntPtr.Zero : value.Handle);
-            }
             get => _iconReference;
+            set => SetImageHandle("ICON", value, ref _iconReference, ref _iconName);
         }
+
+        /// <summary>
+        /// Gets or sets the dialog's icon by name rather than by object. Accepts a stock
+        /// image name (after IupImageLib.Open), a name registered with IupSetHandle,
+        /// a system resource name, or a path to an image file.
+        /// </summary>
+        /// <remarks>
+        /// This and <see cref="Icon"/> set the same IUP attribute, so assigning
+        /// either clears the other. Reading this returns null when the image was set
+        /// as an object.
+        /// </remarks>
+        public virtual string IconName
+        {
+            get => _iconName;
+            set => SetImageName("ICON", value, ref _iconReference, ref _iconName);
+        }
+
 
         /// <summary>
         /// Gets or sets whether a resize border is shown around the dialog. Default: true.
@@ -365,7 +380,7 @@ namespace IupSharp
 
         #region SIZE AND POSITION
 
-       
+
 
         /// <summary>
         /// Gets the area available for controls, in pixels, excluding the decoration.
@@ -537,20 +552,33 @@ namespace IupSharp
         }
 
         private Image _trayImageReference = null;
+        private string _trayImageName = null;
         /// <summary>
         /// Gets or sets the image used as the tray icon.
         /// [Windows and GTK only]
         /// </summary>
         public virtual Image TrayImage
         {
-            set
-            {
-                CheckAlive();
-                _trayImageReference = value;
-                IupNative.SetAttributeHandle(Handle, "TRAYIMAGE", value == null ? IntPtr.Zero : value.Handle);
-            }
             get => _trayImageReference;
+            set => SetImageHandle("TRAYIMAGE", value, ref _trayImageReference, ref _trayImageName);
         }
+
+        /// <summary>
+        /// Gets or sets the tray icon by name rather than by object. Accepts a stock
+        /// image name (after IupImageLib.Open), a name registered with IupSetHandle,
+        /// a system resource name, or a path to an image file.
+        /// </summary>
+        /// <remarks>
+        /// This and <see cref="TrayImage"/> set the same IUP attribute, so assigning
+        /// either clears the other. Reading this returns null when the image was set
+        /// as an object.
+        /// </remarks>
+        public virtual string TrayImageName
+        {
+            get => _trayImageName;
+            set => SetImageName("TRAYIMAGE", value, ref _trayImageReference, ref _trayImageName);
+        }
+
 
         /// <summary>
         /// Gets or sets the tray icon's tooltip text.
@@ -578,9 +606,10 @@ namespace IupSharp
 
         protected override bool OnPostMessage(string text, int value, double number, IntPtr pointer)
         {
-            if (text == _destroyMessage) { 
-                Destroy(); 
-                return true; 
+            if (text == _destroyMessage)
+            {
+                Destroy();
+                return true;
             }
             return base.OnPostMessage(text, value, number, pointer);
         }

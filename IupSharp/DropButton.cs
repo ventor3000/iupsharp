@@ -261,14 +261,33 @@ namespace IupSharp
         }
 
         private Image _image;
+        private string _imageName;
         /// <summary>Gets or sets the button's image. (non inheritable)</summary>
         public virtual Image Image
         {
             get => _image;
-            set => SetImage("IMAGE", value, ref _image);
+            set => SetImageHandle("IMAGE", value, ref _image, ref _imageName);
         }
 
+        /// <summary>
+        /// Gets or sets the image by name rather than by object. Accepts a stock
+        /// image name (after IupImageLib.Open), a name registered with IupSetHandle,
+        /// a system resource name, or a path to an image file.
+        /// (non inheritable)
+        /// </summary>
+        /// <remarks>
+        /// This and <see cref="Image"/> set the same IUP attribute, so assigning
+        /// either clears the other.
+        /// </remarks>
+        public virtual string ImageName
+        {
+            get => _imageName;
+            set => SetImageName("IMAGE", value, ref _image, ref _imageName);
+        }
+
+
         private Image _imageHighlight;
+        private string _imageHighlightName;
         /// <summary>
         /// Gets or sets the image shown in the highlight state. Falls back to Image
         /// when not set.
@@ -277,10 +296,28 @@ namespace IupSharp
         public virtual Image ImageHighlight
         {
             get => _imageHighlight;
-            set => SetImage("IMAGEHIGHLIGHT", value, ref _imageHighlight);
+            set => SetImageHandle("IMAGEHIGHLIGHT", value, ref _imageHighlight, ref _imageHighlightName);
         }
 
+        /// <summary>
+        /// Gets or sets the highlight image by name rather than by object. Accepts a stock
+        /// image name (after IupImageLib.Open), a name registered with IupSetHandle,
+        /// a system resource name, or a path to an image file.
+        /// (non inheritable)
+        /// </summary>
+        /// <remarks>
+        /// This and <see cref="ImageHighlight"/> set the same IUP attribute, so assigning
+        /// either clears the other.
+        /// </remarks>
+        public virtual string ImageHighlightName
+        {
+            get => _imageHighlightName;
+            set => SetImageName("IMAGEHIGHLIGHT", value, ref _imageHighlight, ref _imageHighlightName);
+        }
+
+
         private Image _imageInactive;
+        private string _imageInactiveName;
         /// <summary>
         /// Gets or sets the image shown when inactive. Falls back to a greyed version
         /// of Image when not set.
@@ -289,10 +326,28 @@ namespace IupSharp
         public virtual Image ImageInactive
         {
             get => _imageInactive;
-            set => SetImage("IMAGEINACTIVE", value, ref _imageInactive);
+            set => SetImageHandle("IMAGEINACTIVE", value, ref _imageInactive, ref _imageInactiveName);
         }
 
+        /// <summary>
+        /// Gets or sets the inactive image by name rather than by object. Accepts a stock
+        /// image name (after IupImageLib.Open), a name registered with IupSetHandle,
+        /// a system resource name, or a path to an image file.
+        /// (non inheritable)
+        /// </summary>
+        /// <remarks>
+        /// This and <see cref="ImageInactive"/> set the same IUP attribute, so assigning
+        /// either clears the other.
+        /// </remarks>
+        public virtual string ImageInactiveName
+        {
+            get => _imageInactiveName;
+            set => SetImageName("IMAGEINACTIVE", value, ref _imageInactive, ref _imageInactiveName);
+        }
+
+
         private Image _imagePress;
+        private string _imagePressName;
         /// <summary>
         /// Gets or sets the image shown in the pressed state. Falls back to Image when
         /// not set.
@@ -301,22 +356,58 @@ namespace IupSharp
         public virtual Image ImagePress
         {
             get => _imagePress;
-            set => SetImage("IMAGEPRESS", value, ref _imagePress);
+            set => SetImageHandle("IMAGEPRESS", value, ref _imagePress, ref _imagePressName);
         }
+
+        /// <summary>
+        /// Gets or sets the pressed image by name rather than by object. Accepts a stock
+        /// image name (after IupImageLib.Open), a name registered with IupSetHandle,
+        /// a system resource name, or a path to an image file.
+        /// (non inheritable)
+        /// </summary>
+        /// <remarks>
+        /// This and <see cref="ImagePress"/> set the same IUP attribute, so assigning
+        /// either clears the other.
+        /// </remarks>
+        public virtual string ImagePressName
+        {
+            get => _imagePressName;
+            set => SetImageName("IMAGEPRESS", value, ref _imagePress, ref _imagePressName);
+        }
+
 
         #endregion
 
         #region BACKGROUND AND FOREGROUND IMAGES
 
         private Image _backImage;
+        private string _backImageName;
         /// <summary>Gets or sets the background image. (non inheritable)</summary>
         public virtual Image BackImage
         {
             get => _backImage;
-            set => SetImage("BACKIMAGE", value, ref _backImage);
+            set => SetImageHandle("BACKIMAGE", value, ref _backImage, ref _backImageName);
         }
 
+        /// <summary>
+        /// Gets or sets the background image by name rather than by object. Accepts a stock
+        /// image name (after IupImageLib.Open), a name registered with IupSetHandle,
+        /// a system resource name, or a path to an image file.
+        /// (non inheritable)
+        /// </summary>
+        /// <remarks>
+        /// This and <see cref="BackImage"/> set the same IUP attribute, so assigning
+        /// either clears the other.
+        /// </remarks>
+        public virtual string BackImageName
+        {
+            get => _backImageName;
+            set => SetImageName("BACKIMAGE", value, ref _backImage, ref _backImageName);
+        }
+
+
         private Image _backImageHighlight;
+        private string _backImageHighlightName;
         /// <summary>
         /// Gets or sets the background image in the highlight state. Falls back to
         /// BackImage.
@@ -325,10 +416,28 @@ namespace IupSharp
         public virtual Image BackImageHighlight
         {
             get => _backImageHighlight;
-            set => SetImage("BACKIMAGEHIGHLIGHT", value, ref _backImageHighlight);
+            set => SetImageHandle("BACKIMAGEHIGHLIGHT", value, ref _backImageHighlight, ref _backImageHighlightName);
         }
 
+        /// <summary>
+        /// Gets or sets the highlight background image by name rather than by object. Accepts a stock
+        /// image name (after IupImageLib.Open), a name registered with IupSetHandle,
+        /// a system resource name, or a path to an image file.
+        /// (non inheritable)
+        /// </summary>
+        /// <remarks>
+        /// This and <see cref="BackImageHighlight"/> set the same IUP attribute, so assigning
+        /// either clears the other.
+        /// </remarks>
+        public virtual string BackImageHighlightName
+        {
+            get => _backImageHighlightName;
+            set => SetImageName("BACKIMAGEHIGHLIGHT", value, ref _backImageHighlight, ref _backImageHighlightName);
+        }
+
+
         private Image _backImageInactive;
+        private string _backImageInactiveName;
         /// <summary>
         /// Gets or sets the background image when inactive. Falls back to a greyed
         /// BackImage.
@@ -337,10 +446,28 @@ namespace IupSharp
         public virtual Image BackImageInactive
         {
             get => _backImageInactive;
-            set => SetImage("BACKIMAGEINACTIVE", value, ref _backImageInactive);
+            set => SetImageHandle("BACKIMAGEINACTIVE", value, ref _backImageInactive, ref _backImageInactiveName);
         }
 
+        /// <summary>
+        /// Gets or sets the inactive background image by name rather than by object. Accepts a stock
+        /// image name (after IupImageLib.Open), a name registered with IupSetHandle,
+        /// a system resource name, or a path to an image file.
+        /// (non inheritable)
+        /// </summary>
+        /// <remarks>
+        /// This and <see cref="BackImageInactive"/> set the same IUP attribute, so assigning
+        /// either clears the other.
+        /// </remarks>
+        public virtual string BackImageInactiveName
+        {
+            get => _backImageInactiveName;
+            set => SetImageName("BACKIMAGEINACTIVE", value, ref _backImageInactive, ref _backImageInactiveName);
+        }
+
+
         private Image _backImagePress;
+        private string _backImagePressName;
         /// <summary>
         /// Gets or sets the background image in the pressed state. Falls back to
         /// BackImage.
@@ -349,8 +476,25 @@ namespace IupSharp
         public virtual Image BackImagePress
         {
             get => _backImagePress;
-            set => SetImage("BACKIMAGEPRESS", value, ref _backImagePress);
+            set => SetImageHandle("BACKIMAGEPRESS", value, ref _backImagePress, ref _backImagePressName);
         }
+
+        /// <summary>
+        /// Gets or sets the pressed background image by name rather than by object. Accepts a stock
+        /// image name (after IupImageLib.Open), a name registered with IupSetHandle,
+        /// a system resource name, or a path to an image file.
+        /// (non inheritable)
+        /// </summary>
+        /// <remarks>
+        /// This and <see cref="BackImagePress"/> set the same IUP attribute, so assigning
+        /// either clears the other.
+        /// </remarks>
+        public virtual string BackImagePressName
+        {
+            get => _backImagePressName;
+            set => SetImageName("BACKIMAGEPRESS", value, ref _backImagePress, ref _backImagePressName);
+        }
+
 
         /// <summary>
         /// Gets or sets whether the background image is stretched to fill the button.
@@ -375,6 +519,7 @@ namespace IupSharp
         }
 
         private Image _frontImage;
+        private string _frontImageName;
         /// <summary>
         /// Gets or sets the foreground image, drawn in the same position as the
         /// background but painted last.
@@ -383,10 +528,28 @@ namespace IupSharp
         public virtual Image FrontImage
         {
             get => _frontImage;
-            set => SetImage("FRONTIMAGE", value, ref _frontImage);
+            set => SetImageHandle("FRONTIMAGE", value, ref _frontImage, ref _frontImageName);
         }
 
+        /// <summary>
+        /// Gets or sets the foreground image by name rather than by object. Accepts a stock
+        /// image name (after IupImageLib.Open), a name registered with IupSetHandle,
+        /// a system resource name, or a path to an image file.
+        /// (non inheritable)
+        /// </summary>
+        /// <remarks>
+        /// This and <see cref="FrontImage"/> set the same IUP attribute, so assigning
+        /// either clears the other.
+        /// </remarks>
+        public virtual string FrontImageName
+        {
+            get => _frontImageName;
+            set => SetImageName("FRONTIMAGE", value, ref _frontImage, ref _frontImageName);
+        }
+
+
         private Image _frontImageHighlight;
+        private string _frontImageHighlightName;
         /// <summary>
         /// Gets or sets the foreground image in the highlight state. Falls back to
         /// FrontImage.
@@ -395,10 +558,28 @@ namespace IupSharp
         public virtual Image FrontImageHighlight
         {
             get => _frontImageHighlight;
-            set => SetImage("FRONTIMAGEHIGHLIGHT", value, ref _frontImageHighlight);
+            set => SetImageHandle("FRONTIMAGEHIGHLIGHT", value, ref _frontImageHighlight, ref _frontImageHighlightName);
         }
 
+        /// <summary>
+        /// Gets or sets the highlight foreground image by name rather than by object. Accepts a stock
+        /// image name (after IupImageLib.Open), a name registered with IupSetHandle,
+        /// a system resource name, or a path to an image file.
+        /// (non inheritable)
+        /// </summary>
+        /// <remarks>
+        /// This and <see cref="FrontImageHighlight"/> set the same IUP attribute, so assigning
+        /// either clears the other.
+        /// </remarks>
+        public virtual string FrontImageHighlightName
+        {
+            get => _frontImageHighlightName;
+            set => SetImageName("FRONTIMAGEHIGHLIGHT", value, ref _frontImageHighlight, ref _frontImageHighlightName);
+        }
+
+
         private Image _frontImageInactive;
+        private string _frontImageInactiveName;
         /// <summary>
         /// Gets or sets the foreground image when inactive. Falls back to a greyed
         /// FrontImage.
@@ -407,10 +588,28 @@ namespace IupSharp
         public virtual Image FrontImageInactive
         {
             get => _frontImageInactive;
-            set => SetImage("FRONTIMAGEINACTIVE", value, ref _frontImageInactive);
+            set => SetImageHandle("FRONTIMAGEINACTIVE", value, ref _frontImageInactive, ref _frontImageInactiveName);
         }
 
+        /// <summary>
+        /// Gets or sets the inactive foreground image by name rather than by object. Accepts a stock
+        /// image name (after IupImageLib.Open), a name registered with IupSetHandle,
+        /// a system resource name, or a path to an image file.
+        /// (non inheritable)
+        /// </summary>
+        /// <remarks>
+        /// This and <see cref="FrontImageInactive"/> set the same IUP attribute, so assigning
+        /// either clears the other.
+        /// </remarks>
+        public virtual string FrontImageInactiveName
+        {
+            get => _frontImageInactiveName;
+            set => SetImageName("FRONTIMAGEINACTIVE", value, ref _frontImageInactive, ref _frontImageInactiveName);
+        }
+
+
         private Image _frontImagePress;
+        private string _frontImagePressName;
         /// <summary>
         /// Gets or sets the foreground image in the pressed state. Falls back to
         /// FrontImage.
@@ -419,8 +618,25 @@ namespace IupSharp
         public virtual Image FrontImagePress
         {
             get => _frontImagePress;
-            set => SetImage("FRONTIMAGEPRESS", value, ref _frontImagePress);
+            set => SetImageHandle("FRONTIMAGEPRESS", value, ref _frontImagePress, ref _frontImagePressName);
         }
+
+        /// <summary>
+        /// Gets or sets the pressed foreground image by name rather than by object. Accepts a stock
+        /// image name (after IupImageLib.Open), a name registered with IupSetHandle,
+        /// a system resource name, or a path to an image file.
+        /// (non inheritable)
+        /// </summary>
+        /// <remarks>
+        /// This and <see cref="FrontImagePress"/> set the same IUP attribute, so assigning
+        /// either clears the other.
+        /// </remarks>
+        public virtual string FrontImagePressName
+        {
+            get => _frontImagePressName;
+            set => SetImageName("FRONTIMAGEPRESS", value, ref _frontImagePress, ref _frontImagePressName);
+        }
+
 
         #endregion
 
@@ -476,6 +692,7 @@ namespace IupSharp
         }
 
         private Image _arrowImage;
+        private string _arrowImageName;
         /// <summary>
         /// Gets or sets the arrow image. Requires ArrowImages to be true.
         /// (non inheritable)
@@ -483,10 +700,28 @@ namespace IupSharp
         public virtual Image ArrowImage
         {
             get => _arrowImage;
-            set => SetImage("ARROWIMAGE", value, ref _arrowImage);
+            set => SetImageHandle("ARROWIMAGE", value, ref _arrowImage, ref _arrowImageName);
         }
 
+        /// <summary>
+        /// Gets or sets the arrow image by name rather than by object. Accepts a stock
+        /// image name (after IupImageLib.Open), a name registered with IupSetHandle,
+        /// a system resource name, or a path to an image file.
+        /// (non inheritable)
+        /// </summary>
+        /// <remarks>
+        /// This and <see cref="ArrowImage"/> set the same IUP attribute, so assigning
+        /// either clears the other.
+        /// </remarks>
+        public virtual string ArrowImageName
+        {
+            get => _arrowImageName;
+            set => SetImageName("ARROWIMAGE", value, ref _arrowImage, ref _arrowImageName);
+        }
+
+
         private Image _arrowImageHighlight;
+        private string _arrowImageHighlightName;
         /// <summary>
         /// Gets or sets the arrow image in the highlight state. Falls back to
         /// ArrowImage.
@@ -495,10 +730,28 @@ namespace IupSharp
         public virtual Image ArrowImageHighlight
         {
             get => _arrowImageHighlight;
-            set => SetImage("ARROWIMAGEHIGHLIGHT", value, ref _arrowImageHighlight);
+            set => SetImageHandle("ARROWIMAGEHIGHLIGHT", value, ref _arrowImageHighlight, ref _arrowImageHighlightName);
         }
 
+        /// <summary>
+        /// Gets or sets the highlight arrow image by name rather than by object. Accepts a stock
+        /// image name (after IupImageLib.Open), a name registered with IupSetHandle,
+        /// a system resource name, or a path to an image file.
+        /// (non inheritable)
+        /// </summary>
+        /// <remarks>
+        /// This and <see cref="ArrowImageHighlight"/> set the same IUP attribute, so assigning
+        /// either clears the other.
+        /// </remarks>
+        public virtual string ArrowImageHighlightName
+        {
+            get => _arrowImageHighlightName;
+            set => SetImageName("ARROWIMAGEHIGHLIGHT", value, ref _arrowImageHighlight, ref _arrowImageHighlightName);
+        }
+
+
         private Image _arrowImageInactive;
+        private string _arrowImageInactiveName;
         /// <summary>
         /// Gets or sets the arrow image when inactive. Falls back to a greyed
         /// ArrowImage.
@@ -507,10 +760,28 @@ namespace IupSharp
         public virtual Image ArrowImageInactive
         {
             get => _arrowImageInactive;
-            set => SetImage("ARROWIMAGEINACTIVE", value, ref _arrowImageInactive);
+            set => SetImageHandle("ARROWIMAGEINACTIVE", value, ref _arrowImageInactive, ref _arrowImageInactiveName);
         }
 
+        /// <summary>
+        /// Gets or sets the inactive arrow image by name rather than by object. Accepts a stock
+        /// image name (after IupImageLib.Open), a name registered with IupSetHandle,
+        /// a system resource name, or a path to an image file.
+        /// (non inheritable)
+        /// </summary>
+        /// <remarks>
+        /// This and <see cref="ArrowImageInactive"/> set the same IUP attribute, so assigning
+        /// either clears the other.
+        /// </remarks>
+        public virtual string ArrowImageInactiveName
+        {
+            get => _arrowImageInactiveName;
+            set => SetImageName("ARROWIMAGEINACTIVE", value, ref _arrowImageInactive, ref _arrowImageInactiveName);
+        }
+
+
         private Image _arrowImagePress;
+        private string _arrowImagePressName;
         /// <summary>
         /// Gets or sets the arrow image in the pressed state. Falls back to ArrowImage.
         /// (non inheritable)
@@ -518,8 +789,25 @@ namespace IupSharp
         public virtual Image ArrowImagePress
         {
             get => _arrowImagePress;
-            set => SetImage("ARROWIMAGEPRESS", value, ref _arrowImagePress);
+            set => SetImageHandle("ARROWIMAGEPRESS", value, ref _arrowImagePress, ref _arrowImagePressName);
         }
+
+        /// <summary>
+        /// Gets or sets the pressed arrow image by name rather than by object. Accepts a stock
+        /// image name (after IupImageLib.Open), a name registered with IupSetHandle,
+        /// a system resource name, or a path to an image file.
+        /// (non inheritable)
+        /// </summary>
+        /// <remarks>
+        /// This and <see cref="ArrowImagePress"/> set the same IUP attribute, so assigning
+        /// either clears the other.
+        /// </remarks>
+        public virtual string ArrowImagePressName
+        {
+            get => _arrowImagePressName;
+            set => SetImageName("ARROWIMAGEPRESS", value, ref _arrowImagePress, ref _arrowImagePressName);
+        }
+
 
         /// <summary>
         /// Gets or sets the internal margin for the arrow, inside ArrowSize.
@@ -731,14 +1019,6 @@ namespace IupSharp
 
         #region HELPERS
 
-        private void SetImage(string name, Image image, ref Image field)
-        {
-            CheckAlive();
-            field = image;
-            IupNative.SetAttributeHandle(Handle, name,
-                image == null ? IntPtr.Zero : image.Handle);
-        }
-
         private int GetInt(string name, int fallback)
         {
             string v = GetAttribute(name);
@@ -764,6 +1044,10 @@ namespace IupSharp
             _backImage = _backImageHighlight = _backImageInactive = _backImagePress = null;
             _frontImage = _frontImageHighlight = _frontImageInactive = _frontImagePress = null;
             _arrowImage = _arrowImageHighlight = _arrowImageInactive = _arrowImagePress = null;
+            _imageName = _imageHighlightName = _imageInactiveName = _imagePressName = null;
+            _backImageName = _backImageHighlightName = _backImageInactiveName = _backImagePressName = null;
+            _frontImageName = _frontImageHighlightName = _frontImageInactiveName = _frontImagePressName = null;
+            _arrowImageName = _arrowImageHighlightName = _arrowImageInactiveName = _arrowImagePressName = null;
             base.OnDestroying();
         }
 
