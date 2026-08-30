@@ -39,6 +39,7 @@ namespace IupSharpTest
                     dropbtn = new DropButton("My dropdown", dropcontent) { CanFocus = false },
                     lst = new List(ListStyle.Multiple, "Kalle", "Olle", "Pelle", "Niklas") { SelectedPosition = 25 },
                     pbar = new ProgressBar(Orientation.Vertical, false, false) { Min = 0, Max = 100, Value = 45 },
+                    new Link("www.google.com","Press here to go to google") { Action=LinkAction},
                     valuator=new Valuator(Orientation.Horizontal,5,TicksPosition.Reverse) { ValueChangedCB=ValChanged,Expand=Expand.Horizontal}
                 )
                 { Gap = 8, Margin = (8, 8) }
@@ -75,6 +76,12 @@ namespace IupSharpTest
             
 
             Iup.Close();
+        }
+
+        private static void LinkAction(LinkActionData d)
+        {
+            Iup.Message(d.Url);
+            d.Result = CallbackResult.Continue;
         }
 
         private static void ValChanged(CallbackData d)

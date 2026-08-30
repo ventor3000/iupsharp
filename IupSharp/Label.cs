@@ -24,6 +24,14 @@ namespace IupSharp
 
         }
 
+        /// <summary>
+        /// Creates a Label wrapper around an existing handle. Used by derived classes
+        /// such as Link, which create a different native element that still exposes the
+        /// whole Label surface.
+        /// </summary>
+        protected Label(nint handle) : base(handle)
+        {
+        }
 
         /// <summary>
         /// Gets or sets the horizontal and vertical alignment.

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IupSharp
 {
@@ -683,4 +679,20 @@ namespace IupSharp
         }
     }
     public delegate void DragDropCallback(DragDropData d);
+
+    /// <summary>Data for the Link Action callback.</summary>
+    public class LinkActionData : CallbackData
+    {
+        /// <summary>
+        /// The destination address, as IUP passed it. Normally the same as the link's
+        /// Url property.
+        /// </summary>
+        public readonly string Url;
+
+        public LinkActionData(Control sender, string url) : base(sender)
+        {
+            this.Url = url;
+        }
+    }
+    public delegate void LinkActionCallback(LinkActionData d);
 }
