@@ -12,6 +12,7 @@ namespace IupSharpTest
         static DropButton dropbtn;
         static Submenu editMenu;
         static List lst;
+        static ProgressBar pbar;
 
         static void Main(string[] args)
         {
@@ -35,7 +36,8 @@ namespace IupSharpTest
                     new Text("Hello\nworld",true) { Expand=Expand.Yes,BgColor=Color.Blue },
                     new Label("The end"),
                     dropbtn=new DropButton("My dropdown", dropcontent) { CanFocus=false},
-                    lst=new List(ListStyle.Multiple,"Kalle","Olle","Pelle","Niklas") { SelectedPosition=25}
+                    lst=new List(ListStyle.Multiple,"Kalle","Olle","Pelle","Niklas") { SelectedPosition=25},
+                    pbar=new ProgressBar(Orientation.Vertical, false, false) { Min = 0, Max = 100, Value = 45 }
                 )
                 { Gap=8,Margin=(8,8)}
             )
@@ -64,7 +66,7 @@ namespace IupSharpTest
             btn.FgColor = Color.Empty;
 
 
-            tt = new UITimer(500, OnTimer, true);
+            tt = new UITimer(50, OnTimer, true);
             
             dlg.Popup();
 
@@ -106,8 +108,13 @@ namespace IupSharpTest
         static int testCount = 0;
         private static void OnTimer(CallbackData d)
         {
-            testCount++;
-            dlg.Title=testCount.ToString()+" "+tt.Wid.ToString();
+            
+            var val = pbar.Value;
+            val++;
+            if (val > pbar.Max)
+                val = pbar.Min;
+
+            pbar.Value = val;
             
         }
 

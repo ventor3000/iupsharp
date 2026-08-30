@@ -150,8 +150,8 @@ namespace IupSharp
         /// HBox.
         /// (read-only) (non inheritable)
         /// </summary>
-        public BoxOrientation Orientation =>
-            GetAttribute("ORIENTATION") == "HORIZONTAL" ? BoxOrientation.Horizontal : BoxOrientation.Vertical;
+        public Orientation Orientation =>
+            GetAttribute("ORIENTATION") == "HORIZONTAL" ? Orientation.Horizontal : Orientation.Vertical;
     }
 
     /// <summary>

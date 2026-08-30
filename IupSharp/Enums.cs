@@ -15,7 +15,7 @@ namespace IupSharp
         Right = 4,
 
         Top = 8,
-        Middle= 16,
+        Middle = 16,
         Bottom = 32,
 
         TopLeft = Top | Left,
@@ -54,7 +54,7 @@ namespace IupSharp
         Vertical,
     }
 
-   
+
     /// <summary>Position of an element in the Z order relative to its siblings.</summary>
     public enum ZOrder
     {
@@ -106,20 +106,24 @@ namespace IupSharp
     }
 
     /// <summary>
-    /// The layout direction of a box container, as reported by its read-only
-    /// ORIENTATION attribute.
+    /// The direction of a control that runs along one axis. Maps to IUP's
+    /// ORIENTATION attribute, which is creation-only on most controls that have it
+    /// (ProgressBar, Val, Gauge) and read-only on the box containers.
     /// </summary>
-    public enum BoxOrientation
+    public enum Orientation
     {
+        /// <summary>Runs left to right. This is the default where one applies.</summary>
         Horizontal,
+
+        /// <summary>Runs bottom to top.</summary>
         Vertical
     }
 
     public enum OpenResult
     {
-        NoError=0,
-        Error=-1,
-        AlreadyOpen=1
+        NoError = 0,
+        Error = -1,
+        AlreadyOpen = 1
     }
 
     /// <summary>Which scrollbars a canvas has.</summary>
