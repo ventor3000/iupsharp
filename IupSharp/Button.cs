@@ -9,17 +9,17 @@ namespace IupSharp
     /// activates a function in the application. Its visual presentation can contain a
     /// text and/or an image.
     /// </summary>
-    public class Button:Control
+    public class Button : Control
     {
         /// <summary>
         /// Creates a new Button with the specified title.
         /// </summary>
         /// <param name="title">Text to be shown to the user. It can be null.</param>
-        public Button(string title):base(IupNative.Button(title, null))
+        public Button(string title) : base(IupNative.Button(title, null))
         {
         }
 
-       
+
 
         /// <summary>
         /// Gets or sets the horizontal and vertical alignment. 
@@ -79,7 +79,8 @@ namespace IupSharp
         }
 
 
-        private Image _imageReference=null;
+        private Image _imageReference = null;
+        private string _imageName = null;
         /// <summary>
         /// Gets or sets the image. If set before mapping defines the behavior of
         /// the button to contain an image. The natural size will be size of the image in
@@ -87,19 +88,55 @@ namespace IupSharp
         /// will be shown (except in Motif).
         /// (non inheritable)
         /// </summary>
+        /// <remarks>
+        /// This and <see cref="ImageName"/> set the same IUP attribute, so assigning
+        /// either clears the other. Reading this returns null when the image was set
+        /// by name.
+        /// </remarks>
         public virtual Image Image
         {
-            set
-            {
-                _imageReference = value;
-                IupNative.SetAttributeHandle(Handle, "IMAGE", value == null ? IntPtr.Zero : value.Handle);
-            }
             get => _imageReference;
+            set => SetImageHandle("IMAGE", value, ref _imageReference, ref _imageName);
         }
 
-        
+        /// <summary>
+        /// Gets or sets the image by name rather than by object. This is how the
+        /// IupImageLib stock icons are used, and it also accepts several other kinds
+        /// of name - see the remarks.
+        /// (non inheritable)
+        /// </summary>
+        /// <remarks>
+        /// <para>Accepted values:</para>
+        /// <list type="bullet">
+        /// <item>A stock image name, after IupImageLib.Open has been called, for
+        /// example <c>IupImageLib.FileOpen</c>.</item>
+        /// <item>A name registered with IupSetHandle.</item>
+        /// <item>A resource name from an RC file linked into the application
+        /// [Windows], a GTK Stock Item name [GTK], or an installed bitmap name
+        /// [Motif].</item>
+        /// <item>A path to an image file. The supported formats are system dependent:
+        /// BMP, ICO and CUR on Windows; whatever GDK-PixBuf handles on GTK, such as
+        /// BMP, GIF, JPEG, PNG and TIFF; X-Windows bitmaps on Motif.</item>
+        /// </list>
+        ///
+        /// <para>IUP resolves the name lazily and silently shows nothing if it does
+        /// not match, so a typo produces a blank button rather than an error.</para>
+        ///
+        /// <para>This and <see cref="Image"/> set the same IUP attribute, so assigning
+        /// either clears the other. Reading this returns null when the image was set
+        /// as an object; it does not report the internal name IUP generates in that
+        /// case.</para>
+        /// </remarks>
+        public virtual string ImageName
+        {
+            get => _imageName;
+            set => SetImageName("IMAGE", value, ref _imageReference, ref _imageName);
+        }
+
+
 
         private Image _iminactiveReference = null;
+        private string _iminactiveName = null;
         /// <summary>
         /// Gets or sets the image name of the element when inactive. If it is
         /// not defined then the Image is used and the colors will be replaced by a modified
@@ -109,16 +146,24 @@ namespace IupSharp
         /// </summary>
         public virtual Image ImInactive
         {
-            set
-            {
-                _iminactiveReference = value;
-                IupNative.SetAttributeHandle(Handle, "IMINACTIVE", value == null ? IntPtr.Zero : value.Handle);
-            }
             get => _iminactiveReference;
+            set => SetImageHandle("IMINACTIVE", value, ref _iminactiveReference, ref _iminactiveName);
         }
 
-        
+        /// <summary>
+        /// Gets or sets the inactive image by name rather than by object. See
+        /// <see cref="ImageName"/> for the kinds of name accepted.
+        /// (non inheritable)
+        /// </summary>
+        public virtual string ImInactiveName
+        {
+            get => _iminactiveName;
+            set => SetImageName("IMINACTIVE", value, ref _iminactiveReference, ref _iminactiveName);
+        }
+
+
         private Image _impressReference = null;
+        private string _impressName = null;
         /// <summary>
         /// Gets or sets the image of the pressed button. If ImPress and
         /// Image are defined, the button borders are not shown and not computed in natural
@@ -128,12 +173,19 @@ namespace IupSharp
         /// </summary>
         public virtual Image ImPress
         {
-            set
-            {
-                _impressReference = value;
-                IupNative.SetAttributeHandle(Handle, "IMPRESS", value == null ? IntPtr.Zero : value.Handle);
-            }
             get => _impressReference;
+            set => SetImageHandle("IMPRESS", value, ref _impressReference, ref _impressName);
+        }
+
+        /// <summary>
+        /// Gets or sets the pressed image by name rather than by object. See
+        /// <see cref="ImageName"/> for the kinds of name accepted.
+        /// (non inheritable)
+        /// </summary>
+        public virtual string ImPressName
+        {
+            get => _impressName;
+            set => SetImageName("IMPRESS", value, ref _impressReference, ref _impressName);
         }
 
 
@@ -142,6 +194,9 @@ namespace IupSharp
             _impressReference = null;
             _iminactiveReference = null;
             _imageReference = null;
+            _impressName = null;
+            _iminactiveName = null;
+            _imageName = null;
             base.OnDestroying();
         }
 
@@ -163,7 +218,8 @@ namespace IupSharp
         /// both are displayed. Can be: Left, Right, Top, Bottom. Default: Left.
         /// (non inheritable)
         /// </summary>
-        public virtual ImagePosition ImagePosition {
+        public virtual ImagePosition ImagePosition
+        {
             get => Utils.MapAttrib(GetAttribute("IMAGEPOSITION"), _imagePositions);
             set => SetAttribute("IMAGEPOSITION", Utils.MapEnum(value, _imagePositions));
         }
@@ -233,8 +289,8 @@ namespace IupSharp
         /// </summary>
         public string Title
         {
-            get => GetAttribute("TITLE")??"";
-            set => SetAttribute("TITLE",value);
+            get => GetAttribute("TITLE") ?? "";
+            set => SetAttribute("TITLE", value);
         }
 
         #region CALLBACKS
@@ -253,7 +309,7 @@ namespace IupSharp
             {
                 _action = value;
                 _actionInternal = ActionInternal;
-                SetCallback( "ACTION", Utils.CastCallback<Icallback>(_actionInternal));
+                SetCallback("ACTION", Utils.CastCallback<Icallback>(_actionInternal));
             }
         }
 
@@ -282,7 +338,8 @@ namespace IupSharp
         public ButtonCBCallback ButtonCB
         {
             get => _buttonCB;
-            set {
+            set
+            {
                 _buttonCB = value;
                 _buttonCBInternal = ButtonCBInternal;
                 SetCallback("BUTTON_CB", Utils.CastCallback<Icallback>(_buttonCBInternal));
@@ -296,15 +353,15 @@ namespace IupSharp
                 _buttonCB?.Invoke(cb);
                 return (int)cb.Result;
             }
-            
+
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[IupSharp] unhandled exception in ButtonCB callback: {ex}");
                 return (int)CallbackResult.Default;
             }
-}
+        }
 
-        
+
         #endregion
     }
 }

@@ -377,7 +377,7 @@ namespace IupSharp
 
         private const string ReservedPrefix = "IUPSHARP_";
 
-        
+
         /// <summary>
         /// Posts a message to this element, to be processed once IUP is back in its
         /// loop. This is IUP's thread-safe entry point, so unlike the rest of the API
@@ -429,14 +429,14 @@ namespace IupSharp
             return true;
         }
 
-       
+
         /// <summary>
         /// Called for each posted message before the public callback. Return true if
         /// the message was handled internally and should not be forwarded.
         /// </summary>
         protected virtual bool OnPostMessage(string text, int value, double number, IntPtr pointer) => false;
 
-        
+
         #endregion
 
 
@@ -505,7 +505,50 @@ namespace IupSharp
             IupNative.IupSetFocus(Handle);
         }
 
-        
+
+        #endregion
+
+        #region IMAGE ATTRIBUTE HELPERS
+
+        /// <summary>
+        /// Sets an image attribute from an Image object, keeping the managed reference
+        /// so the image stays reachable, and clearing any name previously set for the
+        /// same attribute.
+        /// </summary>
+        /// <remarks>
+        /// An image attribute holds one value, so the object form and the name form
+        /// are mutually exclusive. These two helpers keep the cached fields consistent
+        /// with whichever was assigned last.
+        /// </remarks>
+        protected void SetImageHandle(string attribute, Image image,
+                                      ref Image imageField, ref string nameField)
+        {
+            CheckAlive();
+
+            imageField = image;
+            nameField = null;
+
+            IupNative.SetAttributeHandle(Handle, attribute,
+                image == null ? IntPtr.Zero : image.Handle);
+        }
+
+        /// <summary>
+        /// Sets an image attribute from a name - a stock image, a name registered with
+        /// IupSetHandle, a system resource name, or a path to an image file - and
+        /// clears any Image object previously set for the same attribute.
+        /// </summary>
+        protected void SetImageName(string attribute, string imageName,
+                                    ref Image imageField, ref string nameField)
+        {
+            CheckAlive();
+
+            nameField = imageName;
+            imageField = null;
+
+            // SetAttribute copies the string, which IUP needs since it keeps the name.
+            SetAttribute(attribute, imageName);
+        }
+
         #endregion
 
         #region CALLBACKS
