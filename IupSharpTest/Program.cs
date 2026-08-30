@@ -16,6 +16,8 @@ namespace IupSharpTest
         static Valuator valuator;
         static AnimatedLabel animatedlabel;
         static Radio radio;
+        static Toggle tog1, tog2, tog3, tog4;
+
         static void Main(string[] args)
         {
             Iup.Open();
@@ -48,11 +50,11 @@ namespace IupSharpTest
                   
                     
                     radio=new Radio(new VBox(
-                        new Toggle("Alfa"),
-                        new Toggle("Beta"),
-                        new Toggle("Gamma"),
+                        tog1=new Toggle("Alfa"),
+                        tog2 = new Toggle("Beta"),
+                        tog3 = new Toggle("Gamma"),
                         new Toggle("toggle me") { IgnoreRadio= true },
-                        new Toggle("Delta")
+                        tog4 = new Toggle("Delta")
                         )),
 
                     animatedlabel= new AnimatedLabel() { AnimationName = ImageLib.CircleProgressAnimation }
@@ -184,7 +186,7 @@ namespace IupSharpTest
         private static void ButtonAction(CallbackData d)
         {
 
-            radio.SelectedToggle.Checked = false;
+            tog2.Checked = true;
 
             
         }

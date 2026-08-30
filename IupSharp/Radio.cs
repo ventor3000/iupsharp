@@ -99,7 +99,9 @@ namespace IupSharp
             get
             {
                 CheckAlive();
-                return Find<Toggle>(IupNative.GetAttributeHandle(Handle, "VALUE_HANDLE"));
+                return Find<Toggle>(IupNative.GetAttributePtr(Handle, "VALUE_HANDLE"));
+
+
             }
             set
             {
