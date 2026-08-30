@@ -1,19 +1,4 @@
-﻿// ======================================================================
-// TEMPORARY NAMES - see the note at the bottom of this file.
-//
-// The base class ships as ImageRGBA and the concrete 32-bit class as
-// ImageRGBA32, so that every existing reference in Button, Label,
-// DropButton and the rest still compiles. Use Visual Studio's Rename
-// twice, in this order:
-//
-//   1. ImageRGBA   -> Image        (updates all existing call sites)
-//   2. ImageRGBA32 -> ImageRGBA
-//
-// After that the file matches its intended shape and this banner and the
-// closing note can be deleted.
-// ======================================================================
-
-using System;
+﻿using System;
 using System.Drawing;
 using System.Globalization;
 
@@ -22,7 +7,7 @@ namespace IupSharp
     /// <summary>
     /// Base class for the three IUP image formats: <see cref="Image8"/> (8 bits per
     /// pixel, paletted), <see cref="ImageRGB"/> (24 bits) and
-    /// <see cref="Image"/> (32 bits with alpha).
+    /// <see cref="ImageRGBA"/> (32 bits with alpha).
     /// </summary>
     /// <remarks>
     /// <para>An image is not a control - it has no size, position or focus of its
@@ -106,7 +91,10 @@ namespace IupSharp
 
         /// <summary>
         /// Reallocates the image for a new size. The contents are NOT preserved and
-        /// will be undefined afterwards - fill them through Pixels before use.
+        /// will contain whatever was in the reused memory, so write the whole buffer
+        /// through <see cref="Wid"/> and call <see cref="ClearCache"/> before showing
+        /// it. Use <see cref="Resize"/> instead to keep and resample the existing
+        /// image.
         /// (write only) (since 3.24)
         /// </summary>
         public void Reshape(int width, int height) =>
@@ -131,8 +119,9 @@ namespace IupSharp
         public int Channels => GetInt("CHANNELS", 0);
 
         /// <summary>
-        /// Gets the number of bytes each pixel occupies in the buffer returned by Wid,
-        /// which is the same as Channels.
+        /// Gets the number of bytes each pixel occupies in the buffer pointed at by
+        /// <see cref="Wid"/>: 1 for Image8, 3 for ImageRGB and 4 for ImageRGBA. Same
+        /// value as <see cref="Channels"/>, named for the use it is normally put to.
         /// </summary>
         public int BytesPerPixel => Channels;
 
@@ -203,20 +192,50 @@ namespace IupSharp
         #region PIXEL DATA
 
         /// <summary>
-        /// Gets the internal pixel data pointer. Valid only while the image is alive.
+        /// Gets a pointer to the image's pixel buffer, which is owned by IUP. This is
+        /// the only route to the pixel data, so read the remarks before using it.
         /// (read only) (since 3.0)
         /// </summary>
         /// <remarks>
-        /// Prefer Pixels, which wraps this in a bounds-checked span. After writing
-        /// through either, call ClearCache or the change will not become visible.
+        /// <para><b>Layout.</b> Row-major, top to bottom and left to right, tightly
+        /// packed with no row padding, at <see cref="BytesPerPixel"/> bytes per pixel.
+        /// The byte at offset <c>(y * Width + x) * BytesPerPixel</c> begins the pixel
+        /// at (x, y), and the whole buffer is
+        /// <c>Width * Height * BytesPerPixel</c> bytes. For Image8 each byte is a
+        /// palette index; for ImageRGB the three bytes are R, G, B; for ImageRGBA the
+        /// four are R, G, B, A.</para>
+        ///
+        /// <para><b>Call <see cref="ClearCache"/> after writing.</b> IUP keeps a cached
+        /// native bitmap, so pixel edits made here are invisible until the cache is
+        /// discarded. This is the single most common mistake when editing an image in
+        /// place.</para>
+        ///
+        /// <para><b>Lifetime.</b> The buffer belongs to IUP and is released when the
+        /// image is destroyed. Never cache the pointer in a field - re-read this
+        /// property each time, so a destroyed image gives IntPtr.Zero rather than a
+        /// dangling address.</para>
+        ///
+        /// <para>Reading and writing is done with the System.Runtime.InteropServices
+        /// marshaller, since IupSharp is built without unsafe code:</para>
+        /// <code>
+        /// var img = new ImageRGBA(16, 16);
+        /// int size = img.Width * img.Height * img.BytesPerPixel;
+        ///
+        /// byte[] buffer = new byte[size];
+        /// Marshal.Copy(img.Wid, buffer, 0, size);      // read
+        ///
+        /// // ... modify buffer ...
+        ///
+        /// Marshal.Copy(buffer, 0, img.Wid, size);      // write back
+        /// img.ClearCache();                            // make the change visible
+        /// </code>
         /// </remarks>
         public IntPtr Wid => GetAttributePtr("WID");
 
-     
-
         /// <summary>
-        /// Discards IUP's cached native bitmap so edits made through Pixels or Wid
-        /// become visible.
+        /// Discards IUP's cached native bitmap, so pixel edits written through
+        /// <see cref="Wid"/> become visible. Without this the control keeps showing
+        /// the image as it was when the cache was built.
         /// (write only) (since 3.24)
         /// </summary>
         public void ClearCache() => SetAttribute("CLEARCACHE", "YES");
@@ -312,8 +331,8 @@ namespace IupSharp
         }
 
         /// <summary>
-        /// Creates a new 8 bit paletted image with an uninitialised buffer, to be
-        /// filled through Pixels.
+        /// Creates a new 8 bit paletted image with a zeroed buffer, to be filled
+        /// through <see cref="Image.Wid"/>. Every pixel starts at palette index 0.
         /// </summary>
         public Image8(int width, int height)
             : this(width, height, new byte[checked(width * height)])
@@ -415,8 +434,8 @@ namespace IupSharp
         }
 
         /// <summary>
-        /// Creates a new 24 bit RGB image with an uninitialised buffer, to be filled
-        /// through Pixels.
+        /// Creates a new 24 bit RGB image with a zeroed buffer, to be filled through
+        /// <see cref="Image.Wid"/>. Every pixel starts as black.
         /// </summary>
         public ImageRGB(int width, int height)
             : this(width, height, new byte[checked(width * height * 3)])
@@ -456,8 +475,9 @@ namespace IupSharp
         }
 
         /// <summary>
-        /// Creates a new 32 bit RGBA image with an uninitialised buffer, to be filled
-        /// through Pixels. Note that a zeroed buffer is fully transparent black.
+        /// Creates a new 32 bit RGBA image with a zeroed buffer, to be filled through
+        /// <see cref="Image.Wid"/>. Note that a zeroed buffer means every pixel starts
+        /// fully transparent, so the image is invisible until it is written.
         /// </summary>
         public ImageRGBA(int width, int height)
             : this(width, height, new byte[checked(width * height * 4)])
@@ -465,16 +485,3 @@ namespace IupSharp
         }
     }
 }
-
-// ======================================================================
-// After the two renames the hierarchy reads:
-//
-//   Image            abstract base: size, format, palette-free attributes
-//    +- Image8       8 bpp paletted, supports the "BGCOLOR" palette entry
-//    +- ImageRGB     24 bpp, no transparency
-//    +- ImageRGBA    32 bpp with alpha
-//
-// Note the base is abstract, so any "new ImageRGBA(w, h, pixels)" written
-// before this change resolves to the concrete class only AFTER step 2.
-// Between the two renames such a call will not compile.
-// ======================================================================
