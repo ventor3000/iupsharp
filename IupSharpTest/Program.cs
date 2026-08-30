@@ -14,7 +14,7 @@ namespace IupSharpTest
         static List lst;
         static ProgressBar pbar;
         static Valuator valuator;
-
+        static AnimatedLabel animatedlabel;
         static void Main(string[] args)
         {
             Iup.Open();
@@ -44,18 +44,17 @@ namespace IupSharpTest
                     new Link("www.google.com", "Press here to go to google") { Action = LinkAction },
                     valuator = new Valuator(Orientation.Horizontal, 5, TicksPosition.Reverse) { ValueChangedCB = ValChanged, Expand = Expand.Horizontal },
                     new DatePick() { Value = new DateTime(1973, 10, 19), Separator = "~" },
-                    new Spinbox(new VBox(
-                        new Button("Knapp1"),
-                        new Button("Knapp2")
-                    )
-                    { ExpandChildren = true }) 
+                  
+                    
+                    animatedlabel= new AnimatedLabel() { AnimationName = ImageLib.CircleProgressAnimation }
+                    
                 )
-                { Gap = 8, Margin = (8, 8) }
+               
             ) { CloseCB = ClosaCall,KAny=DialogKey,Shrink=false,DestroyOnClose=true};
 
             lst.SelectedPositions = new[] { 1, 4 };
 
-            
+            animatedlabel.Start();
 
             dlg.Menu = new Menu(
                 new Submenu("File", new Menu(
