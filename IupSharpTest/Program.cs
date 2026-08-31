@@ -1,5 +1,4 @@
 ﻿using IupSharp;
-using IupSharp.Controls;
 using System.Drawing;
 
 namespace IupSharpTest
