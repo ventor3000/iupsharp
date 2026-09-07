@@ -18,17 +18,18 @@ namespace IupSharpTest
         static Radio radio;
         static Toggle tog1, tog2, tog3, tog4;
         static Tabs tabs;
+        static Zbox zbox;
 
         static void Main(string[] args)
         {
             Iup.Open();
             ImageLib.Open();
-           // NativeIupControls.IupControlsOpen();
+            // NativeIupControls.IupControlsOpen();
 
             Button btn;
 
 
-            var dropcontent = 
+            var dropcontent =
                 new VBox(
                     new Button("Alfa"),
                     new Button("Beta"),
@@ -38,68 +39,32 @@ namespace IupSharpTest
 
             dlg = new Dialog(
                 new VBox(
-                    btn = new Button("My button") { ImageName = ImageLib.Print, ImPressName = ImageLib.FileNew, Expand = Expand.Horizontal, Action = ButtonAction, BgColor = Color.CornflowerBlue, FgColor = Color.Red },
-                    new Toggle("My toggle") { Action = ToggleAction },
-                    new Label("The end"),
-                    dropbtn = new DropButton("My dropdown", dropcontent) { CanFocus = false },
-                    lst = new List(ListStyle.Multiple, "Kalle", "Olle", "Pelle", "Niklas") { SelectedPosition = 25 },
-                    pbar = new ProgressBar(Orientation.Vertical, false, false) { Min = 0, Max = 100, Value = 45 },
-                    new Link("www.google.com", "Press here to go to google") { Action = LinkAction },
-                    valuator = new Valuator(Orientation.Horizontal, 5, TicksPosition.Reverse) { ValueChangedCB = ValChanged, Expand = Expand.Horizontal },
-                    new DatePick() { Value = new DateTime(1973, 10, 19), Separator = "~" },
-                  new Dial(DialOrientation.Circular),
-
-                    radio = new Radio(new VBox(
-                        tog1 = new Toggle("Alfa"),
-                        tog2 = new Toggle("Beta"),
-                        tog3 = new Toggle("Gamma"),
-                        new Toggle("toggle me") { IgnoreRadio = true },
-                        tog4 = new Toggle("Delta")
-                        )),
-
-                    animatedlabel = new AnimatedLabel() { AnimationName = ImageLib.CircleProgressAnimation },
-                    tabs=new Tabs(
-                        new Tab("Alfa",new Button("Min första knapp")),
-                        new Tab("Beta", new Button("Min andra knapp")),
-                        new Tab("Gamma", new Button("Min tredje knapp") { Expand=Expand.Yes}  ) {  ImageName = ImageLib.FileNew })
-
-                    { Expand = Expand.Horizontal,ShowClose=true }
-                        
-
-                )
-               
-            ) { CloseCB = ClosaCall,KAny=DialogKey,Shrink=false,DestroyOnClose=true};
-
-            lst.SelectedPositions = new[] { 1, 4 };
-
-            animatedlabel.Start();
-            
-            dlg.Menu = new Menu(
-                new Submenu("File", new Menu(
-                        new MenuItem("Kalle"),
-                        new MenuItem("Olle"),
-                        new MenuItem("Pelle",PelleClick)
-                    )),
-                editMenu=new Submenu("Edit", new Menu(
-                        new MenuItem("Kalle 2"),
-                        new MenuItem("Olle 2"),
-                        new MenuItem("Pelle 2")
-                    )),
-                new Submenu("Help"));
-
-            var col = btn.FgColor;
-            //dropbtn.DropChild = dropdlg;
-
-            btn.FgColor = Color.Empty;
-
-
-            tt = new UITimer(50, OnTimer, true);
+                    new Button("Toggle") { Action=BtnAction,Expand = Expand.Yes },
+                    zbox=new Zbox(
+                        new VBox(
+                            new Button("A"),
+                            new Button("B"),
+                            new Button("C") { Expand = Expand.Yes }
+                        ),
+                        new VBox(
+                            new Button("D"),
+                            new Button("E"),
+                            new Button("F")
+                            )
+                        )
+                    )
+                );
             
             dlg.Popup();
 
             
 
             Iup.Close();
+        }
+
+        private static void BtnAction(CallbackData d)
+        {
+            zbox.SelectedIndex = ((zbox.SelectedIndex + 1) % zbox.Count);
         }
 
         private static void LinkAction(LinkActionData d)
