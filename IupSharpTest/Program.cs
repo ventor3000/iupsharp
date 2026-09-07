@@ -37,7 +37,7 @@ namespace IupSharpTest
 
             dlg = new Dialog(
                 new VBox(
-                    btn = new Button("My button") { ImageName=ImageLib.Print,ImPressName=ImageLib.FileNew, Expand = Expand.Horizontal, Action = ButtonAction, BgColor = Color.CornflowerBlue, FgColor = Color.Red },
+                    btn = new Button("My button") { ImageName = ImageLib.Print, ImPressName = ImageLib.FileNew, Expand = Expand.Horizontal, Action = ButtonAction, BgColor = Color.CornflowerBlue, FgColor = Color.Red },
                     new Toggle("My toggle") { Action = ToggleAction },
                     can = new Canvas() { RasterSize = (200, 200), BgColor = Color.Black, Action = RedrawCanvas },
                     new Text("Hello\nworld", true) { Expand = Expand.Yes, BgColor = Color.Blue },
@@ -50,16 +50,23 @@ namespace IupSharpTest
                     new DatePick() { Value = new DateTime(1973, 10, 19), Separator = "~" },
                   new Dial(DialOrientation.Circular),
 
-                    radio =new Radio(new VBox(
-                        tog1=new Toggle("Alfa"),
+                    radio = new Radio(new VBox(
+                        tog1 = new Toggle("Alfa"),
                         tog2 = new Toggle("Beta"),
                         tog3 = new Toggle("Gamma"),
-                        new Toggle("toggle me") { IgnoreRadio= true },
+                        new Toggle("toggle me") { IgnoreRadio = true },
                         tog4 = new Toggle("Delta")
                         )),
 
-                    animatedlabel= new AnimatedLabel() { AnimationName = ImageLib.CircleProgressAnimation }
+                    animatedlabel = new AnimatedLabel() { AnimationName = ImageLib.CircleProgressAnimation },
+                    new Tabs(
+                        new Button("Alfa"),
+                        new Button("Beta") { Expand = Expand.Yes },
+                        new Button("Gamma"))
                     
+                    { Expand = Expand.Horizontal,ShowClose=true }
+                        
+
                 )
                
             ) { CloseCB = ClosaCall,KAny=DialogKey,Shrink=false,DestroyOnClose=true};

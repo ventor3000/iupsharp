@@ -740,4 +740,66 @@ namespace IupSharp
         }
     }
     public delegate void AngleCallback(AngleData d);
+
+    /// <summary>
+    /// Data for the TabChangeCB callback, reporting the tabs as elements.
+    /// </summary>
+    public class TabChangeData : CallbackData
+    {
+        /// <summary>
+        /// The child of the newly selected tab, or null if it was not created through
+        /// IupSharp.
+        /// </summary>
+        public readonly Control NewTab;
+
+        /// <summary>
+        /// The child of the previously selected tab, or null if it was not created
+        /// through IupSharp.
+        /// </summary>
+        public readonly Control OldTab;
+
+        public TabChangeData(Control sender, Control newTab, Control oldTab) : base(sender)
+        {
+            this.NewTab = newTab;
+            this.OldTab = oldTab;
+        }
+    }
+    public delegate void TabChangeCallback(TabChangeData d);
+
+
+    /// <summary>
+    /// Data for the TabChangePosCB callback, reporting the tabs as positions.
+    /// </summary>
+    public class TabChangePosData : CallbackData
+    {
+        /// <summary>Zero based position of the newly selected tab.</summary>
+        public readonly int NewPosition;
+
+        /// <summary>Zero based position of the previously selected tab.</summary>
+        public readonly int OldPosition;
+
+        public TabChangePosData(Control sender, int newPos, int oldPos) : base(sender)
+        {
+            this.NewPosition = newPos;
+            this.OldPosition = oldPos;
+        }
+    }
+    public delegate void TabChangePosCallback(TabChangePosData d);
+
+
+    /// <summary>
+    /// Data for a callback that reports a single tab position, used by TabCloseCB and
+    /// RightClickCB.
+    /// </summary>
+    public class TabPositionData : CallbackData
+    {
+        /// <summary>Zero based position of the tab involved.</summary>
+        public readonly int Position;
+
+        public TabPositionData(Control sender, int pos) : base(sender)
+        {
+            this.Position = pos;
+        }
+    }
+    public delegate void TabPositionCallback(TabPositionData d);
 }
