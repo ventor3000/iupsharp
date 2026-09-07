@@ -17,6 +17,7 @@ namespace IupSharpTest
         static AnimatedLabel animatedlabel;
         static Radio radio;
         static Toggle tog1, tog2, tog3, tog4;
+        static Tabs tabs;
 
         static void Main(string[] args)
         {
@@ -39,8 +40,6 @@ namespace IupSharpTest
                 new VBox(
                     btn = new Button("My button") { ImageName = ImageLib.Print, ImPressName = ImageLib.FileNew, Expand = Expand.Horizontal, Action = ButtonAction, BgColor = Color.CornflowerBlue, FgColor = Color.Red },
                     new Toggle("My toggle") { Action = ToggleAction },
-                    can = new Canvas() { RasterSize = (200, 200), BgColor = Color.Black, Action = RedrawCanvas },
-                    new Text("Hello\nworld", true) { Expand = Expand.Yes, BgColor = Color.Blue },
                     new Label("The end"),
                     dropbtn = new DropButton("My dropdown", dropcontent) { CanFocus = false },
                     lst = new List(ListStyle.Multiple, "Kalle", "Olle", "Pelle", "Niklas") { SelectedPosition = 25 },
@@ -59,11 +58,11 @@ namespace IupSharpTest
                         )),
 
                     animatedlabel = new AnimatedLabel() { AnimationName = ImageLib.CircleProgressAnimation },
-                    new Tabs(
-                        new Button("Alfa"),
-                        new Button("Beta") { Expand = Expand.Yes },
-                        new Button("Gamma"))
-                    
+                    tabs=new Tabs(
+                        new Tab("Alfa",new Button("Min första knapp")),
+                        new Tab("Beta", new Button("Min andra knapp")),
+                        new Tab("Gamma", new Button("Min tredje knapp") { Expand=Expand.Yes}  ) {  ImageName = ImageLib.FileNew })
+
                     { Expand = Expand.Horizontal,ShowClose=true }
                         
 
@@ -74,7 +73,7 @@ namespace IupSharpTest
             lst.SelectedPositions = new[] { 1, 4 };
 
             animatedlabel.Start();
-
+            
             dlg.Menu = new Menu(
                 new Submenu("File", new Menu(
                         new MenuItem("Kalle"),
@@ -198,7 +197,10 @@ namespace IupSharpTest
 
             tog2.Checked = true;
 
-            
+            int i = tabs.TabItems.Count;
+
+            tabs.TabItems[1].Title = "Test!";
+
         }
 
         private static void ToggleAction(ToggleActionData d)

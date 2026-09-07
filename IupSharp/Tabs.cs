@@ -71,11 +71,34 @@ namespace IupSharp
                 Append(child);
         }
 
+        /// <summary>
+        /// Creates a new tab container from a list of titled tabs, so the whole
+        /// notebook can be written as one expression.
+        /// </summary>
+        /// <example>
+        /// <code>
+        /// var tabs = new Tabs(
+        ///     new Tab("&amp;General",  new VBox(nameField, emailField)),
+        ///     new Tab("&amp;Advanced", new VBox(logLevel, cachePath)));
+        /// </code>
+        /// </example>
+        public Tabs(params Tab[] tabs)
+            : base(NativeIup.IupTabsv(new nint[] { IntPtr.Zero }))
+        {
+            _tabs = new TabCollection(this);
+
+            if (tabs == null)
+                return;
+
+            foreach (Tab tab in tabs)
+                Append(tab);
+        }
+
         #region CHILDREN
 
         /// <summary>
-        /// Adds a child as a new tab at the end. Set its title afterwards through the
-        /// Tabs collection.
+        /// Adds a child as a new tab at the end, with no title. Set one afterwards
+        /// through TabItems, or use the Tab overload to give it one up front.
         /// </summary>
         public override void Append(Control child)
         {
@@ -84,6 +107,38 @@ namespace IupSharp
 
             base.Append(child);
             _children.Add(child);
+        }
+
+        /// <summary>
+        /// Adds a titled tab at the end.
+        /// </summary>
+        /// <remarks>
+        /// The title and image are written to the child before it is appended, which
+        /// is what IUP requires - its child-side TABTITLE and TABIMAGE attributes are
+        /// read when the child joins the container and ignored afterwards. To change
+        /// them later, use <c>TabItems[n]</c>.
+        /// </remarks>
+        /// <exception cref="ArgumentNullException">The tab, or its child, is null.</exception>
+        public virtual void Append(Tab tab)
+        {
+            if (tab == null)
+                throw new ArgumentNullException(nameof(tab));
+            if (tab.Child == null)
+                throw new ArgumentNullException(nameof(tab), "The tab has no child.");
+
+            // Must be set on the child BEFORE it is appended.
+            if (tab.Title != null)
+                tab.Child.SetAttribute("TABTITLE", tab.Title);
+
+            if (tab.ImageName != null)
+                tab.Child.SetAttribute("TABIMAGE", tab.ImageName);
+
+            Append(tab.Child);
+
+            // An Image object cannot go through the child-side attribute, since that
+            // one is a name. Apply it by position once the child is in place.
+            if (tab.Image != null)
+                TabItems[_children.Count - 1].SetImage(tab.Image);
         }
 
         /// <summary>
