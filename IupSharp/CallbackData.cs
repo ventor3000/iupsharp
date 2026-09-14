@@ -802,4 +802,49 @@ namespace IupSharp
         }
     }
     public delegate void TabPositionCallback(TabPositionData d);
+
+    /// <summary>
+    /// Data for the OpenCloseCB callback, raised before an expander changes state.
+    /// </summary>
+    public class ExpanderStateData : CallbackData
+    {
+        /// <summary>
+        /// The state about to be applied - not the current one. Set the callback
+        /// data's Result to Ignore to veto it.
+        /// </summary>
+        public readonly ExpanderState NewState;
+
+        /// <summary>True if the expander is about to show its child.</summary>
+        public bool Opening => NewState == ExpanderState.Open;
+
+        public ExpanderStateData(Control sender, int state) : base(sender)
+        {
+            // IUP passes the STATE value as an int: non-zero for open.
+            this.NewState = state != 0 ? ExpanderState.Open : ExpanderState.Close;
+        }
+    }
+    public delegate void ExpanderStateCallback(ExpanderStateData d);
+
+
+    /// <summary>
+    /// Data for the ExtraButtonCB callback on an <see cref="Expander"/>.
+    /// </summary>
+    public class ExtraButtonData : CallbackData
+    {
+        /// <summary>
+        /// Which extra button, from 1 to 3. Button 1 is the rightmost, counting
+        /// leftwards. Note this is not the same numbering as a mouse ButtonCB.
+        /// </summary>
+        public readonly int Button;
+
+        /// <summary>True while the button is down.</summary>
+        public readonly bool Pressed;
+
+        public ExtraButtonData(Control sender, int button, int pressed) : base(sender)
+        {
+            this.Button = button;
+            this.Pressed = pressed != 0;
+        }
+    }
+    public delegate void ExtraButtonCallback(ExtraButtonData d);
 }

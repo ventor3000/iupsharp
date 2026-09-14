@@ -342,6 +342,16 @@ namespace IupSharp
         NoFocus = 128
     }
 
+    /// <summary>Whether an <see cref="Expander"/> is showing its child.</summary>
+    public enum ExpanderState
+    {
+        /// <summary>Expanded: the child is shown. This is the default.</summary>
+        Open,
+
+        /// <summary>Collapsed: the child is hidden.</summary>
+        Close
+    }
+
     /// <summary>
     /// IUP keyboard codes, as reported by the KAny callback and used by the Key
     /// attribute of menu items. Generated from iupkey.h of IUP 3.32.

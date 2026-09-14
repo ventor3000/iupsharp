@@ -38,23 +38,13 @@ namespace IupSharpTest
             ImageLib.StockSize = 96;
 
             dlg = new Dialog(
-                new VBox(
-                    new Button("Toggle") { Action=BtnAction,Expand = Expand.Yes },
-                    zbox=new Zbox(
-                        new VBox(
-                            new Button("A"),
-                            new Button("B"),
-                            new Button("C") { Expand = Expand.Yes }
-                        ),
-                        new VBox(
-                            new Button("D"),
-                            new Button("E"),
-                            new Button("F")
-                            )
-                        )
-                    )
-                );
-            
+                new HBox(
+                    new Button("Knapp 1") { Expand = Expand.Yes },
+                    new Expander(
+                        new Button("Knapp 2") { Expand = Expand.Yes }, BarPosition.Right)
+                    { Animation=ExpanderAnimation.Curtain,FrameTime=100}
+                )
+            );
             dlg.Popup();
 
             
