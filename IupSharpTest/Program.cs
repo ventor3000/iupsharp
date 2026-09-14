@@ -18,7 +18,7 @@ namespace IupSharpTest
         static Radio radio;
         static Toggle tog1, tog2, tog3, tog4;
         static Tabs tabs;
-        static Zbox zbox;
+        static ZBox zbox;
 
         static void Main(string[] args)
         {

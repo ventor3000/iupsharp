@@ -6,14 +6,14 @@ using System.Globalization;
 namespace IupSharp
 {
     /// <summary>
-    /// Where the visible child of a <see cref="Zbox"/> sits within the box, when the
+    /// Where the visible child of a <see cref="ZBox"/> sits within the box, when the
     /// box is larger than the child.
     /// </summary>
     /// <remarks>
     /// Compass points rather than the usual left/right/top/bottom pair, because IUP
     /// spells them that way for this control.
     /// </remarks>
-    public enum ZboxAlignment
+    public enum ZBoxAlignment
     {
         /// <summary>Top left. This is the default.</summary>
         NorthWest,
@@ -63,7 +63,7 @@ namespace IupSharp
     /// </code>
     /// </example>
     /// </remarks>
-    public class Zbox : ContainerControl, IEnumerable<Control>
+    public class ZBox : ContainerControl, IEnumerable<Control>
     {
         private readonly System.Collections.Generic.List<Control> _children = new();
 
@@ -71,7 +71,7 @@ namespace IupSharp
         /// Creates a new zbox holding the given children. The first one is visible to
         /// begin with. It can also be created empty and filled later with Append.
         /// </summary>
-        public Zbox(params Control[] children)
+        public ZBox(params Control[] children)
             : base(NativeIup.IupZboxv(new nint[] { IntPtr.Zero }))
         {
             if (children == null)
@@ -153,17 +153,17 @@ namespace IupSharp
 
         #region APPEARANCE
 
-        static readonly (string, ZboxAlignment)[] _alignments = new[]
+        static readonly (string, ZBoxAlignment)[] _alignments = new[]
         {
-            ("NW", ZboxAlignment.NorthWest),
-            ("N", ZboxAlignment.North),
-            ("NE", ZboxAlignment.NorthEast),
-            ("W", ZboxAlignment.West),
-            ("ACENTER", ZboxAlignment.Center),
-            ("E", ZboxAlignment.East),
-            ("SW", ZboxAlignment.SouthWest),
-            ("S", ZboxAlignment.South),
-            ("SE", ZboxAlignment.SouthEast)
+            ("NW", ZBoxAlignment.NorthWest),
+            ("N", ZBoxAlignment.North),
+            ("NE", ZBoxAlignment.NorthEast),
+            ("W", ZBoxAlignment.West),
+            ("ACENTER", ZBoxAlignment.Center),
+            ("E", ZBoxAlignment.East),
+            ("SW", ZBoxAlignment.SouthWest),
+            ("S", ZBoxAlignment.South),
+            ("SE", ZBoxAlignment.SouthEast)
         };
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace IupSharp
         /// Default: NorthWest.
         /// (non inheritable)
         /// </summary>
-        public virtual ZboxAlignment Alignment
+        public virtual ZBoxAlignment Alignment
         {
             get => Utils.MapAttrib(GetAttribute("ALIGNMENT"), _alignments);
             set => SetAttribute("ALIGNMENT", Utils.MapEnum(value, _alignments));
